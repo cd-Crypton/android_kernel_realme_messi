@@ -39,10 +39,10 @@
 #include <linux/rtc.h>
 #include <linux/proc_fs.h>
 #include <linux/kthread.h>
-#include "../../../../../kernel/msm-4.19/drivers/power/supply/qcom/smb5-reg.h"
-#include "../../../../../kernel/msm-4.19/drivers/power/supply/qcom/battery.h"
-#include "../../../../../kernel/msm-4.19/drivers/power/supply/qcom/step-chg-jeita.h"
-#include "../../../../../kernel/msm-4.19/drivers/power/supply/qcom/storm-watch.h"
+#include "../../supply/qcom/smb5-reg.h"
+#include "../../supply/qcom/battery.h"
+#include "../../supply/qcom/step-chg-jeita.h"
+#include "../../supply/qcom/storm-watch.h"
 
 #include <soc/oplus/boot_mode.h>
 //#include <soc/oplus/device_info.h>
@@ -62,7 +62,7 @@
 #include <linux/cpufreq.h>
 #endif
 
-#include "../../../../../kernel/msm-4.19/drivers/power/supply/qcom/schgm-flash.h"
+#include "../../supply/qcom/schgm-flash.h"
 
 
 #define OPLUS_CHG_MONITOR_INTERVAL round_jiffies_relative(msecs_to_jiffies(5000))

@@ -24,8 +24,8 @@
 #include "../gauge_ic/oplus_bq27541.h"
 #include <soc/oplus/boot_mode.h>
 #ifdef CONFIG_TCPC_CLASS
-#include "../../../../../kernel/msm-4.19/drivers/usb/typec/pd/inc/tcpci.h"
-#include "../../../../../kernel/msm-4.19/drivers/usb/typec/pd/inc/tcpm.h"
+#include "../../../usb/typec/pd/inc/tcpci.h"
+#include "../../../usb/typec/pd/inc/tcpm.h"
 #endif
 #define _BQ25890H_
 #include "oplus_bq25890h_charger.h"
