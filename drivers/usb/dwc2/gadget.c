@@ -31,8 +31,6 @@
 #include "core.h"
 #include "hw.h"
 
-
-
 /* conversion functions */
 static inline struct dwc2_hsotg_req *our_req(struct usb_request *req)
 {

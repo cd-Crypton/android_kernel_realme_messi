@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
-* Copyright (c) 2012-2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2020, The Linux Foundation. All rights reserved.
  */
 #ifndef ADSPRPC_SHARED_H
 #define ADSPRPC_SHARED_H
@@ -24,7 +24,7 @@
 #define FASTRPC_IOCTL_CONTROL   _IOWR('R', 12, struct fastrpc_ioctl_control)
 #define FASTRPC_IOCTL_MUNMAP_FD _IOWR('R', 13, struct fastrpc_ioctl_munmap_fd)
 #define FASTRPC_IOCTL_GET_DSP_INFO \
-		_IOWR('R', 17, struct fastrpc_ioctl_remote_dsp_capability)
+			_IOWR('R', 16, struct fastrpc_ioctl_dsp_capabilities)
 
 #define FASTRPC_GLINK_GUID "fastrpcglink-apps-dsp"
 #define FASTRPC_SMD_GUID "fastrpcsmd-apps-dsp"
@@ -281,13 +281,10 @@ struct fastrpc_ioctl_control {
 	};
 };
 
-#define FASTRPC_MAX_DSP_ATTRIBUTES	(9)
-#define ASYNC_FASTRPC_CAP (8)
-
-struct fastrpc_ioctl_remote_dsp_capability {
-	uint32_t domain;
-	uint32_t attribute_ID;
-	uint32_t capability;
+#define FASTRPC_MAX_DSP_ATTRIBUTES	(7)
+struct fastrpc_ioctl_dsp_capabilities {
+	uint32_t domain;	//! DSP domain to query capabilities
+	uint32_t dsp_attributes[FASTRPC_MAX_DSP_ATTRIBUTES];
 };
 
 struct smq_null_invoke {
@@ -320,6 +317,15 @@ struct smq_msg {
 struct smq_invoke_rsp {
 	uint64_t ctx;			/* invoke caller context */
 	int retval;	             /* invoke return value */
+};
+
+enum fastrpc_process_create_state {
+	/* Process is not created */
+	PROCESS_CREATE_DEFAULT			= 0,
+	/* Process creation is in progress */
+	PROCESS_CREATE_IS_INPROGRESS	= 1,
+	/* Process creation is successful */
+	PROCESS_CREATE_SUCCESS			= 2,
 };
 
 enum fastrpc_response_flags {

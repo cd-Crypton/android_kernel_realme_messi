@@ -96,10 +96,6 @@ struct mmc_command {
 	unsigned int		retries;	/* max number of retries */
 	int			error;		/* command error */
 
-//Tiancheng.peng@WT_ODM.BSP.Storage.Sdcard, 2021-12-20, Add for SD Card redriver
-#ifdef CONFIG_MMC_SDHCI_BH201
-	unsigned int		err_int_mask;	//bh201
-#endif
 /*
  * Standard errno values are used for errors, but some have specific
  * meaning in the MMC layer:
@@ -116,10 +112,6 @@ struct mmc_command {
 
 	unsigned int		busy_timeout;	/* busy detect timeout in ms */
 	/* Set this flag only for blocking sanitize request */
-//Tiancheng.peng@WT_ODM.BSP.Storage.Sdcard, 2021-12-20, Add for SD Card redriver
-#ifdef CONFIG_MMC_SDHCI_BH201
-	unsigned int		sw_cmd_timeout;
-#endif
 	bool			sanitize_busy;
 
 	struct mmc_data		*data;		/* data segment associated with cmd */
@@ -134,10 +126,6 @@ struct mmc_data {
 	unsigned int		blk_addr;	/* block address */
 	int			error;		/* data error */
 	unsigned int		flags;
-//Tiancheng.peng@WT_ODM.BSP.Storage.Sdcard, 2021-12-20, Add for SD Card redriver
-#ifdef CONFIG_MMC_SDHCI_BH201
-	unsigned int		err_int_mask;
-#endif
 
 #define MMC_DATA_WRITE		BIT(8)
 #define MMC_DATA_READ		BIT(9)

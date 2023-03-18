@@ -18,7 +18,7 @@ obj-$(CONFIG_NETFILTER)		+= netfilter/
 obj-$(CONFIG_INET)		+= ipv4/
 obj-$(CONFIG_TLS)		+= tls/
 obj-$(CONFIG_XFRM)		+= xfrm/
-obj-$(CONFIG_UNIX)		+= unix/
+obj-$(CONFIG_UNIX_SCM)		+= unix/
 obj-$(CONFIG_NET)		+= ipv6/
 obj-$(CONFIG_BPFILTER)		+= bpfilter/
 obj-$(CONFIG_PACKET)		+= packet/
@@ -87,23 +87,3 @@ endif
 obj-$(CONFIG_QRTR)		+= qrtr/
 obj-$(CONFIG_NET_NCSI)		+= ncsi/
 obj-$(CONFIG_XDP_SOCKETS)	+= xdp/
-#ifdef OPLUS_FEATURE_WIFI_SLA
-obj-y                   	+= oplus_connectivity_sla/
-#endif /* OPLUS_FEATURE_WIFI_SLA */
-OPLUS_FEATURE_WIFI_LUCKYMONEY=1
-ifneq ($(OPLUS_FEATURE_WIFI_LUCKYMONEY),)
-obj-y				+= oplus_nf_hooks/
-endif #/* OPLUS_FEATURE_WIFI_LUCKYMONEY */
-
-#ifdef OPLUS_FEATURE_DATA_EVAL
-obj-y				+= oplus_score/
-#endif /* OPLUS_FEATURE_DATA_EVAL */
-
-OPLUS_FEATURE_DHCP=1
-ifneq ($(OPLUS_FEATURE_DHCP),)
-obj-y				+= oplus_dhcp/
-endif #/* OPLUS_FEATURE_DHCP */
-
-#ifdef OPLUS_FEATURE_NWPOWER
-obj-y				+= oplus_nwpower/
-#endif /* OPLUS_FEATURE_NWPOWER */

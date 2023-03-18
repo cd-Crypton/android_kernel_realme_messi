@@ -1328,9 +1328,6 @@ static ssize_t fuse_dev_do_read(struct fuse_dev *fud, struct file *file,
 	clear_bit(FR_LOCKED, &req->flags);
 	if (!fpq->connected) {
 		err = (fc->aborted && fc->abort_err) ? -ECONNABORTED : -ENODEV;
-		/* Assign abnormal value to req->error when fpq disconnected */
-		if (req->in.h.opcode == FUSE_CANONICAL_PATH)
-			req->out.h.error = -ECONNABORTED;
 		goto out_end;
 	}
 	if (err) {
@@ -1875,7 +1872,6 @@ static ssize_t fuse_dev_do_write(struct fuse_dev *fud,
 	struct fuse_req *req;
 	struct fuse_out_header oh;
 
-
 	if (nbytes < sizeof(struct fuse_out_header))
 		return -EINVAL;
 
@@ -1951,12 +1947,8 @@ static ssize_t fuse_dev_do_write(struct fuse_dev *fud,
 
 	spin_lock(&fpq->lock);
 	clear_bit(FR_LOCKED, &req->flags);
-	if (!fpq->connected) {
-		/* Assign abnormal value to req->error when fpq disconnected */
-		if (req->in.h.opcode == FUSE_CANONICAL_PATH)
-			req->out.h.error = -ECONNABORTED;
+	if (!fpq->connected)
 		err = -ENOENT;
-	}
 	else if (err)
 		req->out.h.error = -EIO;
 	if (!test_bit(FR_PRIVATE, &req->flags))
@@ -2268,51 +2260,37 @@ static int fuse_device_clone(struct fuse_conn *fc, struct file *new)
 static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
 			   unsigned long arg)
 {
-	int res;
-	int oldfd;
-	struct fuse_dev *fud = NULL;
+	int err = -ENOTTY;
 
-	switch (cmd) {
-	case FUSE_DEV_IOC_CLONE:
-		res = -EFAULT;
-		if (!get_user(oldfd, (__u32 __user *)arg)) {
+	if (cmd == FUSE_DEV_IOC_CLONE) {
+		int oldfd;
+
+		err = -EFAULT;
+		if (!get_user(oldfd, (__u32 __user *) arg)) {
 			struct file *old = fget(oldfd);
 
-			res = -EINVAL;
+			err = -EINVAL;
 			if (old) {
+				struct fuse_dev *fud = NULL;
+
 				/*
 				 * Check against file->f_op because CUSE
 				 * uses the same ioctl handler.
 				 */
 				if (old->f_op == file->f_op &&
-				    old->f_cred->user_ns ==
-					    file->f_cred->user_ns)
+				    old->f_cred->user_ns == file->f_cred->user_ns)
 					fud = fuse_get_dev(old);
 
 				if (fud) {
 					mutex_lock(&fuse_mutex);
-					res = fuse_device_clone(fud->fc, file);
+					err = fuse_device_clone(fud->fc, file);
 					mutex_unlock(&fuse_mutex);
 				}
 				fput(old);
 			}
 		}
-		break;
-	case FUSE_DEV_IOC_PASSTHROUGH_OPEN:
-		res = -EFAULT;
-		if (!get_user(oldfd, (__u32 __user *)arg)) {
-			res = -EINVAL;
-			fud = fuse_get_dev(file);
-			if (fud)
-				res = fuse_passthrough_open(fud, oldfd);
-		}
-		//printk("%s:%d, res = %d\n", __func__, __LINE__,res);
-		break;
-	default:
-		res = -ENOTTY;
-		break;
 	}
-	return res;
+	return err;
 }
 
 const struct file_operations fuse_dev_operations = {

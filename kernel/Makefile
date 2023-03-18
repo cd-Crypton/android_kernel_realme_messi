@@ -12,10 +12,6 @@ obj-y     = fork.o exec_domain.o panic.o \
 	    notifier.o ksysfs.o cred.o reboot.o \
 	    async.o range.o smpboot.o ucount.o
 
-#ifdef CONFIG_OPLUS_FEATURE_PANIC_FLUSH
-obj-$(CONFIG_OPLUS_FEATURE_PANIC_FLUSH) += panic_flush.o
-#endif
-
 obj-$(CONFIG_MODULES) += kmod.o
 obj-$(CONFIG_MULTIUSER) += groups.o
 
@@ -55,10 +51,6 @@ obj-y += irq/
 obj-y += rcu/
 obj-y += livepatch/
 obj-y += dma/
-
-#ifdef CONFIG_OPLUS_SECURE_GUARD
-obj-$(CONFIG_OPLUS_SECURE_GUARD) += keventupload/
-#endif /* CONFIG_OPLUS_SECURE_GUARD */
 
 obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
 obj-$(CONFIG_FREEZER) += freezer.o
@@ -133,14 +125,6 @@ obj-$(CONFIG_TORTURE_TEST) += torture.o
 obj-$(CONFIG_HAS_IOMEM) += iomem.o
 obj-$(CONFIG_ZONE_DEVICE) += memremap.o
 obj-$(CONFIG_RSEQ) += rseq.o
-
-#ifdef OPLUS_FEATURE_SCHED_ASSIST
-obj-y += sched_assist/
-#endif /* OPLUS_FEATURE_SCHED_ASSIST */
-
-#ifdef OPLUS_FEATURE_SCHED_ASSIST
-obj-y += special_opt/
-#endif /* OPLUS_FEATURE_SCHED_ASSIST */
 
 $(obj)/configs.o: $(obj)/config_data.h
 

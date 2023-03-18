@@ -16,15 +16,13 @@ extern int __devcgroup_check_permission(short type, u32 major, u32 minor,
 					short access);
 #else
 static inline int __devcgroup_check_permission(short type, u32 major, u32 minor,
-		short access)
-{
-	return 0;
-}
+					       short access)
+{ return 0; }
 #endif
 
 #if defined(CONFIG_CGROUP_DEVICE) || defined(CONFIG_CGROUP_BPF)
 static inline int devcgroup_check_permission(short type, u32 major, u32 minor,
-		short access)
+					     short access)
 {
 	int rc = BPF_CGROUP_RUN_PROG_DEVICE_CGROUP(type, major, minor, access);
 
@@ -43,16 +41,13 @@ static inline int devcgroup_inode_permission(struct inode *inode, int mask)
 
 	if (S_ISBLK(inode->i_mode))
 		type = DEVCG_DEV_BLOCK;
-
 	else if (S_ISCHR(inode->i_mode))
 		type = DEVCG_DEV_CHAR;
-
 	else
 		return 0;
 
 	if (mask & MAY_WRITE)
 		access |= DEVCG_ACC_WRITE;
-
 	if (mask & MAY_READ)
 		access |= DEVCG_ACC_READ;
 
@@ -69,7 +64,6 @@ static inline int devcgroup_inode_mknod(int mode, dev_t dev)
 
 	if (S_ISBLK(mode))
 		type = DEVCG_DEV_BLOCK;
-
 	else
 		type = DEVCG_DEV_CHAR;
 
@@ -79,11 +73,7 @@ static inline int devcgroup_inode_mknod(int mode, dev_t dev)
 
 #else
 static inline int devcgroup_inode_permission(struct inode *inode, int mask)
-{
-	return 0;
-}
+{ return 0; }
 static inline int devcgroup_inode_mknod(int mode, dev_t dev)
-{
-	return 0;
-}
+{ return 0; }
 #endif

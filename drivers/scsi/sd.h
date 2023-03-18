@@ -9,7 +9,6 @@
  */
 #define SD_MAJORS	16
 
-extern struct gendisk *ufs_disk[SD_NUM];
 /*
  * Time out in seconds for disks and Magneto-opticals (which are slower).
  */

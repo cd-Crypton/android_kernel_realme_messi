@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2014-2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2014-2019, The Linux Foundation. All rights reserved.
  */
 #include <linux/compat.h>
 #include <linux/fs.h>
@@ -35,8 +35,7 @@
 #define COMPAT_FASTRPC_IOCTL_MUNMAP_64 \
 		_IOWR('R', 15, struct compat_fastrpc_ioctl_munmap_64)
 #define COMPAT_FASTRPC_IOCTL_GET_DSP_INFO \
-		_IOWR('R', 17, \
-			struct compat_fastrpc_ioctl_remote_dsp_capability)
+		_IOWR('R', 16, struct compat_fastrpc_ioctl_dsp_capabilities)
 
 struct compat_remote_buf {
 	compat_uptr_t pv;	/* buffer pointer */
@@ -149,40 +148,23 @@ struct compat_fastrpc_ioctl_control {
 	};
 };
 
-struct compat_fastrpc_ioctl_remote_dsp_capability {
-	/*
-	 * @param[in]: DSP domain ADSP_DOMAIN_ID,
-	 * SDSP_DOMAIN_ID, or CDSP_DOMAIN_ID
-	 */
-	compat_uint_t domain;
-	/*
-	 * @param[in]: One of the DSP attributes
-	 * from enum remote_dsp_attributes
-	 */
-	compat_uint_t attribute_ID;
-	/*
-	 * @param[out]: Result of the DSP
-	 * capability query based on attribute_ID
-	 */
-	compat_uint_t capability;
+struct compat_fastrpc_ioctl_dsp_capabilities {
+	compat_uint_t domain;	/* DSP domain to query capabilities */
+	compat_uint_t dsp_attributes[FASTRPC_MAX_DSP_ATTRIBUTES];
 };
 
 static int compat_get_fastrpc_ioctl_invoke(
 			struct compat_fastrpc_ioctl_invoke_crc __user *inv32,
 			struct fastrpc_ioctl_invoke_crc __user **inva,
-			unsigned int cmd)
+			unsigned int cmd, compat_uint_t sc)
 {
-	compat_uint_t u, sc;
+	compat_uint_t u;
 	compat_size_t s;
 	compat_uptr_t p;
 	struct fastrpc_ioctl_invoke_crc *inv;
 	union compat_remote_arg *pra32;
 	union remote_arg *pra;
 	int err, len, j;
-
-	err = get_user(sc, &inv32->inv.sc);
-	if (err)
-		return err;
 
 	len = REMOTE_SCALARS_LENGTH(sc);
 	VERIFY(err, NULL != (inv = compat_alloc_user_space(
@@ -412,14 +394,19 @@ static int compat_get_fastrpc_ioctl_init(
 }
 
 static int compat_put_fastrpc_ioctl_get_dsp_info(
-	struct compat_fastrpc_ioctl_remote_dsp_capability __user *info32,
-	struct fastrpc_ioctl_remote_dsp_capability __user *info)
+		struct compat_fastrpc_ioctl_dsp_capabilities __user *info32,
+		struct fastrpc_ioctl_dsp_capabilities __user *info)
 {
-	compat_uint_t u;
-	int err = 0;
+	compat_uint_t u, *dsp_attr, *dsp_attr_32;
+	int err, ii;
 
-	err |= get_user(u, &info->capability);
-	err |= put_user(u, &info32->capability);
+	dsp_attr = info->dsp_attributes;
+	dsp_attr_32 = info32->dsp_attributes;
+	for (ii = 0, err = 0; ii < FASTRPC_MAX_DSP_ATTRIBUTES; ii++) {
+		err |= get_user(u, dsp_attr++);
+		err |= put_user(u, dsp_attr_32++);
+	}
+
 	return err;
 }
 
@@ -491,8 +478,8 @@ static int compat_fastrpc_getperf(struct file *filp,
 static int compat_fastrpc_get_dsp_info(struct file *filp,
 		unsigned long arg)
 {
-	struct compat_fastrpc_ioctl_remote_dsp_capability __user *info32;
-	struct fastrpc_ioctl_remote_dsp_capability *info;
+	struct compat_fastrpc_ioctl_dsp_capabilities __user *info32;
+	struct fastrpc_ioctl_dsp_capabilities *info;
 	compat_uint_t u;
 	long ret;
 	int err = 0;
@@ -522,6 +509,7 @@ long compat_fastrpc_device_ioctl(struct file *filp, unsigned int cmd,
 				unsigned long arg)
 {
 	int err = 0;
+	compat_uint_t sc;
 
 	if (!filp->f_op || !filp->f_op->unlocked_ioctl)
 		return -ENOTTY;
@@ -532,12 +520,16 @@ long compat_fastrpc_device_ioctl(struct file *filp, unsigned int cmd,
 	case COMPAT_FASTRPC_IOCTL_INVOKE_ATTRS:
 	case COMPAT_FASTRPC_IOCTL_INVOKE_CRC:
 	{
-		struct compat_fastrpc_ioctl_invoke_crc __user *inv32;
-		struct fastrpc_ioctl_invoke_crc __user *inv;
+		struct compat_fastrpc_ioctl_invoke_crc __user *inv32 = NULL;
+		struct fastrpc_ioctl_invoke_crc __user *inv = NULL;
 
 		inv32 = compat_ptr(arg);
+		err = get_user(sc, &inv32->inv.sc);
+		if (err)
+			return err;
+
 		VERIFY(err, 0 == compat_get_fastrpc_ioctl_invoke(inv32,
-							&inv, cmd));
+							&inv, cmd, sc));
 		if (err)
 			return err;
 		return filp->f_op->unlocked_ioctl(filp,

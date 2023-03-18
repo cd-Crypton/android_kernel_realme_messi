@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
  * Copyright (c) 2016-2021, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 #include <linux/bitmap.h>
@@ -428,19 +429,6 @@ bool geni_wait_for_cmd_done(struct uart_port *uport, bool is_irq_masked)
 
 	return timeout ? 0 : 1;
 }
-
-#if defined(OPLUS_FEATURE_POWERINFO_FTM) && defined(CONFIG_OPLUS_POWERINFO_FTM)
-/* add for get disable uart value from cmdline */
-static struct pinctrl *serial_pinctrl = NULL;
-static struct pinctrl_state *serial_pinctrl_state_disable = NULL;
-extern bool oem_disable_uart(void);
-bool boot_with_console(void)
-{
-	return !oem_disable_uart();
-}
-
-EXPORT_SYMBOL(boot_with_console);
-#endif
 
 static void msm_geni_serial_config_port(struct uart_port *uport, int cfg_flags)
 {
@@ -978,13 +966,6 @@ __msm_geni_serial_console_write(struct uart_port *uport, const char *s,
 	int bytes_to_send = count;
 	int fifo_depth = DEF_FIFO_DEPTH_WORDS;
 	int tx_wm = DEF_TX_WM;
-
-#if defined(OPLUS_FEATURE_POWERINFO_FTM) && defined(CONFIG_OPLUS_POWERINFO_FTM)
-/* add for get disable uart value from cmdline */
-	if (!boot_with_console()) {
-		return;
-	}
-#endif
 
 	for (i = 0; i < count; i++) {
 		if (s[i] == '\n')
@@ -2391,15 +2372,7 @@ static int msm_geni_serial_port_setup(struct uart_port *uport)
 	if (!uart_console(uport)) {
 		/* For now only assume FIFO mode. */
 		msm_port->xfer_mode = SE_DMA;
-		se_get_packing_config(8, 4, false, &cfg0, &cfg1);
-		geni_write_reg_nolog(cfg0, uport->membase,
-						SE_GENI_TX_PACKING_CFG0);
-		geni_write_reg_nolog(cfg1, uport->membase,
-						SE_GENI_TX_PACKING_CFG1);
-		geni_write_reg_nolog(cfg0, uport->membase,
-						SE_GENI_RX_PACKING_CFG0);
-		geni_write_reg_nolog(cfg1, uport->membase,
-						SE_GENI_RX_PACKING_CFG1);
+		se_config_packing(uport->membase, 8, 4, false);
 		if (!msm_port->rx_fifo) {
 			ret = -ENOMEM;
 			goto exit_portsetup;
@@ -2555,6 +2528,8 @@ static void geni_serial_write_term_regs(struct uart_port *uport, u32 loopback,
 							SE_UART_RX_WORD_LEN);
 	geni_write_reg_nolog(stop_bit_len, uport->membase,
 						SE_UART_TX_STOP_BIT_LEN);
+	if (!uart_console(uport))
+		se_config_packing(uport->membase, bits_per_char, 4, false);
 	geni_write_reg_nolog(s_clk_cfg, uport->membase, GENI_SER_M_CLK_CFG);
 	geni_write_reg_nolog(s_clk_cfg, uport->membase, GENI_SER_S_CLK_CFG);
 	geni_read_reg_nolog(uport->membase, GENI_SER_M_CLK_CFG);
@@ -2968,10 +2943,6 @@ static void msm_geni_serial_cancel_rx(struct uart_port *uport)
 						GENI_FORCE_DEFAULT_REG);
 }
 
-#if defined(OPLUS_FEATURE_POWERINFO_FTM) && defined(CONFIG_OPLUS_POWERINFO_FTM)
-extern bool ext_boot_with_console(void);
-#endif
-
 static int __init
 msm_geni_serial_earlycon_setup(struct earlycon_device *dev,
 		const char *opt)
@@ -3309,31 +3280,6 @@ exit_ver_info:
 	return ret;
 }
 
-#if defined(OPLUS_FEATURE_POWERINFO_FTM) && defined(CONFIG_OPLUS_POWERINFO_FTM)
-/* add for get disable uart value from cmdline */
-static bool oplus_charge_id_reconfig(struct platform_device *pdev, struct uart_driver *drv)
-{
-
-	if (drv == &msm_geni_console_driver) {
-		pr_err("%s: console start get pinctrl\n", __FUNCTION__);
-		serial_pinctrl = devm_pinctrl_get(&pdev->dev);
-		if (IS_ERR_OR_NULL(serial_pinctrl)) {
-			dev_err(&pdev->dev, "No serial_pinctrl config specified!\n");
-		} else {
-			serial_pinctrl_state_disable =
-			pinctrl_lookup_state(serial_pinctrl, PINCTRL_SLEEP);
-			if (IS_ERR_OR_NULL(serial_pinctrl_state_disable)) {
-				dev_err(&pdev->dev, "No serial_pinctrl_state_disable config specified!\n");
-			} else {
-				pinctrl_select_state(serial_pinctrl, serial_pinctrl_state_disable);
-			}
-		}
-		return true;
-	}
-	return false;
-}
-#endif
-
 static int msm_geni_serial_probe(struct platform_device *pdev)
 {
 	int ret = 0;
@@ -3357,13 +3303,6 @@ static int msm_geni_serial_probe(struct platform_device *pdev)
 								__func__);
 		return -ENODEV;
 	}
-
-#if defined(OPLUS_FEATURE_POWERINFO_FTM) && defined(CONFIG_OPLUS_POWERINFO_FTM)
-/* add for get disable uart value from cmdline */
-	if (!boot_with_console() && oplus_charge_id_reconfig(pdev, drv)) {
-		return -ENODEV;
-	}
-#endif
 
 	if (pdev->dev.of_node) {
 		if (drv->cons) {
@@ -3894,13 +3833,6 @@ static int __init msm_geni_serial_init(void)
 		msm_geni_console_port.uport.flags = UPF_BOOT_AUTOCONF;
 		msm_geni_console_port.uport.line = i;
 	}
-
-#if defined(OPLUS_FEATURE_POWERINFO_FTM) && defined(CONFIG_OPLUS_POWERINFO_FTM)
-/* add for get disable uart value from cmdline */
-	if (!boot_with_console()) {
-		msm_geni_console_driver.cons = NULL;
-	}
-#endif
 
 	ret = console_register(&msm_geni_console_driver);
 	if (ret)

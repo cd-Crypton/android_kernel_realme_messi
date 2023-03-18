@@ -18,34 +18,5 @@ source "drivers/soc/ux500/Kconfig"
 source "drivers/soc/versatile/Kconfig"
 source "drivers/soc/xilinx/Kconfig"
 source "drivers/soc/zte/Kconfig"
-source "drivers/soc/oplus/Kconfig"
-
-#ifdef OPLUS_FEATURE_IOMONITOR
-source "drivers/soc/oplus/iomonitor/Kconfig"
-#endif /*OPLUS_FEATURE_IOMONITOR*/
-
-#ifdef OPLUS_FEATURE_POWERINFO_STANDBY
-#add for feature powerinfo standby.
-source "drivers/soc/oplus/oplus_wakelock/Kconfig"
-#endif /* OPLUS_FEATURE_POWERINFO_STANDBY */
-
-#wen.luo@BSP.Kernel.Stability 2020/03/25 add for oplus kernel system
-source "drivers/soc/oplus/system/Kconfig"
-
-#ifdef OPLUS_FEATURE_SENSOR_SMEM
-#qiuzuolin@BSP.Sensor.Basic 2020/07/31 add for oplus sensor smem
-source "drivers/soc/oplus/sensor/Kconfig"
-#endif /* OPLUS_FEATURE_SENSOR_SMEM */
-#ifdef OPLUS_FEATURE_HEALTHINFO
-#Jiheng.Xie@BSP.Kernel.Performance 2020/06/18 add for oppo healthinfo
-source "drivers/soc/oplus/healthinfo/Kconfig"
-#endif /* OPLUS_FEATURE_HEALTHINFO */
-
-#Add for NandSwap
-source "drivers/soc/oplus/oplus_nandswap/Kconfig"
-#ifdef OPLUS_FEATURE_MEMLEAK_DETECT
-#Add for svelte
-source "drivers/soc/oplus/svelte/Kconfig"
-#endif /* OPLUS_FEATURE_MEMLEAK_DETECT */
 
 endmenu

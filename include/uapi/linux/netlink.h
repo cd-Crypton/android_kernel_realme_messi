@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
 #ifndef _UAPI__LINUX_NETLINK_H
 #define _UAPI__LINUX_NETLINK_H
-#define OPLUS_FEATURE_WIFI_LUCKYMONEY
 
 #include <linux/kernel.h>
 #include <linux/socket.h> /* for __kernel_sa_family_t */
@@ -33,21 +32,7 @@
 #define NETLINK_SOCKEV		23	/* Socket Administrative Events */
 #define NETLINK_INET_DIAG	NETLINK_SOCK_DIAG
 
-/* #if defined(OPLUS_FEATURE_HANS_FREEZE) && defined(CONFIG_OPLUS_FEATURE_HANS) */
-#define NETLINK_OPLUS_HANS       29      /* Socket for freezing solution */
-
-#ifdef OPLUS_FEATURE_WIFI_LUCKYMONEY
-#define NETLINK_OPLUS_NF_HOOKS	32
-#endif /* OPLUS_FEATURE_WIFI_LUCKYMONEY */
-
-//Add for apps network monitors
-#define NETLINK_OPLUS_APPS_MONITOR  35      /* Apps monitor NETLINK SOCK */
-#define NETLINK_OPLUS_DHCP 38
-
-#define NETLINK_OPLUS_NWPOWERSTATE	36	/*OPLUS NW PowerState*/
-#define OPLUS_NETLINK_THEIA_KEVENT 43
-//#define MAX_LINKS 45
-#define MAX_LINKS 45
+#define MAX_LINKS 32		
 
 struct sockaddr_nl {
 	__kernel_sa_family_t	nl_family;	/* AF_NETLINK	*/

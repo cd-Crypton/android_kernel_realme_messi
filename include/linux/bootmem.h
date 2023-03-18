@@ -103,24 +103,24 @@ extern void *__alloc_bootmem_node(pg_data_t *pgdat,
 				  unsigned long align,
 				  unsigned long goal) __malloc;
 void *__alloc_bootmem_node_high(pg_data_t *pgdat,
-				unsigned long size,
-				unsigned long align,
-				unsigned long goal) __malloc;
+				  unsigned long size,
+				  unsigned long align,
+				  unsigned long goal) __malloc;
 extern void *__alloc_bootmem_node_nopanic(pg_data_t *pgdat,
-		unsigned long size,
-		unsigned long align,
-		unsigned long goal) __malloc;
+				  unsigned long size,
+				  unsigned long align,
+				  unsigned long goal) __malloc;
 void *___alloc_bootmem_node_nopanic(pg_data_t *pgdat,
-				    unsigned long size,
-				    unsigned long align,
-				    unsigned long goal,
-				    unsigned long limit) __malloc;
+				  unsigned long size,
+				  unsigned long align,
+				  unsigned long goal,
+				  unsigned long limit) __malloc;
 extern void *__alloc_bootmem_low(unsigned long size,
 				 unsigned long align,
 				 unsigned long goal) __malloc;
 void *__alloc_bootmem_low_nopanic(unsigned long size,
-				  unsigned long align,
-				  unsigned long goal) __malloc;
+				 unsigned long align,
+				 unsigned long goal) __malloc;
 extern void *__alloc_bootmem_low_node(pg_data_t *pgdat,
 				      unsigned long size,
 				      unsigned long align,
@@ -180,92 +180,92 @@ void *memblock_virt_alloc_try_nid_nopanic(phys_addr_t size,
 		phys_addr_t align, phys_addr_t min_addr,
 		phys_addr_t max_addr, int nid);
 void *memblock_virt_alloc_try_nid(phys_addr_t size, phys_addr_t align,
-				  phys_addr_t min_addr, phys_addr_t max_addr, int nid);
+		phys_addr_t min_addr, phys_addr_t max_addr, int nid);
 void __memblock_free_early(phys_addr_t base, phys_addr_t size);
 void __memblock_free_late(phys_addr_t base, phys_addr_t size);
 
-static inline void *__init memblock_virt_alloc(
-	phys_addr_t size,  phys_addr_t align)
+static inline void * __init memblock_virt_alloc(
+					phys_addr_t size,  phys_addr_t align)
 {
 	memblock_dbg("%s: %llu bytes align=0x%llx %pS\n",
-		     __func__, (u64)size, (u64)align, (void *)_RET_IP_);
+			__func__, (u64)size, (u64)align, (void *)_RET_IP_);
 
 	return memblock_virt_alloc_try_nid(size, align, BOOTMEM_LOW_LIMIT,
-					   BOOTMEM_ALLOC_ACCESSIBLE,
-					   NUMA_NO_NODE);
+					    BOOTMEM_ALLOC_ACCESSIBLE,
+					    NUMA_NO_NODE);
 }
 
-static inline void *__init memblock_virt_alloc_raw(
-	phys_addr_t size,  phys_addr_t align)
+static inline void * __init memblock_virt_alloc_raw(
+					phys_addr_t size,  phys_addr_t align)
 {
 	return memblock_virt_alloc_try_nid_raw(size, align, BOOTMEM_LOW_LIMIT,
-					       BOOTMEM_ALLOC_ACCESSIBLE,
-					       NUMA_NO_NODE);
+					    BOOTMEM_ALLOC_ACCESSIBLE,
+					    NUMA_NO_NODE);
 }
 
-static inline void *__init memblock_virt_alloc_nopanic(
-	phys_addr_t size, phys_addr_t align)
+static inline void * __init memblock_virt_alloc_nopanic(
+					phys_addr_t size, phys_addr_t align)
 {
 	return memblock_virt_alloc_try_nid_nopanic(size, align,
-			BOOTMEM_LOW_LIMIT,
-			BOOTMEM_ALLOC_ACCESSIBLE,
-			NUMA_NO_NODE);
+						    BOOTMEM_LOW_LIMIT,
+						    BOOTMEM_ALLOC_ACCESSIBLE,
+						    NUMA_NO_NODE);
 }
 
-static inline void *__init memblock_virt_alloc_low(
-	phys_addr_t size, phys_addr_t align)
+static inline void * __init memblock_virt_alloc_low(
+					phys_addr_t size, phys_addr_t align)
 {
 	return memblock_virt_alloc_try_nid(size, align,
-					   BOOTMEM_LOW_LIMIT,
-					   ARCH_LOW_ADDRESS_LIMIT,
-					   NUMA_NO_NODE);
+						   BOOTMEM_LOW_LIMIT,
+						   ARCH_LOW_ADDRESS_LIMIT,
+						   NUMA_NO_NODE);
 }
-static inline void *__init memblock_virt_alloc_low_nopanic(
-	phys_addr_t size, phys_addr_t align)
+static inline void * __init memblock_virt_alloc_low_nopanic(
+					phys_addr_t size, phys_addr_t align)
 {
 	return memblock_virt_alloc_try_nid_nopanic(size, align,
-			BOOTMEM_LOW_LIMIT,
-			ARCH_LOW_ADDRESS_LIMIT,
-			NUMA_NO_NODE);
+						   BOOTMEM_LOW_LIMIT,
+						   ARCH_LOW_ADDRESS_LIMIT,
+						   NUMA_NO_NODE);
 }
 
-static inline void *__init memblock_virt_alloc_from_nopanic(
-	phys_addr_t size, phys_addr_t align, phys_addr_t min_addr)
+static inline void * __init memblock_virt_alloc_from_nopanic(
+		phys_addr_t size, phys_addr_t align, phys_addr_t min_addr)
 {
 	return memblock_virt_alloc_try_nid_nopanic(size, align, min_addr,
-			BOOTMEM_ALLOC_ACCESSIBLE,
-			NUMA_NO_NODE);
+						    BOOTMEM_ALLOC_ACCESSIBLE,
+						    NUMA_NO_NODE);
 }
 
-static inline void *__init memblock_virt_alloc_node(
-	phys_addr_t size, int nid)
+static inline void * __init memblock_virt_alloc_node(
+						phys_addr_t size, int nid)
 {
 	return memblock_virt_alloc_try_nid(size, 0, BOOTMEM_LOW_LIMIT,
-					   BOOTMEM_ALLOC_ACCESSIBLE, nid);
+					    BOOTMEM_ALLOC_ACCESSIBLE, nid);
 }
 
-static inline void *__init memblock_virt_alloc_node_nopanic(
-	phys_addr_t size, int nid)
+static inline void * __init memblock_virt_alloc_node_nopanic(
+						phys_addr_t size, int nid)
 {
 	return memblock_virt_alloc_try_nid_nopanic(size, 0, BOOTMEM_LOW_LIMIT,
-			BOOTMEM_ALLOC_ACCESSIBLE,
-			nid);
+						    BOOTMEM_ALLOC_ACCESSIBLE,
+						    nid);
 }
 
 static inline void __init memblock_free_early(
-	phys_addr_t base, phys_addr_t size)
+					phys_addr_t base, phys_addr_t size)
 {
 	__memblock_free_early(base, size);
 }
 
 static inline void __init memblock_free_early_nid(
-	phys_addr_t base, phys_addr_t size, int nid)
+				phys_addr_t base, phys_addr_t size, int nid)
 {
 	__memblock_free_early(base, size);
 }
 
 static inline void __init memblock_free_late(
-	phys_addr_t base, phys_addr_t size)
+					phys_addr_t base, phys_addr_t size)
 {
 	__memblock_free_late(base, size);
 }
@@ -276,109 +276,104 @@ static inline void __init memblock_free_late(
 
 
 /* Fall back to all the existing bootmem APIs */
-static inline void *__init memblock_virt_alloc(
-	phys_addr_t size,  phys_addr_t align)
+static inline void * __init memblock_virt_alloc(
+					phys_addr_t size,  phys_addr_t align)
 {
 	if (!align)
 		align = SMP_CACHE_BYTES;
-
 	return __alloc_bootmem(size, align, BOOTMEM_LOW_LIMIT);
 }
 
-static inline void *__init memblock_virt_alloc_raw(
-	phys_addr_t size,  phys_addr_t align)
+static inline void * __init memblock_virt_alloc_raw(
+					phys_addr_t size,  phys_addr_t align)
 {
 	if (!align)
 		align = SMP_CACHE_BYTES;
-
 	return __alloc_bootmem_nopanic(size, align, BOOTMEM_LOW_LIMIT);
 }
 
-static inline void *__init memblock_virt_alloc_nopanic(
-	phys_addr_t size, phys_addr_t align)
+static inline void * __init memblock_virt_alloc_nopanic(
+					phys_addr_t size, phys_addr_t align)
 {
 	if (!align)
 		align = SMP_CACHE_BYTES;
-
 	return __alloc_bootmem_nopanic(size, align, BOOTMEM_LOW_LIMIT);
 }
 
-static inline void *__init memblock_virt_alloc_low(
-	phys_addr_t size, phys_addr_t align)
+static inline void * __init memblock_virt_alloc_low(
+					phys_addr_t size, phys_addr_t align)
 {
 	if (!align)
 		align = SMP_CACHE_BYTES;
-
 	return __alloc_bootmem_low(size, align, 0);
 }
 
-static inline void *__init memblock_virt_alloc_low_nopanic(
-	phys_addr_t size, phys_addr_t align)
+static inline void * __init memblock_virt_alloc_low_nopanic(
+					phys_addr_t size, phys_addr_t align)
 {
 	if (!align)
 		align = SMP_CACHE_BYTES;
-
 	return __alloc_bootmem_low_nopanic(size, align, 0);
 }
 
-static inline void *__init memblock_virt_alloc_from_nopanic(
-	phys_addr_t size, phys_addr_t align, phys_addr_t min_addr)
+static inline void * __init memblock_virt_alloc_from_nopanic(
+		phys_addr_t size, phys_addr_t align, phys_addr_t min_addr)
 {
 	return __alloc_bootmem_nopanic(size, align, min_addr);
 }
 
-static inline void *__init memblock_virt_alloc_node(
-	phys_addr_t size, int nid)
+static inline void * __init memblock_virt_alloc_node(
+						phys_addr_t size, int nid)
 {
 	return __alloc_bootmem_node(NODE_DATA(nid), size, SMP_CACHE_BYTES,
-				    BOOTMEM_LOW_LIMIT);
+				     BOOTMEM_LOW_LIMIT);
 }
 
-static inline void *__init memblock_virt_alloc_node_nopanic(
-	phys_addr_t size, int nid)
+static inline void * __init memblock_virt_alloc_node_nopanic(
+						phys_addr_t size, int nid)
 {
 	return __alloc_bootmem_node_nopanic(NODE_DATA(nid), size,
-					    SMP_CACHE_BYTES,
-					    BOOTMEM_LOW_LIMIT);
+					     SMP_CACHE_BYTES,
+					     BOOTMEM_LOW_LIMIT);
 }
 
-static inline void *__init memblock_virt_alloc_try_nid(phys_addr_t size,
-		phys_addr_t align, phys_addr_t min_addr, phys_addr_t max_addr, int nid)
+static inline void * __init memblock_virt_alloc_try_nid(phys_addr_t size,
+	phys_addr_t align, phys_addr_t min_addr, phys_addr_t max_addr, int nid)
 {
 	return __alloc_bootmem_node_high(NODE_DATA(nid), size, align,
-					 min_addr);
+					  min_addr);
 }
 
-static inline void *__init memblock_virt_alloc_try_nid_raw(
-	phys_addr_t size, phys_addr_t align,
-	phys_addr_t min_addr, phys_addr_t max_addr, int nid)
+static inline void * __init memblock_virt_alloc_try_nid_raw(
+			phys_addr_t size, phys_addr_t align,
+			phys_addr_t min_addr, phys_addr_t max_addr, int nid)
 {
 	return ___alloc_bootmem_node_nopanic(NODE_DATA(nid), size, align,
-					     min_addr, max_addr);
+				min_addr, max_addr);
 }
 
-static inline void *__init memblock_virt_alloc_try_nid_nopanic(
-	phys_addr_t size, phys_addr_t align,
-	phys_addr_t min_addr, phys_addr_t max_addr, int nid)
+static inline void * __init memblock_virt_alloc_try_nid_nopanic(
+			phys_addr_t size, phys_addr_t align,
+			phys_addr_t min_addr, phys_addr_t max_addr, int nid)
 {
 	return ___alloc_bootmem_node_nopanic(NODE_DATA(nid), size, align,
-					     min_addr, max_addr);
+				min_addr, max_addr);
 }
 
 static inline void __init memblock_free_early(
-	phys_addr_t base, phys_addr_t size)
+					phys_addr_t base, phys_addr_t size)
 {
 	free_bootmem(base, size);
 }
 
 static inline void __init memblock_free_early_nid(
-	phys_addr_t base, phys_addr_t size, int nid)
+				phys_addr_t base, phys_addr_t size, int nid)
 {
 	free_bootmem_node(NODE_DATA(nid), base, size);
 }
 
 static inline void __init memblock_free_late(
-	phys_addr_t base, phys_addr_t size)
+					phys_addr_t base, phys_addr_t size)
 {
 	free_bootmem_late(base, size);
 }

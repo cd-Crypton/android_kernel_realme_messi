@@ -195,6 +195,7 @@ struct qusb_phy {
 	bool			is_gpio_active_low;
 	int			notifier_irq;
 	bool			is_port_valid;
+	bool			dcp_charger;
 
 	/* debugfs entries */
 	struct dentry		*root;
@@ -505,22 +506,6 @@ static void qusb_phy_write_seq(void __iomem *base, u32 *seq, int cnt,
 	}
 }
 
-#ifdef OPLUS_FEATURE_CHG_BASIC
-/* huangtongfeng add for test usb eye  */
-static void qusb_phy_read_seq(void __iomem *base, u32 *seq, int cnt,
-		unsigned long delay)
-{
-	int i;
-
-	pr_err("Seq count:%d\n", cnt);
-	for (i = 0; i < cnt; i = i+2) {
-		//readl_relaxed(base + seq[i+1]);
-		pr_err("read 0x%02x to 0x%02x\n", seq[i+1], readl_relaxed(base + seq[i+1]));
-		if (delay)
-			usleep_range(delay, (delay + 2000));
-	}
-}
-#endif
 static void qusb_phy_reset(struct qusb_phy *qphy)
 {
 	int ret = 0;
@@ -685,11 +670,7 @@ static int qusb_phy_init(struct usb_phy *phy)
 
 	if (pll_lock_fail)
 		dev_err(phy->dev, "QUSB PHY PLL LOCK fails:%x\n", reg);
-#ifdef OPLUS_FEATURE_CHG_BASIC
-/* huangtongfeng add for test usb eye  */
-	qusb_phy_read_seq(qphy->base, qphy->qusb_phy_init_seq,
-				qphy->init_seq_len, 0);
-#endif
+
 	return 0;
 }
 
@@ -1534,13 +1515,14 @@ static void qusb_phy_port_state_work(struct work_struct *w)
 		if (status) {
 			qusb_phy_notify_charger(qphy,
 						POWER_SUPPLY_TYPE_USB_DCP);
+			qphy->dcp_charger = true;
 		} else {
 			qusb_phy_notify_charger(qphy,
 						POWER_SUPPLY_TYPE_USB_CDP);
+			qusb_phy_unprepare_chg_det(qphy);
 			qusb_phy_notify_extcon(qphy, EXTCON_USB, 1);
 		}
 
-		qusb_phy_unprepare_chg_det(qphy);
 		qphy->port_state = PORT_CHG_DET_DONE;
 		/*
 		 * Fall through to check if cable got disconnected
@@ -1548,6 +1530,10 @@ static void qusb_phy_port_state_work(struct work_struct *w)
 		 */
 	case PORT_CHG_DET_DONE:
 		if (!vbus_active) {
+			if (qphy->dcp_charger) {
+				qphy->dcp_charger = false;
+				qusb_phy_unprepare_chg_det(qphy);
+			}
 			qphy->port_state = PORT_UNKNOWN;
 			qusb_phy_notify_extcon(qphy, EXTCON_USB, 0);
 		}

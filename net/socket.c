@@ -107,7 +107,6 @@
 #include <linux/sockios.h>
 #include <net/busy_poll.h>
 #include <linux/errqueue.h>
-#include <net/oplus_nwpower.h>
 
 #ifdef CONFIG_NET_RX_BUSY_POLL
 unsigned int sysctl_net_busy_read __read_mostly;
@@ -412,11 +411,6 @@ struct file *sock_alloc_file(struct socket *sock, int flags, const char *dname)
 
 	sock->file = file;
 	file->private_data = sock;
-
-	if (sock->sk) {
-		sock->sk->sk_oplus_pid = current->tgid;
-	}
-
 	return file;
 }
 EXPORT_SYMBOL(sock_alloc_file);
@@ -2154,14 +2148,8 @@ static int ___sys_sendmsg(struct socket *sock, struct user_msghdr __user *msg,
 	}
 
 out_freectl:
-	if (ctl_buf != ctl){
-#ifdef CONFIG_OPLUS_SECURE_GUARD
-#ifdef CONFIG_OPLUS_ROOT_CHECK
-		memset(ctl_buf, 0, ctl_len);
-#endif /* CONFIG_OPLUS_ROOT_CHECK */
-#endif /* CONFIG_OPLUS_SECURE_GUARD */
+	if (ctl_buf != ctl)
 		sock_kfree_s(sock->sk, ctl_buf, ctl_len);
-	}
 out_freeiov:
 	kfree(iov);
 	return err;

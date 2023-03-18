@@ -125,17 +125,6 @@ module_param_named(print_parsed_dt, print_parsed_dt, bool, 0664);
 static bool sleep_disabled;
 module_param_named(sleep_disabled, sleep_disabled, bool, 0664);
 
-#ifdef OPLUS_FEATURE_CHG_BASIC
-static bool oplus_sleep_disabled;
-void set_lpm_disallowed_flag(bool disable)
-{
-	pr_err("set_lpm_disallowed_flag: old flag[%d %d], new flag[%d]\n",sleep_disabled, oplus_sleep_disabled, disable);
-	oplus_sleep_disabled = disable;
-	return;
-}
-EXPORT_SYMBOL(set_lpm_disallowed_flag);
-#endif
-
 /**
  * msm_cpuidle_get_deep_idle_latency - Get deep idle latency value
  *
@@ -665,14 +654,8 @@ static inline bool lpm_disallowed(s64 sleep_us, int cpu, struct lpm_cpu *pm_cpu)
 
 	if (cpu_isolated(cpu))
 		goto out;
-/* yanghao@BSP.Kernel.Stability when booting will meet system change the sleep
-	 * will caused insert usb but sleep disabled = false 2020-4-7
-	 */
-#ifdef OPLUS_FEATURE_CHG_BASIC
-	if (sleep_disabled || oplus_sleep_disabled)
-#else
+
 	if (sleep_disabled)
-#endif
 		return true;
 
 	bias_time = sched_lpm_disallowed_time(cpu);
