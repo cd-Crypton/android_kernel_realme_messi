@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2021, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
  * Copyright (C) 2013 Red Hat
  * Author: Rob Clark <robdclark@gmail.com>
  *
@@ -39,12 +40,6 @@
 #include "sde_core_irq.h"
 #include "sde_hw_top.h"
 #include "sde_hw_qdss.h"
-#ifdef OPLUS_BUG_STABILITY
-#include "oplus_display_private_api.h"
-#include "oplus_onscreenfingerprint.h"
-#include "oplus_dc_diming.h"
-#include "oplus_display_panel_apollo.h"
-#endif
 
 #define SDE_DEBUG_ENC(e, fmt, ...) SDE_DEBUG("enc%d " fmt,\
 		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
@@ -2432,7 +2427,7 @@ end:
 	mutex_unlock(&sde_enc->rc_lock);
 	return ret;
 }
-extern bool frame_done_idle;
+
 static int _sde_encoder_rc_frame_done(struct drm_encoder *drm_enc,
 	u32 sw_event, struct sde_encoder_virt *sde_enc,
 	struct msm_drm_private *priv)
@@ -2496,12 +2491,12 @@ static int _sde_encoder_rc_frame_done(struct drm_encoder *drm_enc,
 		idle_pc_duration = IDLE_SHORT_TIMEOUT;
 	else
 		idle_pc_duration = IDLE_POWERCOLLAPSE_DURATION;
-	if (!autorefresh_enabled && frame_done_idle) {
+
+	if (!autorefresh_enabled)
 		kthread_mod_delayed_work(
 			&disp_thread->worker,
 			&sde_enc->delayed_off_work,
 			msecs_to_jiffies(idle_pc_duration));
-	}
 	SDE_EVT32(DRMID(drm_enc), sw_event, sde_enc->rc_state,
 			autorefresh_enabled,
 			idle_pc_duration, SDE_EVTLOG_FUNC_CASE2);
@@ -2750,7 +2745,6 @@ static int _sde_encoder_rc_early_wakeup(struct drm_encoder *drm_enc,
 	struct msm_drm_thread *disp_thread;
 	int ret = 0;
 
-#ifndef OPLUS_BUG_STABILITY
 	if (!sde_enc->crtc ||
 		sde_enc->crtc->index >= ARRAY_SIZE(priv->disp_thread)) {
 		SDE_DEBUG_ENC(sde_enc,
@@ -2762,22 +2756,6 @@ static int _sde_encoder_rc_early_wakeup(struct drm_encoder *drm_enc,
 	}
 
 	disp_thread = &priv->disp_thread[sde_enc->crtc->index];
-#else
-		{
-			struct drm_crtc *crtc = sde_enc->crtc;
-
-			if (!crtc || crtc->index >= ARRAY_SIZE(priv->disp_thread)) {
-				SDE_DEBUG_ENC(sde_enc,
-						"invalid crtc:%d or crtc index:%d , sw_event:%u\n",
-						crtc == NULL,
-						crtc ? crtc->index : -EINVAL,
-						sw_event);
-				return -EINVAL;
-			}
-
-			disp_thread = &priv->disp_thread[crtc->index];
-		}
-#endif /* OPLUS_BUG_STABILITY */
 
 	mutex_lock(&sde_enc->rc_lock);
 
@@ -3771,15 +3749,6 @@ static void sde_encoder_underrun_callback(struct drm_encoder *drm_enc,
 	trace_sde_encoder_underrun(DRMID(drm_enc),
 		atomic_read(&phy_enc->underrun_cnt));
 
-#ifdef OPLUS_BUG_STABILITY
-	/* add for add log for debug underrun issue.*/
-	SDE_ERROR("QCOM underrun debug\n");
-#endif /*OPLUS_BUG_STABILITY*/
-
-#ifdef OPLUS_BUG_STABILITY
-	SDE_MM_ERROR("DisplayDriverID@@422$$sde encoder underrun callback! Count=%d", atomic_read(&phy_enc->underrun_cnt));
-#endif /*OPLUS_BUG_STABILITY*/
-
 	SDE_DBG_CTRL("stop_ftrace");
 	SDE_DBG_CTRL("panic_underrun");
 
@@ -4430,6 +4399,46 @@ bool sde_encoder_check_curr_mode(struct drm_encoder *drm_enc, u32 mode)
 	return (disp_info->curr_panel_mode == mode);
 }
 
+void sde_encoder_trigger_rsc_state_change(struct drm_encoder *drm_enc)
+{
+	struct sde_encoder_virt *sde_enc = NULL;
+	int ret = 0;
+
+	sde_enc = to_sde_encoder_virt(drm_enc);
+
+	if (!sde_enc)
+		return;
+
+	mutex_lock(&sde_enc->rc_lock);
+	/*
+	 * In dual display case when secondary comes out of
+	 * idle make sure RSC solver mode is disabled before
+	 * setting CTL_PREPARE.
+	 */
+	if (!sde_enc->cur_master ||
+		!sde_encoder_check_curr_mode(drm_enc, MSM_DISPLAY_CMD_MODE) ||
+		sde_enc->disp_info.display_type == SDE_CONNECTOR_PRIMARY ||
+		sde_enc->rc_state != SDE_ENC_RC_STATE_IDLE)
+		goto end;
+
+	/* enable all the clks and resources */
+	ret = _sde_encoder_resource_control_helper(drm_enc, true);
+	if (ret) {
+		SDE_ERROR_ENC(sde_enc, "rc in state %d\n", sde_enc->rc_state);
+		SDE_EVT32(DRMID(drm_enc), sde_enc->rc_state, SDE_EVTLOG_ERROR);
+		goto end;
+	}
+
+	_sde_encoder_update_rsc_client(drm_enc, true);
+
+	SDE_EVT32(DRMID(drm_enc), sde_enc->rc_state, SDE_ENC_RC_STATE_ON);
+	sde_enc->rc_state = SDE_ENC_RC_STATE_ON;
+
+end:
+	mutex_unlock(&sde_enc->rc_lock);
+}
+
+
 void sde_encoder_trigger_kickoff_pending(struct drm_encoder *drm_enc)
 {
 	struct sde_encoder_virt *sde_enc;
@@ -4501,9 +4510,6 @@ static void _sde_encoder_setup_dither(struct sde_encoder_phys *phys)
 			}
 		}
 	} else {
-#ifdef OPLUS_BUG_STABILITY
-		if (_sde_encoder_setup_dither_for_onscreenfingerprint(phys, dither_cfg, len, phys->hw_pp))
-#endif /* OPLUS_BUG_STABILITY */
 		phys->hw_pp->ops.setup_dither(phys->hw_pp, dither_cfg, len);
 	}
 }
@@ -4861,24 +4867,6 @@ void sde_encoder_needs_hw_reset(struct drm_encoder *drm_enc)
 	}
 }
 
-#ifdef OPLUS_BUG_STABILITY
-extern int sde_connector_update_hbm(struct drm_connector *connector);
-
-static void oplus_dc_sde_connector_update_backlight(struct drm_connector *connector, bool settings) {
-	struct sde_connector *c_conn = to_sde_connector(connector);
-	struct dsi_display *dsi_display;
-
-	if (c_conn->connector_type != DRM_MODE_CONNECTOR_DSI)
-		return;
-
-	dsi_display = c_conn->display;
-	if(dsi_display && dsi_display->panel && dsi_display->panel->is_dc_support)
-		sde_connector_update_backlight(connector, settings);
-
-	return;
-}
-#endif
-
 int sde_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc,
 		struct sde_encoder_kickoff_params *params)
 {
@@ -4904,13 +4892,6 @@ int sde_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc,
 
 	SDE_DEBUG_ENC(sde_enc, "\n");
 	SDE_EVT32(DRMID(drm_enc));
-
-#ifdef OPLUS_BUG_STABILITY
-	if (sde_enc->cur_master) {
-		oplus_dc_sde_connector_update_backlight(sde_enc->cur_master->connector, false);
-		sde_connector_update_hbm(sde_enc->cur_master->connector);
-	}
-#endif /* OPLUS_BUG_STABILITY */
 
 	is_cmd_mode = sde_encoder_check_curr_mode(drm_enc,
 				MSM_DISPLAY_CMD_MODE);
@@ -5058,11 +5039,6 @@ void sde_encoder_kickoff(struct drm_encoder *drm_enc, bool is_error)
 	if (is_error)
 		_sde_encoder_reset_ctl_hw(drm_enc);
 
-#ifdef OPLUS_BUG_STABILITY
-/* Add for backlight smooths */
-	sde_encoder_apollo_kickoff(OPLUS_POST_KICKOFF_METHOD, drm_enc);
-#endif /* OPLUS_BUG_STABILITY */
-
 	/* All phys encs are ready to go, trigger the kickoff */
 	_sde_encoder_kickoff_phys(sde_enc);
 
@@ -5081,9 +5057,6 @@ void sde_encoder_kickoff(struct drm_encoder *drm_enc, bool is_error)
 	}
 
 	SDE_ATRACE_END("encoder_kickoff");
-#ifdef OPLUS_BUG_STABILITY
-	oplus_dc_sde_connector_update_backlight(sde_enc->cur_master->connector, true);
-#endif /* OPLUS_BUG_STABILITY */
 }
 
 void sde_encoder_helper_get_pp_line_count(struct drm_encoder *drm_enc,

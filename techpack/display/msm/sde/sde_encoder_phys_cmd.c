@@ -9,9 +9,6 @@
 #include "sde_core_irq.h"
 #include "sde_formats.h"
 #include "sde_trace.h"
-#ifdef OPLUS_BUG_STABILITY
-#include <soc/oplus/system/oplus_mm_kevent_fb.h>
-#endif /* OPLUS_BUG_STABILITY */
 
 #define SDE_DEBUG_CMDENC(e, fmt, ...) SDE_DEBUG("enc%d intf%d " fmt, \
 		(e) && (e)->base.parent ? \
@@ -28,10 +25,6 @@
 
 #define PP_TIMEOUT_MAX_TRIALS	4
 
-#ifdef OPLUS_BUG_STABILITY
-#define PP_TIMEOUT_BAD_TRIALS   10
-extern int oplus_dimlayer_fingerprint_failcount;
-#endif
 /*
  * Tearcheck sync start and continue thresholds are empirically found
  * based on common panels In the future, may want to allow panels to override
@@ -511,11 +504,6 @@ static int _sde_encoder_phys_cmd_handle_ppdone_timeout(
 	if (!atomic_add_unless(&phys_enc->pending_kickoff_cnt, -1, 0))
 		return 0;
 
-#ifdef OPLUS_BUG_STABILITY
-	if (cmd_enc->pp_timeout_report_cnt >= PP_TIMEOUT_BAD_TRIALS)
-		return -EFAULT;
-#endif
-
 	cmd_enc->pp_timeout_report_cnt++;
 	pending_kickoff_cnt = atomic_read(&phys_enc->pending_kickoff_cnt) + 1;
 
@@ -535,10 +523,7 @@ static int _sde_encoder_phys_cmd_handle_ppdone_timeout(
 				phys_enc->hw_pp->idx - PINGPONG_0,
 				phys_enc->hw_ctl->idx - CTL_0,
 				pending_kickoff_cnt);
-#ifdef OPLUS_BUG_STABILITY
-		mm_fb_display_kevent("DisplayDriverID@@403$$", MM_FB_KEY_RATELIMIT_NONE,
-				"ppdone timeout failed pp:%d kickoff timeout", phys_enc->hw_pp->idx - PINGPONG_0);
-#endif /* OPLUS_BUG_STABILITY */
+
 		SDE_EVT32(DRMID(phys_enc->parent), SDE_EVTLOG_FATAL);
 		sde_encoder_helper_unregister_irq(phys_enc, INTR_IDX_RDPTR);
 		if (sde_kms_is_secure_session_inprogress(phys_enc->sde_kms))
@@ -1601,11 +1586,6 @@ static int _sde_encoder_phys_cmd_handle_wr_ptr_timeout(
 	 * to allow the next commit and avoid device freeze.
 	 */
 	if (ret == -ETIMEDOUT) {
-#ifdef OPLUS_BUG_STABILITY
-		mm_fb_display_kevent("DisplayDriverID@@418$$", MM_FB_KEY_RATELIMIT_30MIN,
-				"wr_ptr_irq timeout failed switch_te:%d", switch_te);
-#endif /* OPLUS_BUG_STABILITY */
-
 		SDE_ERROR_CMDENC(cmd_enc,
 			"wr_ptr_irq wait failed, switch_te:%d\n", switch_te);
 		SDE_EVT32(DRMID(phys_enc->parent), switch_te, SDE_EVTLOG_ERROR);

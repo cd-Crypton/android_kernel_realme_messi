@@ -20,43 +20,6 @@
 #include "dsi_pwr.h"
 #include "sde_dbg.h"
 #include "dsi_parser.h"
-#ifdef OPLUS_BUG_STABILITY
-#ifdef CONFIG_OPLUS_FEATURE_MM_FEEDBACK
-#include <soc/oplus/system/oplus_mm_kevent_fb.h>
-#endif //CONFIG_OPLUS_FEATURE_MM_FEEDBACK
-#include <linux/msm_drm_notify.h>
-#include <linux/notifier.h>
-#include "oplus_display_panel_common.h"
-#include "oplus_display_private_api.h"
-
-#ifdef OPLUS_BUG_STABILITY
-#include "sde_trace.h"
-#endif
-
-extern int msm_drm_notifier_call_chain(unsigned long val, void *v);
-
-__attribute__((weak)) void sec_refresh_switch(int fps)
-{
-    return;
-}
-__attribute__((weak)) void syna_tcm_refresh_switch(int fps)
-{
-    return;
-}
-
-#ifdef OPLUS_FEATURE_TP_BASIC
-__attribute__((weak)) void lcd_tp_refresh_switch(int fps)
-{
-    return;
-}
-#endif /* OPLUS_FEATURE_TP_BASIC*/
-
-/* Add for solve sau issue*/
-extern int lcd_closebl_flag;
-/* Add for fingerprint silence*/
-extern int lcd_closebl_flag_fp;
-int vid_cmd_mode_change = 0;
-#endif
 
 #define to_dsi_display(x) container_of(x, struct dsi_display, host)
 #define INT_BASE_10 10
@@ -69,10 +32,6 @@ int vid_cmd_mode_change = 0;
 
 #define DSI_CLOCK_BITRATE_RADIX 10
 #define MAX_TE_SOURCE_ID  2
-#ifdef OPLUS_BUG_STABILITY
-static struct dsi_display *primary_display;
-static struct dsi_display *secondary_display;
-#endif /* OPLUS_BUG_STABILITY */
 
 static char dsi_display_primary[MAX_CMDLINE_PARAM_LEN];
 static char dsi_display_secondary[MAX_CMDLINE_PARAM_LEN];
@@ -243,10 +202,6 @@ int dsi_display_set_backlight(struct drm_connector *connector,
 	if (dsi_display == NULL || dsi_display->panel == NULL)
 		return -EINVAL;
 
-#ifdef OPLUS_BUG_STABILITY
-	SDE_ATRACE_BEGIN("dsi_display_set_backlight");
-#endif
-
 	panel = dsi_display->panel;
 
 	mutex_lock(&panel->panel_lock);
@@ -254,13 +209,6 @@ int dsi_display_set_backlight(struct drm_connector *connector,
 		rc = -EINVAL;
 		goto error;
 	}
-
-#ifdef OPLUS_BUG_STABILITY
-/* PSW.MM.Display.LCD.Stable,2021-11-19 oplus backlight*/
-	rc = oplus_display_set_backlight(display, bl_lvl);
-	if (rc)
-		goto error;
-#endif /* OPLUS_BUG_STABILITY */
 
 	panel->bl_config.bl_level = bl_lvl;
 
@@ -280,17 +228,6 @@ int dsi_display_set_backlight(struct drm_connector *connector,
 		       dsi_display->name, rc);
 		goto error;
 	}
-#ifdef OPLUS_BUG_STABILITY
-/* PSW.MM.Display.LCD.Stability,2018/4/28
- * Add for silence reboot
-*/
-	if(lcd_closebl_flag) {
-		pr_info("silence reboot we should set backlight to zero\n");
-		bl_temp = 0;
-	} else if (bl_lvl) {
-		lcd_closebl_flag_fp = 0;
-	}
-#endif /*OPLUS_BUG_STABILITY*/
 
 	rc = dsi_panel_set_backlight(panel, (u32)bl_temp);
 	if (rc)
@@ -306,17 +243,10 @@ int dsi_display_set_backlight(struct drm_connector *connector,
 
 error:
 	mutex_unlock(&panel->panel_lock);
-#ifdef OPLUS_BUG_STABILITY
-	SDE_ATRACE_END("dsi_display_set_backlight");
-#endif
 	return rc;
 }
 
-#ifndef OPLUS_BUG_STABILITY
 static int dsi_display_cmd_engine_enable(struct dsi_display *display)
-#else
-int dsi_display_cmd_engine_enable(struct dsi_display *display)
-#endif /*OPLUS_BUG_STABILITY*/
 {
 	int rc = 0;
 	int i;
@@ -360,11 +290,7 @@ done:
 	return rc;
 }
 
-#ifndef OPLUS_BUG_STABILITY
 static int dsi_display_cmd_engine_disable(struct dsi_display *display)
-#else
-int dsi_display_cmd_engine_disable(struct dsi_display *display)
-#endif /*OPLUS_BUG_STABILITY*/
 {
 	int rc = 0;
 	int i;
@@ -406,10 +332,6 @@ done:
 	mutex_unlock(&m_ctrl->ctrl->ctrl_lock);
 	return rc;
 }
-
-#ifdef OPLUS_BUG_STABILITY
-EXPORT_SYMBOL(dsi_display_cmd_engine_disable);
-#endif
 
 static void dsi_display_aspace_cb_locked(void *cb_data, bool is_detach)
 {
@@ -554,11 +476,7 @@ error:
 }
 
 /* Allocate memory for cmd dma tx buffer */
-#ifndef OPLUS_BUG_STABILITY
 static int dsi_host_alloc_cmd_tx_buffer(struct dsi_display *display)
-#else
-int dsi_host_alloc_cmd_tx_buffer(struct dsi_display *display)
-#endif
 {
 	int rc = 0, cnt = 0;
 	struct dsi_display_ctrl *display_ctrl;
@@ -664,22 +582,6 @@ static bool dsi_display_validate_reg_read(struct dsi_panel *panel)
 			return true;
 		group += len;
 	}
-
-#ifdef OPLUS_BUG_STABILITY
-#ifdef CONFIG_OPLUS_FEATURE_MM_FEEDBACK
-	{
-		char payload[150] = "";
-		int cnt = 0;
-		cnt += scnprintf(payload + cnt, sizeof(payload) - cnt, "DisplayDriverID@@408$$");
-		cnt += scnprintf(payload + cnt, sizeof(payload) - cnt, "ESD:");
-		for (i = 0; i < len; ++i)
-			cnt += scnprintf(payload + cnt, sizeof(payload) - cnt, "[%02x] ", config->return_buf[i]);
-
-		DRM_ERROR("ESD check failed: %s\n", payload);
-		mm_fb_display_kevent(payload, MM_FB_KEY_RATELIMIT_1H, "ESD check failed");
-	}
-#endif //CONFIG_OPLUS_FEATURE_MM_FEEDBACK
-#endif  /*OPLUS_BUG_STABILITY*/
 
 	return false;
 }
@@ -855,54 +757,7 @@ static int dsi_display_status_bta_request(struct dsi_display *display)
 
 	return rc;
 }
-static int dsi_display_status_check_esd_gpio(struct dsi_display *display)
-{
-	int rc = 1;
-	int master_read_value = 0,slaves_read_value =0;
-	if (display == NULL)
-		return rc;
-	if (gpio_is_valid(display->panel->esd_config.master_esd_gpio) && gpio_is_valid(display->panel->esd_config.slaves_esd_gpio)) {
 
-		rc = gpio_request(display->panel->esd_config.master_esd_gpio, "master-esd-gpio");
-		if (rc < 0) {
-			pr_err("%s: gpio_request master_esd_gpio fail rc=%d\n", __func__, rc);
-			return true ;
-		}
-		rc = gpio_direction_input(display->panel->esd_config.master_esd_gpio);
-		if (rc < 0) {
-			pr_err("%s: gpio_direction_input master_esd_gpio fail rc=%d\n", __func__, rc);
-			return true ;
-		}
-		rc = gpio_request(display->panel->esd_config.slaves_esd_gpio, "slaves-esd-gpio");
-		if (rc < 0) {
-			pr_err("%s: gpio_request slaves_esd_gpio fail rc=%d\n", __func__, rc);
-			return true ;
-		}
-		rc = gpio_direction_input(display->panel->esd_config.slaves_esd_gpio);
-		if (rc < 0) {
-			pr_err("%s: gpio_direction_input slaves_esd_gpio fail rc=%d\n", __func__, rc);
-			return true ;
-		}
-		master_read_value = gpio_get_value(display->panel->esd_config.master_esd_gpio);
-		slaves_read_value = gpio_get_value(display->panel->esd_config.slaves_esd_gpio);
-		pr_info("master_read_value=%d slaves_read_value=%d\n", master_read_value, slaves_read_value);
-		if( master_read_value || slaves_read_value) {
-			msleep(100);
-			master_read_value = gpio_get_value(display->panel->esd_config.master_esd_gpio);
-			slaves_read_value = gpio_get_value(display->panel->esd_config.slaves_esd_gpio);
-			pr_info("master_read_value=%d slaves_read_value=%d\n", master_read_value, slaves_read_value);
-			if( master_read_value || slaves_read_value) {
-				pr_info("%s:reading erro esd gpio is failing rc = %d\n",__func__,rc);
-				gpio_free(display->panel->esd_config.master_esd_gpio);
-				gpio_free(display->panel->esd_config.slaves_esd_gpio);
-				return -EINVAL;
-			}
-		}
-		gpio_free(display->panel->esd_config.master_esd_gpio);
-		gpio_free(display->panel->esd_config.slaves_esd_gpio);
-	}
-	return true;
-}
 static int dsi_display_status_check_te(struct dsi_display *display)
 {
 	int rc = 1;
@@ -914,18 +769,6 @@ static int dsi_display_status_check_te(struct dsi_display *display)
 	if (!wait_for_completion_timeout(&display->esd_te_gate,
 				esd_te_timeout)) {
 		DSI_ERR("TE check failed\n");
-			#ifdef OPLUS_BUG_STABILITY
-			#ifdef CONFIG_OPLUS_FEATURE_MM_FEEDBACK
-			{
-				char payload[150] = "";
-
-				scnprintf(payload, sizeof(payload), "ESD:");
-
-				DRM_ERROR("ESD TE check failed: %s\n", payload);
-				mm_fb_display_kevent(payload, MM_FB_KEY_RATELIMIT_1H, "ESD TE check failed");
-			}
-			#endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
-			#endif /* OPLUS_BUG_STABILITY */
 		rc = -EINVAL;
 	}
 
@@ -933,6 +776,7 @@ static int dsi_display_status_check_te(struct dsi_display *display)
 
 	return rc;
 }
+
 int dsi_display_check_status(struct drm_connector *connector, void *display,
 					bool te_check_override)
 {
@@ -958,14 +802,6 @@ int dsi_display_check_status(struct drm_connector *connector, void *display,
 	if (atomic_read(&panel->esd_recovery_pending))
 		goto release_panel_lock;
 
-#ifdef OPLUS_BUG_STABILITY
-	if (atomic_read(&panel->esd_pending)) {
-		DSI_WARN("Skip the check because esd is pending\n");
-		goto release_panel_lock;
-	}
-#endif /* OPLUS_BUG_STABILITY */
-
-
 	status_mode = panel->esd_config.status_mode;
 
 	if (status_mode == ESD_MODE_SW_SIM_SUCCESS)
@@ -984,10 +820,7 @@ int dsi_display_check_status(struct drm_connector *connector, void *display,
 		rc = dsi_display_status_check_te(dsi_display);
 		goto exit;
 	}
-	if (status_mode == ESD_MODE_PANEL_GPIO) {
-		rc = dsi_display_status_check_esd_gpio(dsi_display);
-		goto exit;
-	}
+
 	ret = dsi_display_clk_ctrl(dsi_display->dsi_clk_handle,
 		DSI_ALL_CLKS, DSI_CLK_ON);
 	if (ret)
@@ -1004,11 +837,7 @@ int dsi_display_check_status(struct drm_connector *connector, void *display,
 		rc = dsi_display_status_bta_request(dsi_display);
 	} else if (status_mode == ESD_MODE_PANEL_TE) {
 		rc = dsi_display_status_check_te(dsi_display);
-	}
-	else if (status_mode == ESD_MODE_PANEL_GPIO) {
-		rc = dsi_display_status_check_esd_gpio(dsi_display);
-	}
-	else {
+	} else {
 		DSI_WARN("Unsupported check status mode: %d\n", status_mode);
 		panel->esd_config.esd_enabled = false;
 	}
@@ -1025,9 +854,8 @@ int dsi_display_check_status(struct drm_connector *connector, void *display,
 
 exit:
 	/* Handle Panel failures during display disable sequence */
-	if (rc <=0) {
+	if (rc <=0)
 		atomic_set(&panel->esd_recovery_pending, 1);
-	}
 
 release_panel_lock:
 	dsi_panel_release_panel_lock(panel);
@@ -4326,17 +4154,10 @@ static void _dsi_display_calc_pipe_delay(struct dsi_display *display,
 	 * 25us pll delay recommended for phy ver 4.0
 	 */
 	phy_ver = dsi_phy_get_version(m_ctrl->phy);
-#ifndef OPLUS_BUG_STABILITY
 	if (phy_ver <= DSI_PHY_VERSION_3_0)
 		delay->pll_delay = 100;
 	else
 		delay->pll_delay = 25;
-#else
-	if (phy_ver <= DSI_PHY_VERSION_3_0)
-		delay->pll_delay = 40;
-	else
-		delay->pll_delay = 25;
-#endif /*OPLUS_BUG_STABILITY*/
 
 	delay->pll_delay = ((delay->pll_delay * esc_clk_rate_hz) / 1000000);
 }
@@ -4358,13 +4179,6 @@ static int _dsi_display_dyn_update_clks(struct dsi_display *display,
 	int rc = 0, i;
 	struct dsi_display_ctrl *m_ctrl, *ctrl;
 	struct dsi_clk_link_set *parent_clk, *enable_clk;
-#ifdef OPLUS_BUG_STABILITY
-/* liuzhizun, 2020/07/20, modify for dsi dump*/
-	u32 dummy_bit_clk;
-	struct dsi_dyn_clk_caps *dyn_clk_caps;
-
-	dyn_clk_caps = &(display->panel->dyn_clk_caps);
-#endif
 
 	m_ctrl = &display->ctrl[display->clk_master_idx];
 
@@ -4389,28 +4203,6 @@ static int _dsi_display_dyn_update_clks(struct dsi_display *display,
 		ctrl = &display->ctrl[i];
 		if (!ctrl->ctrl)
 			continue;
-#ifdef OPLUS_BUG_STABILITY
-/* liuzhizun, 2020/07/20, modify for dsi dump*/
-		if (display->prev_clk == ctrl->ctrl->clk_freq.byte_clk_rate) {
-			pr_info("dsi dummy clock set\n");
-
-			if (ctrl->ctrl->clk_freq.byte_clk_rate == (dyn_clk_caps->bit_clk_list[0]/8))
-				dummy_bit_clk = dyn_clk_caps->bit_clk_list[1];
-			else
-				dummy_bit_clk = dyn_clk_caps->bit_clk_list[0];
-
-			rc = dsi_clk_set_byte_clk_rate(display->dsi_clk_handle,
-				dummy_bit_clk/8,
-				dummy_bit_clk/8, i);
-			if (rc)
-				pr_err("failed to set dummy byte clock\n");
-
-			rc = dsi_clk_set_pixel_clk_rate(display->dsi_clk_handle,
-				dummy_bit_clk/6 , i);
-			if (rc)
-				pr_err("failed to set dummy pixel clock\n");
-		}
-#endif
 		rc = dsi_clk_set_byte_clk_rate(display->dsi_clk_handle,
 				ctrl->ctrl->clk_freq.byte_clk_rate,
 				ctrl->ctrl->clk_freq.byte_intf_clk_rate, i);
@@ -4437,9 +4229,6 @@ static int _dsi_display_dyn_update_clks(struct dsi_display *display,
 	/* wait for dynamic refresh done */
 	display_for_each_ctrl(i, display) {
 		ctrl = &display->ctrl[i];
-		#ifdef OPLUS_BUG_STABILITY
-		if (!vid_cmd_mode_change) {
-		#endif /* OPLUS_BUG_STABILITY */
 		rc = dsi_ctrl_wait4dynamic_refresh_done(ctrl->ctrl);
 		if (rc) {
 			DSI_ERR("wait4dynamic refresh failed for dsi:%d\n", i);
@@ -4447,15 +4236,7 @@ static int _dsi_display_dyn_update_clks(struct dsi_display *display,
 		} else {
 			DSI_INFO("dynamic refresh done on dsi: %s\n",
 				i ? "slave" : "master");
-#ifdef OPLUS_BUG_STABILITY
-/* liuzhizun, 2020/07/20, modify for dsi dump*/
-			display->prev_clk = ctrl->ctrl->clk_freq.byte_clk_rate;
-#endif
 		}
-		#ifdef OPLUS_BUG_STABILITY
-		}
-		vid_cmd_mode_change = 0;
-		#endif /* OPLUS_BUG_STABILITY */
 	}
 
 	display_for_each_ctrl(i, display) {
@@ -4517,22 +4298,11 @@ static int dsi_display_dynamic_clk_switch_vid(struct dsi_display *display,
 		BIT(DSI_FIFO_OVERFLOW);
 	dsi_display_mask_ctrl_error_interrupts(display, mask, true);
 
-#ifdef OPLUS_BUG_STABILITY
 	/* update the phy timings based on new mode */
-	if (!strcmp(display->panel->oplus_priv.vendor_name,"AMS644VA04")) {
-		pr_debug("samsung ramless oled enable lp11 phy timing is fixed!\n");
-	} else {
-		display_for_each_ctrl(i, display) {
-			ctrl = &display->ctrl[i];
-			dsi_phy_update_phy_timings(ctrl->phy, &display->config);
-		}
-	}
-#else
 	display_for_each_ctrl(i, display) {
 		ctrl = &display->ctrl[i];
 		dsi_phy_update_phy_timings(ctrl->phy, &display->config);
 	}
-#endif /*OPLUS_BUG_STABILITY*/
 
 	/* back up existing rates to handle failure case */
 	bkp_freq.byte_clk_rate = m_ctrl->ctrl->clk_freq.byte_clk_rate;
@@ -5287,18 +5057,6 @@ static int dsi_display_bind(struct device *dev,
 		}
 	}
 
-#ifdef OPLUS_BUG_STABILITY
-	if(0 != oplus_set_display_vendor(display)) {
-		pr_err("maybe send a null point to oplus display manager\n");
-	}
-
-	/* Add for SUA feature request */
-	if(is_silence_reboot()) {
-		lcd_closebl_flag = 1;
-		lcd_closebl_flag_fp = 1;
-	}
-#endif /*OPLUS_BUG_STABILITY*/
-
 	mutex_lock(&display->display_lock);
 
 	rc = dsi_display_validate_split_link(display);
@@ -5662,13 +5420,6 @@ int dsi_display_dev_probe(struct platform_device *pdev)
 	dsi_display_parse_cmdline_topology(display, index);
 
 	platform_set_drvdata(pdev, display);
-
-#ifdef OPLUS_BUG_STABILITY
-	if (!strcmp(display->display_type, "primary"))
-		primary_display = display;
-	else
-		secondary_display = display;
-#endif /* OPLUS_BUG_STABILITY */
 
 	/* initialize display in firmware callback */
 	if (!boot_disp->boot_disp_en && IS_ENABLED(CONFIG_DSI_PARSER)) {
@@ -6895,18 +6646,6 @@ int dsi_display_validate_mode_change(struct dsi_display *display,
 					cur_mode->timing.v_front_porch,
 					adj_mode->timing.v_front_porch);
 			}
-
-			#ifdef OPLUS_BUG_STABILITY
-			/* add for dfps */
-			DSI_INFO("dfps: cur_refresh_rate = %d, adj_refresh_rate =%d, \
-					cur_vfp = %d, adj_vfp =%d, cur_mode = %d, adj_mode = %d\n",
-					cur_mode->timing.refresh_rate,
-					adj_mode->timing.refresh_rate,
-					cur_mode->timing.v_front_porch,
-					adj_mode->timing.v_front_porch,
-					cur_mode,
-					adj_mode);
-			#endif /*OPLUS_BUG_STABILITY*/
 		}
 
 		/* dynamic clk change use case */
@@ -7036,10 +6775,6 @@ int dsi_display_set_mode(struct dsi_display *display,
 		DSI_ERR("[%s] failed to set mode\n", display->name);
 		goto error;
 	}
-
-	#ifdef OPLUS_FEATURE_TP_BASIC
-	lcd_tp_refresh_switch(timing.refresh_rate);
-	#endif /* OPLUS_FEATURE_TP_BASIC*/
 
 	DSI_INFO("mdp_transfer_time_us=%d us\n",
 			adj_mode.priv_info->mdp_transfer_time_us);
@@ -7239,7 +6974,7 @@ static void dsi_display_handle_fifo_overflow(struct work_struct *work)
 	 * Add sufficient delay to make sure
 	 * pixel transmission has started
 	 */
-	//udelay(200);
+	udelay(200);
 end:
 	dsi_display_clk_ctrl(display->dsi_clk_handle,
 			DSI_ALL_CLKS, DSI_CLK_OFF);
@@ -7863,9 +7598,6 @@ int dsi_display_enable(struct dsi_display *display)
 
 		display->panel->panel_initialized = true;
 		DSI_DEBUG("cont splash enabled, display enable not required\n");
-#ifdef OPLUS_BUG_STABILITY
-		set_oplus_display_power_status(OPLUS_DISPLAY_POWER_ON);
-#endif
 		return 0;
 	}
 
@@ -7943,11 +7675,6 @@ error:
 	return rc;
 }
 
-#ifdef OPLUS_BUG_STABILITY
-extern ktime_t oplus_onscreenfp_pressed_time;
-extern u32 oplus_onscreenfp_vblank_count;
-#endif
-
 int dsi_display_post_enable(struct dsi_display *display)
 {
 	int rc = 0;
@@ -7960,30 +7687,11 @@ int dsi_display_post_enable(struct dsi_display *display)
 	mutex_lock(&display->display_lock);
 
 	if (display->panel->cur_mode->dsi_mode_flags & DSI_MODE_FLAG_POMS) {
-		#ifdef OPLUS_BUG_STABILITY
-		vid_cmd_mode_change = 0;
-		#endif
-
 		if (display->config.panel_mode == DSI_OP_CMD_MODE)
 			dsi_panel_mode_switch_to_cmd(display->panel);
 
-#ifdef OPLUS_BUG_STABILITY
-		if (display->config.panel_mode == DSI_OP_VIDEO_MODE) {
-#ifdef OPLUS_BUG_STABILITY /* OPLUS_BUG_STABILITY */
-/* liuzhizun, 2020/08/03, modify for hbm delay */
-			dsi_panel_mode_switch_to_vid(display->panel);
-			if (display->panel->oplus_priv.is_aod_ramless &&
-			    display->drm_conn && display->drm_conn->state &&
-			    display->drm_conn->state->crtc) {
-				oplus_onscreenfp_vblank_count = drm_crtc_vblank_count(display->drm_conn->state->crtc);
-				oplus_onscreenfp_pressed_time = ktime_get();
-			}
-#endif /* OPLUS_BUG_STABILITY */
-		}
-#else
 		if (display->config.panel_mode == DSI_OP_VIDEO_MODE)
 			dsi_panel_mode_switch_to_vid(display->panel);
-#endif /* OPLUS_BUG_STABILITY */
 	} else {
 		rc = dsi_panel_post_enable(display->panel);
 		if (rc)
@@ -8004,37 +7712,13 @@ int dsi_display_pre_disable(struct dsi_display *display)
 {
 	int rc = 0;
 
-#ifdef OPLUS_BUG_STABILITY
-	/* wanglongfei@WT.MM.Display.TP 2022/01/12
-	* NT36523 suspend write reg. before flushing view stop > 50ms
-	*/
-	int blank;
-	struct msm_drm_notifier notifier_data;
-#endif
-
 	if (!display) {
 		DSI_ERR("Invalid params\n");
 		return -EINVAL;
 	}
 
-#ifdef OPLUS_BUG_STABILITY
-	/* wanglongfei@WT.MM.Display.TP 2022/01/12
-	* NT36523 suspend write reg. before flushing view stop > 50ms
-	*/
-	if(!strcmp(display->panel->name, "nt36523w 60hz video mode dsi inx panel")) {
-		blank = MSM_DRM_BLANK_POWERDOWN;
-		notifier_data.data = &blank;
-		notifier_data.id = 0;
-		msm_drm_notifier_call_chain(MSM_DRM_EARLY_EVENT_BLANK,
-							&notifier_data);
-	}
-#endif
-
 	mutex_lock(&display->display_lock);
 
-#ifdef OPLUS_BUG_STABILITY
-	display->panel->need_power_on_backlight = false;
-#endif /* OPLUS_BUG_STABILITY */
 	/* enable the clk vote for CMD mode panels */
 	if (display->config.panel_mode == DSI_OP_CMD_MODE)
 		dsi_display_clk_ctrl(display->dsi_clk_handle,
@@ -8088,10 +7772,6 @@ exit:
 int dsi_display_disable(struct dsi_display *display)
 {
 	int rc = 0;
-#ifdef OPLUS_BUG_STABILITY
-	int blank;
-	struct msm_drm_notifier notifier_data;
-#endif
 
 	if (!display) {
 		DSI_ERR("Invalid params\n");
@@ -8099,7 +7779,6 @@ int dsi_display_disable(struct dsi_display *display)
 	}
 
 	SDE_EVT32(SDE_EVTLOG_FUNC_ENTRY);
-
 	mutex_lock(&display->display_lock);
 
 	rc = dsi_display_wake_up(display);
@@ -8123,28 +7802,10 @@ int dsi_display_disable(struct dsi_display *display)
 	}
 
 	if (!display->poms_pending) {
-		#ifdef OPLUS_BUG_STABILITY
-		blank = MSM_DRM_BLANK_POWERDOWN;
-		notifier_data.data = &blank;
-		notifier_data.id = 0;
-		/* wanglongfei@WT.MM.Display.TP 2022/01/12
-		* NT36523 suspend write reg. before flushing view stop > 50ms
-		*/
-		if(strcmp(display->panel->name, "nt36523w 60hz video mode dsi inx panel"))
-			msm_drm_notifier_call_chain(MSM_DRM_EARLY_EVENT_BLANK,
-							&notifier_data);
-		#endif
-
 		rc = dsi_panel_disable(display->panel);
 		if (rc)
 			DSI_ERR("[%s] failed to disable DSI panel, rc=%d\n",
 				display->name, rc);
-
-		#ifdef OPLUS_BUG_STABILITY
-		set_oplus_display_scene(OPLUS_DISPLAY_NORMAL_SCENE);
-		msm_drm_notifier_call_chain(MSM_DRM_EVENT_BLANK,
-				&notifier_data);
-		#endif
 	}
 	mutex_unlock(&display->display_lock);
 	SDE_EVT32(SDE_EVTLOG_FUNC_EXIT);
@@ -8257,12 +7918,6 @@ int dsi_display_unprepare(struct dsi_display *display)
 	return rc;
 }
 
-#ifdef OPLUS_BUG_STABILITY
-struct dsi_display *get_main_display(void) {
-		return primary_display;
-}
-EXPORT_SYMBOL(get_main_display);
-#endif
 static int __init dsi_display_register(void)
 {
 	dsi_phy_drv_register();

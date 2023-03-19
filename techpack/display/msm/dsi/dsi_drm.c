@@ -176,7 +176,8 @@ static void dsi_bridge_pre_enable(struct drm_bridge *bridge)
 		return;
 	}
 
-	atomic_set(&c_bridge->display->panel->esd_recovery_pending, 0);
+	if (bridge->encoder->crtc->state->active_changed)
+		atomic_set(&c_bridge->display->panel->esd_recovery_pending, 0);
 
 	/* By this point mode should have been validated through mode_fixup */
 	rc = dsi_display_set_mode(c_bridge->display,
@@ -436,20 +437,6 @@ static bool dsi_bridge_mode_fixup(struct drm_bridge *bridge,
 				dsi_mode.panel_mode);
 		}
 	}
-#ifdef OPLUS_BUG_STABILITY
-	if (display->is_cont_splash_enabled)
-		dsi_mode.dsi_mode_flags &= ~DSI_MODE_FLAG_DMS;
-
-	if (display->panel && display->panel->oplus_priv.is_aod_ramless) {
-		if (crtc_state->active_changed && (dsi_mode.dsi_mode_flags & DSI_MODE_FLAG_DYN_CLK)) {
-			DSI_ERR("dyn clk changed when active_changed, WA to skip dyn clk change\n");
-			dsi_mode.dsi_mode_flags &= ~DSI_MODE_FLAG_DYN_CLK;
-		}
-
-		if (dsi_mode.dsi_mode_flags & DSI_MODE_FLAG_DMS)
-			dsi_mode.dsi_mode_flags |= DSI_MODE_FLAG_SEAMLESS;
-	}
-	#endif /* OPLUS_BUG_STABILITY */
 
 	/* Reject seamless transition when active changed */
 	if (crtc_state->active_changed &&

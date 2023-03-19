@@ -20,13 +20,6 @@
 #include "dsi_pwr.h"
 #include "dsi_parser.h"
 #include "msm_drv.h"
-#ifdef OPLUS_BUG_STABILITY
-#include "oplus_dsi_support.h"
-struct oplus_brightness_alpha {
-	u32 brightness;
-	u32 alpha;
-};
-#endif /*OPLUS_BUG_STABILITY*/
 
 #define MAX_BL_LEVEL 4096
 #define MAX_BL_SCALE_LEVEL 1024
@@ -125,13 +118,6 @@ struct dsi_backlight_config {
 	u32 bl_min_level;
 	u32 bl_max_level;
 	u32 brightness_max_level;
-#ifdef OPLUS_BUG_STABILITY
-	u32 bl_normal_max_level;
-	u32 brightness_normal_max_level;
-	u32 brightness_default_level;
-	u32 bl_hbm_min_level;
-#endif /* OPLUS_BUG_STABILITY */
-
 	u32 bl_level;
 	u32 bl_scale;
 	u32 bl_scale_sv;
@@ -170,7 +156,6 @@ enum esd_check_status_mode {
 	ESD_MODE_PANEL_TE,
 	ESD_MODE_SW_SIM_SUCCESS,
 	ESD_MODE_SW_SIM_FAILURE,
-	ESD_MODE_PANEL_GPIO,
 	ESD_MODE_MAX
 };
 
@@ -184,32 +169,8 @@ struct drm_panel_esd_config {
 	u32 *status_value;
 	u8 *return_buf;
 	u8 *status_buf;
-	int master_esd_gpio;
-	int slaves_esd_gpio;
 	u32 groups;
 };
-
-#ifdef OPLUS_BUG_STABILITY
-struct dsi_panel_oplus_privite {
-	const char *vendor_name;
-	const char *manufacture_name;
-	bool skip_mipi_last_cmd;
-	bool is_aod_ramless;
-	bool is_pxlw_iris5;
-	bool is_spr_support;
-	bool is_osc_support;
-	u32 osc_clk_mode0_rate;
-	u32 osc_clk_mode1_rate;
-	struct oplus_brightness_alpha *bl_remap;
-	int bl_remap_count;
-	bool dfps_idle_off;
-	bool brightness_alpha_rum;
-	bool bl_interpolate_nosub;
-	bool is_samsung_panel;
-	bool is_apollo_support;
-	u32 sync_brightness_level;
-};
-#endif /* OPLUS_BUG_STABILITY */
 
 struct dsi_panel {
 	const char *name;
@@ -260,38 +221,6 @@ struct dsi_panel {
 	enum dsi_dms_mode dms_mode;
 
 	bool sync_broadcast_en;
-#ifdef OPLUS_BUG_STABILITY
-	bool is_hbm_enabled;
-	/* Fix aod flash problem */
-	bool need_power_on_backlight;
-	bool incell_screen;
-	bool power_ktz8866_enable;
-	int avdd_check_gpio;
-	int avdd_out_gpio;
-	int avdd_out_plus_num;
-	int post_on_delay;
-	int panel_vddi_gpio;
-	int panel_vddr_gpio;
-	int panel_vci_gpio;
-	int panel_P5V_gpio;
-	int panel_N5V_gpio;
-	struct clk *iris_clk;
-	int iris_rst_gpio;
-	int abyp_gpio;
-	int abyp_status_gpio;
-	int iris_osd_gpio;
-	bool iris_osd_autorefresh;
-	int iris_vdd_gpio;
-	struct oplus_brightness_alpha *ba_seq;
-	int ba_count;
-	struct oplus_brightness_alpha *dc_ba_seq;
-	int dc_ba_count;
-	bool is_dc_support;
-	int dc_last_level;
-
-	struct dsi_panel_oplus_privite oplus_priv;
-	atomic_t esd_pending;
-#endif
 
 	int panel_test_gpio;
 	int power_mode;
@@ -415,8 +344,5 @@ void dsi_panel_ext_bridge_put(struct dsi_panel *panel);
 
 void dsi_panel_calc_dsi_transfer_time(struct dsi_host_common_cfg *config,
 		struct dsi_display_mode *mode, u32 frame_threshold_us);
-#ifdef OPLUS_BUG_STABILITY
-int dsi_panel_tx_cmd_set(struct dsi_panel *panel,
-			   enum dsi_cmd_set_type type);
-#endif
+
 #endif /* _DSI_PANEL_H_ */

@@ -281,19 +281,6 @@ enum dsi_dyn_clk_feature_type {
  * @DSI_CMD_SET_POST_TIMING_SWITCH:        Post timing switch
  * @DSI_CMD_SET_QSYNC_ON                   Enable qsync mode
  * @DSI_CMD_SET_QSYNC_OFF                  Disable qsync mode
- #ifdef OPLUS_BUG_STABILITY
- * @DSI_CMD_POST_ON_BACKLIGHT:             Panel on cmd send for AOD and Fingerprint
- * @DSI_CMD_AOD_ON:                        Panel AOD on cmd
- * @DSI_CMD_AOD_OFF:                       Panel AOD off cmd
- * @DSI_CMD_HBM_ON:                        Panel Fingerprint high brightness 670nit on cmd
- * @DSI_CMD_HBM_OFF:                       Panel Fingerprint high brightness off cmd
- * @DSI_CMD_AOD_HBM_ON:                    Panel AOD and Fingerprint high brightness  670nit on cmd
- * @DSI_CMD_AOD_HBM_OFF:                   Panel AOD and Fingerprint high brightness off cmd
- * @DSI_CMD_SEED_DCI_P3:                   Panel seed level 3 cmd
- * @DSI_CMD_SEED_SRGB:                     Panel seed SRGB mode cmd
- * @DSI_CMD_SEED_OFF:                      Panel seed off cmd
- * @DSI_CMD_NORMAL_HBM_ON:                 Panel normal HBM 600nit on cmd
-#endif
  * @DSI_CMD_SET_MAX
  */
 enum dsi_cmd_set_type {
@@ -320,44 +307,6 @@ enum dsi_cmd_set_type {
 	DSI_CMD_SET_POST_TIMING_SWITCH,
 	DSI_CMD_SET_QSYNC_ON,
 	DSI_CMD_SET_QSYNC_OFF,
-#ifdef OPLUS_BUG_STABILITY
-	DSI_CMD_POST_ON_BACKLIGHT,
-	DSI_CMD_AOD_ON,
-	DSI_CMD_AOD_OFF,
-	DSI_CMD_HBM_ON,
-	DSI_CMD_HBM_OFF,
-	DSI_CMD_AOD_HBM_ON,
-	DSI_CMD_AOD_HBM_OFF,
-	DSI_CMD_SEED_MODE0,
-	DSI_CMD_SEED_MODE1,
-	DSI_CMD_SEED_MODE2,
-	DSI_CMD_SEED_MODE3,
-	DSI_CMD_SEED_MODE4,
-	DSI_CMD_SEED_OFF,
-	DSI_CMD_NORMAL_HBM_ON,
-	DSI_CMD_AOD_HIGH_LIGHT_MODE,
-	DSI_CMD_AOD_LOW_LIGHT_MODE,
-	DSI_CMD_SPR_MODE0,
-	DSI_CMD_SPR_MODE1,
-	DSI_CMD_SPR_MODE2,
-	DSI_CMD_DATA_DIMMING_ON,
-	DSI_CMD_DATA_DIMMING_OFF,
-	DSI_CMD_OSC_CLK_MODEO0,
-	DSI_CMD_OSC_CLK_MODEO1,
-	DSI_CMD_FAILSAFE_ON,
-	DSI_CMD_FAILSAFE_OFF,
-	DSI_CMD_SEED_ENTER,
-	DSI_CMD_SEED_EXIT,
-/*Sunshiyue, 2020/05/28, add for CABC enter and exit sequence*/
-	DSI_CMD_CABC_OFF,
-	DSI_CMD_CABC_UI,
-	DSI_CMD_CABC_IMAGE,
-	DSI_CMD_CABC_VIDEO,
-	DSI_CMD_SWITCH_PAGE0,
-	DSI_CMD_BACKLIGHT_GAMMA_ENTER,
-	DSI_CMD_BACKLIGHT_GAMMA_EXIT,
-
-#endif
 	DSI_CMD_SET_MAX
 };
 
@@ -677,10 +626,6 @@ struct dsi_display_mode_priv_info {
 	struct msm_display_dsc_info dsc;
 	bool dsc_enabled;
 	struct msm_roi_caps roi_caps;
-#ifdef OPLUS_BUG_STABILITY
-	int fod_on_vblank;
-	int fod_off_vblank;
-#endif /* OPLUS_BUG_STABILITY */
 };
 
 /**
