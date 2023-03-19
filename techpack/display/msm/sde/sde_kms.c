@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
  * Copyright (c) 2014-2021, The Linux Foundation. All rights reserved.
  * Copyright (C) 2013 Red Hat
  * Author: Rob Clark <robdclark@gmail.com>
@@ -56,11 +57,6 @@
 
 #define CREATE_TRACE_POINTS
 #include "sde_trace.h"
-
-#ifdef OPLUS_BUG_STABILITY
-#include "oplus_display_private_api.h"
-#include "oplus_onscreenfingerprint.h"
-#endif
 
 /* defines for secure channel call */
 #define MEM_PROTECT_SD_CTRL_SWITCH 0x18
@@ -988,9 +984,6 @@ static void sde_kms_prepare_commit(struct msm_kms *kms,
 	SDE_ATRACE_BEGIN("prepare_commit");
 	rc = pm_runtime_get_sync(sde_kms->dev->dev);
 	if (rc < 0) {
-#ifdef OPLUS_BUG_STABILITY
-		SDE_MM_ERROR("DisplayDriverID@@407$$failed to enable power resources %d\n", rc);
-#endif /* OPLUS_BUG_STABILITY */
 		SDE_ERROR("failed to enable power resources %d\n", rc);
 		SDE_EVT32(rc, SDE_EVTLOG_ERROR);
 		goto end;
@@ -1107,9 +1100,10 @@ static void _sde_kms_release_splash_resource(struct sde_kms *sde_kms,
 	/* remove the votes if all displays are done with splash */
 	if (!sde_kms->splash_data.num_splash_displays) {
 		for (i = 0; i < SDE_POWER_HANDLE_DBUS_ID_MAX; i++)
-			sde_power_data_bus_set_quota(&priv->phandle, i,
-				SDE_POWER_HANDLE_ENABLE_BUS_AB_QUOTA,
-				SDE_POWER_HANDLE_ENABLE_BUS_IB_QUOTA);
+			if (sde_kms->perf.sde_rsc_available)
+				sde_power_data_bus_set_quota(&priv->phandle, i,
+					SDE_POWER_HANDLE_ENABLE_BUS_AB_QUOTA,
+					SDE_POWER_HANDLE_ENABLE_BUS_IB_QUOTA);
 
 		pm_runtime_put_sync(sde_kms->dev->dev);
 	}
@@ -1430,11 +1424,7 @@ static int _sde_kms_setup_displays(struct drm_device *dev,
 		.soft_reset   = dsi_display_soft_reset,
 		.pre_kickoff  = dsi_conn_pre_kickoff,
 		.clk_ctrl = dsi_display_clk_ctrl,
-#ifdef OPLUS_BUG_STABILITY
-		.set_power = dsi_display_oplus_set_power,
-#else
 		.set_power = dsi_display_set_power,
-#endif
 		.get_mode_info = dsi_conn_get_mode_info,
 		.get_dst_format = dsi_display_get_dst_format,
 		.post_kickoff = dsi_conn_post_kickoff,

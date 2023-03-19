@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
  * Copyright (c) 2016-2021, The Linux Foundation. All rights reserved.
  */
 
@@ -18,10 +19,6 @@
 #include "sde_core_irq.h"
 #include "dsi_panel.h"
 #include "sde_hw_color_proc_common_v4.h"
-#ifdef OPLUS_BUG_STABILITY
-#include "oplus_display_private_api.h"
-#include "oplus_onscreenfingerprint.h"
-#endif
 
 struct sde_cp_node {
 	u32 property_id;
@@ -210,14 +207,6 @@ static struct sde_kms *get_kms(struct drm_crtc *crtc)
 
 	return to_sde_kms(priv->kms);
 }
-
-#ifdef OPLUS_BUG_STABILITY
-struct sde_kms *get_kms_(struct drm_crtc *crtc)
-{
-	return get_kms(crtc);
-}
-EXPORT_SYMBOL(get_kms_);
-#endif
 
 static void update_pu_feature_enable(struct sde_crtc *sde_crtc,
 		u32 feature, bool enable)
@@ -1371,15 +1360,6 @@ static void _sde_cp_crtc_enable_hist_irq(struct sde_crtc *sde_crtc)
 	spin_unlock_irqrestore(&node->state_lock, flags);
 }
 
-
-#ifdef OPLUS_BUG_STABILITY
-extern bool sde_crtc_get_fingerprint_mode(struct drm_crtc_state *crtc_state);
-extern bool is_dsi_panel(struct drm_crtc *crtc);
-extern struct drm_msm_pcc oplus_save_pcc;
-extern bool oplus_pcc_enabled;
-extern bool oplus_skip_pcc;
-#endif
-
 static int sde_cp_crtc_checkfeature(struct sde_cp_node *prop_node,
 	struct sde_crtc *sde_crtc, struct sde_crtc_state *sde_crtc_state)
 {
@@ -1457,26 +1437,6 @@ static void sde_cp_crtc_setfeature(struct sde_cp_node *prop_node,
 
 	memset(&hw_cfg, 0, sizeof(hw_cfg));
 	sde_cp_get_hw_payload(prop_node, &hw_cfg, &feature_enabled);
-
-#ifdef OPLUS_BUG_STABILITY
-	if (prop_node->feature == SDE_CP_CRTC_DSPP_PCC && is_dsi_panel(&sde_crtc->base)) {
-		if (hw_cfg.payload && (hw_cfg.len == sizeof(oplus_save_pcc))) {
-			memcpy(&oplus_save_pcc, hw_cfg.payload, hw_cfg.len);
-			oplus_pcc_enabled = true;
-
-			if (is_skip_pcc(&sde_crtc->base)) {
-				hw_cfg.payload = NULL;
-				hw_cfg.len = 0;
-				oplus_skip_pcc = true;
-			} else {
-				oplus_skip_pcc = false;
-			}
-		} else {
-			oplus_pcc_enabled = false;
-		}
-	}
-#endif
-
 	hw_cfg.num_of_mixers = sde_crtc->num_mixers;
 	hw_cfg.last_feature = 0;
 
@@ -1792,9 +1752,6 @@ void sde_cp_crtc_apply_properties(struct drm_crtc *crtc)
 	struct sde_cp_node *prop_node = NULL, *n = NULL;
 	struct sde_hw_ctl *ctl;
 	u32 num_mixers = 0, i = 0;
-	#ifdef OPLUS_BUG_STABILITY
-	bool dirty_pcc = false;
-	#endif /* OPLUS_BUG_STABILITY */
 	int rc = 0;
 	bool need_flush = false;
 
@@ -1818,36 +1775,12 @@ void sde_cp_crtc_apply_properties(struct drm_crtc *crtc)
 
 	mutex_lock(&sde_crtc->crtc_cp_lock);
 
-	#ifdef OPLUS_BUG_STABILITY
-	dirty_pcc = sde_cp_crtc_update_pcc(crtc);
-	if (dirty_pcc) {
-		set_dspp_flush = true;
-	}
-	#endif /* OPLUS_BUG_STABILITY */
-
-	/* Check if dirty lists are empty and ad features are disabled for
-	 * early return. If ad properties are active then we need to issue
-	 * dspp flush.
-	 **/
-	#ifdef OPLUS_BUG_STABILITY
-	if (!dirty_pcc && list_empty(&sde_crtc->dirty_list) &&
-		list_empty(&sde_crtc->ad_dirty)) {
-	#else
 	if (list_empty(&sde_crtc->dirty_list) &&
-		list_empty(&sde_crtc->ad_dirty)) {
-	#endif
-		if (list_empty(&sde_crtc->ad_active)) {
-			DRM_DEBUG_DRIVER("Dirty list is empty\n");
-			goto exit;
-		}
-		set_dspp_flush = true;
-		if (list_empty(&sde_crtc->dirty_list) &&
-				list_empty(&sde_crtc->ad_dirty) &&
-				list_empty(&sde_crtc->ad_active) &&
-				list_empty(&sde_crtc->active_list)) {
-			DRM_DEBUG_DRIVER("all lists are empty\n");
-			goto exit;
-        	}
+			list_empty(&sde_crtc->ad_dirty) &&
+			list_empty(&sde_crtc->ad_active) &&
+			list_empty(&sde_crtc->active_list)) {
+		DRM_DEBUG_DRIVER("all lists are empty\n");
+		goto exit;
 	}
 
 	rc = sde_cp_crtc_set_pu_features(crtc, &need_flush);
@@ -4036,7 +3969,7 @@ void sde_cp_crtc_enable(struct drm_crtc *drm_crtc)
 	if (!num_mixers)
 		return;
 	mutex_lock(&crtc->crtc_cp_lock);
-	info = kzalloc(sizeof(struct sde_kms_info), GFP_KERNEL);
+	info = vzalloc(sizeof(struct sde_kms_info));
 	if (info) {
 		for (i = 0; i < ARRAY_SIZE(dspp_cap_update_func); i++)
 			dspp_cap_update_func[i](crtc, info);
@@ -4045,7 +3978,7 @@ void sde_cp_crtc_enable(struct drm_crtc *drm_crtc)
 			info->data, SDE_KMS_INFO_DATALEN(info),
 			CRTC_PROP_DSPP_INFO);
 	}
-	kfree(info);
+	vfree(info);
 	mutex_unlock(&crtc->crtc_cp_lock);
 }
 
@@ -4060,12 +3993,12 @@ void sde_cp_crtc_disable(struct drm_crtc *drm_crtc)
 	}
 	crtc = to_sde_crtc(drm_crtc);
 	mutex_lock(&crtc->crtc_cp_lock);
-	info = kzalloc(sizeof(struct sde_kms_info), GFP_KERNEL);
+	info = vzalloc(sizeof(struct sde_kms_info));
 	if (info)
 		msm_property_set_blob(&crtc->property_info,
 				&crtc->dspp_blob_info,
 			info->data, SDE_KMS_INFO_DATALEN(info),
 			CRTC_PROP_DSPP_INFO);
 	mutex_unlock(&crtc->crtc_cp_lock);
-	kfree(info);
+	vfree(info);
 }

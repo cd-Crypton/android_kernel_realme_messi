@@ -1,6 +1,7 @@
-	// SPDX-License-Identifier: GPL-2.0-only
+// SPDX-License-Identifier: GPL-2.0-only
 /*
  * Copyright (c) 2016-2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
@@ -20,11 +21,6 @@
 #define BL_NODE_NAME_SIZE 32
 #define HDR10_PLUS_VSIF_TYPE_CODE      0x81
 
-#ifdef OPLUS_BUG_STABILITY
-#include "sde_trace.h"
-extern int sde_backlight_device_update_apollo_status(int brightness, struct dsi_display *display,
-			struct sde_connector *c_conn,int bl_lvl, struct drm_event event);
-#endif
 /* Autorefresh will occur after FRAME_CNT frames. Large values are unlikely */
 #define AUTOREFRESH_MAX_FRAME_CNT 6
 
@@ -71,20 +67,6 @@ static const struct drm_prop_enum_list e_frame_trigger_mode[] = {
 	{FRAME_DONE_WAIT_POSTED_START, "posted_start"},
 };
 
-#ifdef OPLUS_BUG_STABILITY
-extern int oplus_debug_max_brightness;
-static int interpolate(int x, int xa, int xb, int ya, int yb)
-{
-	int bf, factor, plus;
-
-	bf = 2 * (yb - ya) * (x - xa) / (xb - xa);
-	factor = bf / 2;
-	plus = bf % 2;
-
-	return ya + factor + plus;
-}
-#endif
-
 static int sde_backlight_device_update_status(struct backlight_device *bd)
 {
 	int brightness;
@@ -93,10 +75,6 @@ static int sde_backlight_device_update_status(struct backlight_device *bd)
 	int bl_lvl;
 	struct drm_event event;
 	int rc = 0;
-
-#ifdef OPLUS_BUG_STABILITY
-	SDE_ATRACE_BEGIN("sde_backlight_device_update_status");
-#endif
 
 	brightness = bd->props.brightness;
 
@@ -110,47 +88,9 @@ static int sde_backlight_device_update_status(struct backlight_device *bd)
 	if (brightness > display->panel->bl_config.bl_max_level)
 		brightness = display->panel->bl_config.bl_max_level;
 
-#ifndef OPLUS_BUG_STABILITY
 	/* map UI brightness into driver backlight level with rounding */
 	bl_lvl = mult_frac(brightness, display->panel->bl_config.bl_max_level,
 			display->panel->bl_config.brightness_max_level);
-#else
-	if (oplus_debug_max_brightness) {
-		bl_lvl = mult_frac(brightness, oplus_debug_max_brightness,
-			display->panel->bl_config.brightness_max_level);
-	} else if (brightness == 0) {
-		bl_lvl = 0;
-	} else {
-		if (display->panel->oplus_priv.bl_remap && display->panel->oplus_priv.bl_remap_count) {
-			int i = 0;
-			int count = display->panel->oplus_priv.bl_remap_count;
-			struct oplus_brightness_alpha *lut = display->panel->oplus_priv.bl_remap;
-
-			for (i = 0; i < display->panel->oplus_priv.bl_remap_count; i++){
-				if (display->panel->oplus_priv.bl_remap[i].brightness >= brightness)
-					break;
-			}
-
-			if (i == 0)
-				bl_lvl = lut[0].alpha;
-			else if (i == count)
-				bl_lvl = lut[count - 1].alpha;
-			else
-				bl_lvl = interpolate(brightness, lut[i-1].brightness,
-						lut[i].brightness, lut[i-1].alpha,
-						lut[i].alpha);
-		} else if (brightness > display->panel->bl_config.brightness_normal_max_level) {
-			bl_lvl = interpolate(brightness,
-					display->panel->bl_config.brightness_normal_max_level,
-					display->panel->bl_config.brightness_max_level,
-					display->panel->bl_config.bl_normal_max_level,
-					display->panel->bl_config.bl_max_level);
-		} else {
-			bl_lvl = mult_frac(brightness, display->panel->bl_config.bl_normal_max_level,
-					display->panel->bl_config.brightness_normal_max_level);
-		}
-	}
-#endif
 
 	if (!bl_lvl && brightness)
 		bl_lvl = 1;
@@ -160,7 +100,6 @@ static int sde_backlight_device_update_status(struct backlight_device *bd)
 		return 0;
 	}
 
-#ifndef OPLUS_BUG_STABILITY
 	if (c_conn->ops.set_backlight) {
 		/* skip notifying user space if bl is 0 */
 		if (brightness != 0) {
@@ -173,12 +112,7 @@ static int sde_backlight_device_update_status(struct backlight_device *bd)
 				c_conn->display, bl_lvl);
 		c_conn->unset_bl_level = 0;
 	}
-#else
-	sde_backlight_device_update_apollo_status(brightness, display, c_conn, bl_lvl, event);
-#endif
-#ifdef OPLUS_BUG_STABILITY
-	SDE_ATRACE_END("sde_backlight_device_update_status");
-#endif
+
 	return rc;
 }
 
@@ -215,11 +149,7 @@ static int sde_backlight_setup(struct sde_connector *c_conn,
 	display = (struct dsi_display *) c_conn->display;
 	bl_config = &display->panel->bl_config;
 	props.max_brightness = bl_config->brightness_max_level;
-#ifndef OPLUS_BUG_STABILITY
 	props.brightness = bl_config->brightness_max_level;
-#else
-	props.brightness = bl_config->brightness_default_level;
-#endif
 	snprintf(bl_node_name, BL_NODE_NAME_SIZE, "panel%u-backlight",
 							display_count);
 	c_conn->bl_device = backlight_device_register(bl_node_name, dev->dev,
@@ -643,9 +573,6 @@ static int _sde_connector_update_bl_scale(struct sde_connector *c_conn)
 	struct dsi_backlight_config *bl_config;
 	int rc = 0;
 
-#ifdef OPLUS_BUG_STABILITY
-	struct backlight_device *bd;
-#endif /* OPLUS_BUG_STABILITY */
 	if (!c_conn) {
 		SDE_ERROR("Invalid params sde_connector null\n");
 		return -EINVAL;
@@ -659,22 +586,10 @@ static int _sde_connector_update_bl_scale(struct sde_connector *c_conn)
 		return -EINVAL;
 	}
 
-#ifdef OPLUS_BUG_STABILITY
-	bd = c_conn->bl_device;
-	if (!bd) {
-		SDE_ERROR("Invalid params backlight_device null\n");
-		return -EINVAL;
-	}
-
-	mutex_lock(&bd->update_lock);
-#endif /* OPLUS_BUG_STABILITY */
 	bl_config = &dsi_display->panel->bl_config;
 
 	if (!c_conn->allow_bl_update) {
 		c_conn->unset_bl_level = bl_config->bl_level;
-#ifdef OPLUS_BUG_STABILITY
-		mutex_unlock(&bd->update_lock);
-#endif /* OPLUS_BUG_STABILITY */
 		return 0;
 	}
 
@@ -693,19 +608,8 @@ static int _sde_connector_update_bl_scale(struct sde_connector *c_conn)
 			dsi_display, bl_config->bl_level);
 	c_conn->unset_bl_level = 0;
 
-#ifdef OPLUS_BUG_STABILITY
-	mutex_unlock(&bd->update_lock);
-#endif /* OPLUS_BUG_STABILITY */
-
 	return rc;
 }
-
-#ifdef OPLUS_BUG_STABILITY
-int oplus_dc_sde_connector_update_bl_scale(struct sde_connector *c_conn)
-{
-	return _sde_connector_update_bl_scale(c_conn);
-}
-#endif
 
 void sde_connector_set_colorspace(struct sde_connector *c_conn)
 {
@@ -885,10 +789,6 @@ int sde_connector_pre_kickoff(struct drm_connector *connector)
 	if (c_conn->connector_type == DRM_MODE_CONNECTOR_DSI) {
 		display = (struct dsi_display *)c_conn->display;
 		display->queue_cmd_waits = true;
-		#ifdef OPLUS_BUG_STABILITY
-		if (display->config.panel_mode == DSI_OP_VIDEO_MODE)
-			display->queue_cmd_waits = false;
-		#endif /* OPLUS_BUG_STABILITY */
 	}
 
 	rc = _sde_connector_update_dirty_properties(connector);
@@ -2318,7 +2218,7 @@ static void sde_connector_check_status_work(struct work_struct *work)
 	struct sde_connector *conn;
 	int rc = 0;
 	struct device *dev;
-	struct dsi_display *display = get_main_display();
+
 	conn = container_of(to_delayed_work(work),
 			struct sde_connector, status_work);
 	if (!conn) {
@@ -2348,9 +2248,6 @@ static void sde_connector_check_status_work(struct work_struct *work)
 		/* If debugfs property is not set then take default value */
 		interval = conn->esd_status_interval ?
 			conn->esd_status_interval : STATUS_CHECK_INTERVAL_MS;
-		if (!strcmp(display->panel->name, "nt36523w 60hz video mode dsi inx panel")) {
-			interval = 1000;
-		}
 		schedule_delayed_work(&conn->status_work,
 			msecs_to_jiffies(interval));
 		return;
@@ -2471,7 +2368,7 @@ int sde_connector_set_blob_data(struct drm_connector *conn,
 		return -EINVAL;
 	}
 
-	info = kzalloc(sizeof(*info), GFP_KERNEL);
+	info = vzalloc(sizeof(*info));
 	if (!info)
 		return -ENOMEM;
 
@@ -2529,7 +2426,7 @@ int sde_connector_set_blob_data(struct drm_connector *conn,
 			SDE_KMS_INFO_DATALEN(info),
 			prop_id);
 exit:
-	kfree(info);
+	vfree(info);
 
 	return rc;
 }
@@ -2630,10 +2527,6 @@ static int _sde_connector_install_properties(struct drm_device *dev,
 				ARRAY_SIZE(e_frame_trigger_mode),
 				CONNECTOR_PROP_CMD_FRAME_TRIGGER_MODE);
 	}
-#ifdef OPLUS_BUG_STABILITY
-	msm_property_install_range(&c_conn->property_info,"CONNECTOR_CUST",
-		0x0, 0, INT_MAX, 0, CONNECTOR_PROP_CUSTOM);
-#endif
 
 	msm_property_install_range(&c_conn->property_info, "bl_scale",
 		0x0, 0, MAX_BL_SCALE_LEVEL, MAX_BL_SCALE_LEVEL,
