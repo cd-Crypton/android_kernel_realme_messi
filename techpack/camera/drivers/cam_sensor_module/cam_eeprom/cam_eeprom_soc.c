@@ -314,10 +314,6 @@ int cam_eeprom_parse_dt(struct cam_eeprom_ctrl_t *e_ctrl)
 	if (rc < 0) {
 		CAM_DBG(CAM_EEPROM, "kernel probe is not enabled");
 		e_ctrl->userspace_probe = true;
-		#ifdef OPLUS_FEATURE_CAMERA_COMMON
-		of_property_read_string(of_node, "qcom,eeprom-name",
-			&soc_private->eeprom_name);
-		#endif
 	}
 
 	if (e_ctrl->io_master_info.master_type == CCI_MASTER) {

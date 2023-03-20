@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
  * Copyright (c) 2017-2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 #include <linux/module.h>
@@ -102,7 +103,6 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 			}
 		}
 
-		#ifndef OPLUS_FEATURE_CAMERA_COMMON
 		if (emap[j].mem.valid_size) {
 			rc = camera_io_dev_read_seq(&e_ctrl->io_master_info,
 				emap[j].mem.addr, memptr,
@@ -116,40 +116,6 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 			}
 			memptr += emap[j].mem.valid_size;
 		}
-		#else
-		if ((eb_info->eeprom_name != NULL) && (strcmp(eb_info->eeprom_name, "hi556") == 0 || strcmp(eb_info->eeprom_name, "hi846") == 0)) {
-			if (emap[j].mem.valid_size) {
-				int i = 0;
-				for (i = 0; i < emap[j].mem.valid_size; i++) {
-					rc = camera_io_dev_read_seq(&e_ctrl->io_master_info,
-						emap[j].mem.addr, memptr,
-						emap[j].mem.addr_type,
-						emap[j].mem.data_type,
-						1);
-					if (rc < 0) {
-						CAM_ERR(CAM_EEPROM, "read failed rc %d",
-							rc);
-						return rc;
-					}
-					memptr += 1;
-				}
-			}
-		} else {
-			if (emap[j].mem.valid_size) {
-				rc = camera_io_dev_read_seq(&e_ctrl->io_master_info,
-					emap[j].mem.addr, memptr,
-					emap[j].mem.addr_type,
-					emap[j].mem.data_type,
-					emap[j].mem.valid_size);
-				if (rc < 0) {
-					CAM_ERR(CAM_EEPROM, "read failed rc %d",
-						rc);
-					return rc;
-				}
-				memptr += emap[j].mem.valid_size;
-			}
-		}
-		#endif
 
 		if (emap[j].pageen.valid_size) {
 			i2c_reg_settings.addr_type = emap[j].pageen.addr_type;
@@ -390,6 +356,10 @@ static int32_t cam_eeprom_get_dev_handle(struct cam_eeprom_ctrl_t *e_ctrl,
 
 	eeprom_acq_dev.device_handle =
 		cam_create_device_hdl(&bridge_params);
+	if (eeprom_acq_dev.device_handle <= 0) {
+		CAM_ERR(CAM_EEPROM, "Can not create device handle");
+		return -EFAULT;
+	}
 	e_ctrl->bridge_intf.device_hdl = eeprom_acq_dev.device_handle;
 	e_ctrl->bridge_intf.session_hdl = eeprom_acq_dev.session_handle;
 
@@ -1023,7 +993,16 @@ static int32_t cam_eeprom_init_pkt_parser(struct cam_eeprom_ctrl_t *e_ctrl,
 					rc = -EINVAL;
 					goto end;
 				}
+
+				if ((num_map + 1) >=
+					(MSM_EEPROM_MAX_MEM_MAP_CNT *
+					MSM_EEPROM_MEMORY_MAP_MAX_SIZE)) {
+					CAM_ERR(CAM_EEPROM, "OOB error");
+					rc = -EINVAL;
+					goto end;
+				}
 				/* Configure the following map slave address */
+
 				map[num_map + 1].saddr = i2c_info->slave_addr;
 				rc = cam_eeprom_update_slaveInfo(e_ctrl,
 					cmd_buf);

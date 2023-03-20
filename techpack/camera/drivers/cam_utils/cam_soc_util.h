@@ -457,21 +457,6 @@ int cam_soc_util_clk_put(struct clk **clk);
  *
  * @return:             Success or failure
  */
-#ifdef CONFIG_CAMERA_FLASH_PWM
-int cam_soc_util_set_clk_duty_cycle(struct clk *clk, const char *clk_name,
-    unsigned int num, unsigned int den);
-#endif
-/**
- * cam_soc_util_clk_enable()
- *
- * @brief:              Enable clock specified in params
- *
- * @clk:                Clock that needs to be turned ON
- * @clk_name:           Clocks name associated with clk
- * @clk_rate:           Clocks rate associated with clk
- *
- * @return:             Success or failure
- */
 int cam_soc_util_clk_enable(struct clk *clk, const char *clk_name,
 	int32_t clk_rate);
 

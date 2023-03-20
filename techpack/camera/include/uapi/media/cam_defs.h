@@ -60,15 +60,6 @@
 #define CAM_MAX_ACQ_RES    5
 #define CAM_MAX_HW_SPLIT   3
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
-#endif
-
-#ifdef OPLUS_FEATURE_CAMERA_COMMON  //add dpc read for imx471
-#define CAM_GET_DPC_DATA                        (CAM_COMMON_OPCODE_BASE_v2 + 0x4)
-#define CAM_OEM_GET_ID                          (CAM_COMMON_OPCODE_BASE_v2 + 0x5)
-#endif
-
 
 /**
  * enum flush_type_t - Identifies the various flush types
@@ -104,9 +95,7 @@ struct cam_control {
 /* camera IOCTL */
 #define VIDIOC_CAM_CONTROL \
 	_IOWR('V', BASE_VIDIOC_PRIVATE, struct cam_control)
-/*add for AT test*/
-#define VIDIOC_CAM_FTM_POWNER_UP 0
-#define VIDIOC_CAM_FTM_POWNER_DOWN 1
+
 /**
  * struct cam_hw_version - Structure for HW version of camera devices
  *

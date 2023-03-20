@@ -8,22 +8,12 @@
 #include "cam_sensor_soc.h"
 #include "cam_sensor_core.h"
 
-/* hongbo.dai@camera 20181122 add for at camera test */
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-#include "oplus_cam_sensor_dev.h"
-#include "oplus_cam_sensor_core.h"
-extern bool is_ftm_current_test;
-#endif
-
 static long cam_sensor_subdev_ioctl(struct v4l2_subdev *sd,
 	unsigned int cmd, void *arg)
 {
 	int rc = 0;
 	struct cam_sensor_ctrl_t *s_ctrl =
 		v4l2_get_subdevdata(sd);
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-    return oplus_cam_sensor_subdev_ioctl(sd,cmd,arg);
-#endif
 
 	switch (cmd) {
 	case VIDIOC_CAM_CONTROL:
@@ -49,10 +39,6 @@ static int cam_sensor_subdev_close(struct v4l2_subdev *sd,
 	}
 
 	mutex_lock(&(s_ctrl->cam_sensor_mutex));
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	//add by hongbo.dai@camea 20181213,ftm test will do it by powerdown
-	if(!is_ftm_current_test)
-	#endif
 	cam_sensor_shutdown(s_ctrl);
 	mutex_unlock(&(s_ctrl->cam_sensor_mutex));
 
@@ -334,13 +320,6 @@ static int32_t cam_sensor_driver_platform_probe(
 	for (i = 0; i < MAX_PER_FRAME_ARRAY; i++)
 		INIT_LIST_HEAD(&(s_ctrl->i2c_data.per_frame[i].list_head));
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-    mutex_init(&(s_ctrl->sensor_power_state_mutex));
-    mutex_init(&(s_ctrl->sensor_initsetting_mutex));
-    s_ctrl->sensor_power_state = CAM_SENSOR_POWER_OFF;
-    s_ctrl->sensor_initsetting_state = CAM_SENSOR_SETTING_WRITE_INVALID;
-#endif
-
 	s_ctrl->bridge_intf.device_hdl = -1;
 	s_ctrl->bridge_intf.link_hdl = -1;
 	s_ctrl->bridge_intf.ops.get_dev_info = cam_sensor_publish_dev_info;
@@ -401,10 +380,6 @@ static int __init cam_sensor_driver_init(void)
 	rc = i2c_add_driver(&cam_sensor_driver_i2c);
 	if (rc)
 		CAM_ERR(CAM_SENSOR, "i2c_add_driver failed rc = %d", rc);
-
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	oplus_init_cam_ldo_mutex();
-#endif
 
 	return rc;
 }

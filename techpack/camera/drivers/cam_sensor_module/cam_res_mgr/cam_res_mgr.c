@@ -14,12 +14,7 @@
 #include "cam_res_mgr_api.h"
 #include "cam_res_mgr_private.h"
 
-struct cam_res_mgr *cam_res;
-
-
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-#include "oplus_cam_res_mgr.h"
-#endif
+static struct cam_res_mgr *cam_res;
 
 static void cam_res_mgr_free_res(void)
 {
@@ -242,16 +237,7 @@ static bool cam_res_mgr_shared_pinctrl_check_hold(void)
 				list_for_each(list, &gpio_res->dev_list)
 					dev_num++;
 
-				#ifdef OPLUS_FEATURE_CAMERA_COMMON
-				/*zhangsiyuan@Camera 2021/07/23 fix shared pinctrl status*/
-				CAM_DBG(CAM_RES, "cur shared gpio:%d, relate dev_count:%d", gpio_res->gpio, dev_num);
-				/* change hold status for only exist one dev for all shared-gpio
-					this will set all shared-gpio pull-down & destory all shared-gpio pinctrl
-					after last dev_res destory with last one subdev power-off*/
-				if (dev_num >= 1) {
-				#else
 				if (dev_num >= 2) {
-				#endif
 					hold = true;
 					break;
 				}
@@ -261,8 +247,6 @@ static bool cam_res_mgr_shared_pinctrl_check_hold(void)
 
 	if (cam_res->shared_clk_ref_count > 1)
 		hold = true;
-
-	CAM_DBG(CAM_RES, "total dev_count:%d, hold status:%d", dev_num, hold);
 
 	return hold;
 }
@@ -294,8 +278,6 @@ void cam_res_mgr_shared_pinctrl_put(void)
 	devm_pinctrl_put(pinctrl_info->pinctrl);
 
 	cam_res->pstatus = PINCTRL_STATUS_PUT;
-
-	CAM_DBG(CAM_RES, "destory shared pinctrl");
 	mutex_unlock(&cam_res->gpio_res_lock);
 }
 EXPORT_SYMBOL(cam_res_mgr_shared_pinctrl_put);
@@ -318,17 +300,16 @@ int cam_res_mgr_shared_pinctrl_select_state(bool active)
 	}
 
 	pinctrl_info = &cam_res->dt.pinctrl_info;
+
 	if (active && (cam_res->pstatus != PINCTRL_STATUS_ACTIVE)) {
 		rc = pinctrl_select_state(pinctrl_info->pinctrl,
 			pinctrl_info->gpio_state_active);
 		cam_res->pstatus = PINCTRL_STATUS_ACTIVE;
-		CAM_DBG(CAM_RES, "shared pinctrl set active");
 	} else if (!active &&
 		!cam_res_mgr_shared_pinctrl_check_hold()) {
 		rc = pinctrl_select_state(pinctrl_info->pinctrl,
 			pinctrl_info->gpio_state_suspend);
 		cam_res->pstatus = PINCTRL_STATUS_SUSPEND;
-		CAM_DBG(CAM_RES, "shared pinctrl set suspend");
 	}
 
 	mutex_unlock(&cam_res->gpio_res_lock);
@@ -367,7 +348,6 @@ int cam_res_mgr_shared_pinctrl_post_init(void)
 			pinctrl_info->gpio_state_suspend);
 		devm_pinctrl_put(pinctrl_info->pinctrl);
 		cam_res->pstatus = PINCTRL_STATUS_PUT;
-		CAM_DBG(CAM_RES, "destory shared pinctrl");
 	}
 	mutex_unlock(&cam_res->gpio_res_lock);
 
@@ -375,7 +355,7 @@ int cam_res_mgr_shared_pinctrl_post_init(void)
 }
 EXPORT_SYMBOL(cam_res_mgr_shared_pinctrl_post_init);
 
-int cam_res_mgr_add_device(struct device *dev,
+static int cam_res_mgr_add_device(struct device *dev,
 	struct cam_gpio_res *gpio_res)
 {
 	struct cam_dev_res *dev_res = NULL;
@@ -388,20 +368,15 @@ int cam_res_mgr_add_device(struct device *dev,
 	INIT_LIST_HEAD(&dev_res->list);
 
 	list_add_tail(&dev_res->list, &gpio_res->dev_list);
-	CAM_DBG(CAM_RES, "add gpio_res dev:%p", dev_res);
 
 	return 0;
 }
 
-bool cam_res_mgr_gpio_is_shared(uint gpio)
+static bool cam_res_mgr_gpio_is_shared(uint gpio)
 {
 	int index = 0;
 	bool found = false;
 	struct cam_res_mgr_dt *dt = &cam_res->dt;
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-    /* zhangsiyuan@camera 20210626 fix dual camera async powerup problem*/
-    return oplus_cam_res_mgr_gpio_is_shared(gpio);
-#endif
 
 	mutex_lock(&cam_res->gpio_res_lock);
 	for (; index < dt->num_shared_gpio; index++) {
@@ -421,10 +396,6 @@ int cam_res_mgr_gpio_request(struct device *dev, uint gpio,
 	int rc = 0;
 	bool found = false;
 	struct cam_gpio_res *gpio_res = NULL;
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-    /* zhangsiyuan@camera 20210626 fix dual camera async powerup problem*/
-    return oplus_cam_res_mgr_gpio_request(dev,gpio,flags,label);
-#endif
 
 	if (cam_res && cam_res->shared_gpio_enabled) {
 		mutex_lock(&cam_res->gpio_res_lock);
@@ -506,7 +477,7 @@ int cam_res_mgr_gpio_request(struct device *dev, uint gpio,
 }
 EXPORT_SYMBOL(cam_res_mgr_gpio_request);
 
-void cam_res_mgr_gpio_free(struct device *dev, uint gpio)
+static void cam_res_mgr_gpio_free(struct device *dev, uint gpio)
 {
 	bool found = false;
 	bool need_free = true;
@@ -542,7 +513,6 @@ void cam_res_mgr_gpio_free(struct device *dev, uint gpio)
 		if (dev_num == 1) {
 			dev_res = list_first_entry(&gpio_res->dev_list,
 				struct cam_dev_res, list);
-			CAM_DBG(CAM_RES,"destory gpio_res:%d destory dev_res:%p", gpio_res->gpio, dev_res->dev);
 			list_del_init(&dev_res->list);
 			kfree(dev_res);
 
@@ -552,7 +522,6 @@ void cam_res_mgr_gpio_free(struct device *dev, uint gpio)
 			list_for_each_entry(dev_res,
 				&gpio_res->dev_list, list) {
 				if (dev_res->dev == dev) {
-					CAM_DBG(CAM_RES,"destory dev_res:%p", dev_res->dev);
 					list_del_init(&dev_res->list);
 					kfree(dev_res);
 					need_free = false;
@@ -566,7 +535,6 @@ void cam_res_mgr_gpio_free(struct device *dev, uint gpio)
 	if (need_free)
 		gpio_free(gpio);
 }
-EXPORT_SYMBOL(cam_res_mgr_gpio_free);
 
 void cam_res_mgr_gpio_free_arry(struct device *dev,
 		const struct gpio *array, size_t num)

@@ -10,9 +10,6 @@
 #include "cam_res_mgr_api.h"
 #include "cam_common_util.h"
 #include "cam_packet_util.h"
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-#include "oplus_cam_flash_core.h"
-#endif
 
 static int cam_flash_prepare(struct cam_flash_ctrl *flash_ctrl,
 	bool regulator_enable)
@@ -204,15 +201,9 @@ int cam_flash_pmic_power_ops(struct cam_flash_ctrl *fctrl,
 	}
 
 	if (!regulator_enable) {
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
 		if (((fctrl->flash_state == CAM_FLASH_STATE_START) ||
 			(fctrl->flash_state == CAM_FLASH_STATE_ACQUIRE)) &&
-			(fctrl->is_regulator_enabled == true))
-#else
-		if ((fctrl->flash_state == CAM_FLASH_STATE_START) &&
-			(fctrl->is_regulator_enabled == true))
-#endif
-		{
+			(fctrl->is_regulator_enabled == true)) {
 			/*
 			 * Release dev is called after stop dev and in
 			 * stop dev flash state is set to acquire dev.
@@ -538,15 +529,10 @@ int cam_flash_off(struct cam_flash_ctrl *flash_ctrl)
 		flash_ctrl->flash_state = CAM_FLASH_STATE_CONFIG;
 	}
 
-#ifdef CONFIG_CAMERA_FLASH_PWM
-    if (flash_ctrl->flash_type == 2)
-        cam_flash_gpio_off(flash_ctrl);
-#endif
-
 	return 0;
 }
 
-int cam_flash_low(
+static int cam_flash_low(
 	struct cam_flash_ctrl *flash_ctrl,
 	struct cam_flash_frame_setting *flash_data)
 {
@@ -570,9 +556,8 @@ int cam_flash_low(
 
 	return rc;
 }
-EXPORT_SYMBOL(cam_flash_low);
 
-int cam_flash_high(
+static int cam_flash_high(
 	struct cam_flash_ctrl *flash_ctrl,
 	struct cam_flash_frame_setting *flash_data)
 {
@@ -596,7 +581,6 @@ int cam_flash_high(
 
 	return rc;
 }
-EXPORT_SYMBOL(cam_flash_high);
 
 static int cam_flash_i2c_delete_req(struct cam_flash_ctrl *fctrl,
 	uint64_t req_id)
@@ -780,22 +764,12 @@ int cam_flash_i2c_apply_setting(struct cam_flash_ctrl *fctrl,
 					(&(fctrl->io_master_info), i2c_list);
 				}
 
-				#ifndef OPLUS_FEATURE_CAMERA_COMMON
-				/*zhongxuejian@Camera 2021/06/04 add for type i2c flash*/
 				if (rc) {
 					CAM_ERR(CAM_FLASH,
 					"Failed to apply init settings: %d",
 					rc);
 					return rc;
 				}
-				#else
-				if (rc < 0) {
-					CAM_ERR(CAM_FLASH,
-					"Failed to apply init settings: %d",
-					rc);
-					return rc;
-				}
-				#endif
 			}
 		}
 		/* NonRealTime (Widget/RER/INIT_FIRE settings) */
@@ -805,20 +779,11 @@ int cam_flash_i2c_apply_setting(struct cam_flash_ctrl *fctrl,
 				list) {
 				rc = cam_sensor_util_i2c_apply_setting
 					(&(fctrl->io_master_info), i2c_list);
-				#ifndef OPLUS_FEATURE_CAMERA_COMMON
-				/*zhongxuejian@Camera 2021/06/04 add for type i2c flash*/
 				if (rc) {
 					CAM_ERR(CAM_FLASH,
 					"Failed to apply NRT settings: %d", rc);
 					return rc;
 				}
-				#else
-				if (rc < 0) {
-					CAM_ERR(CAM_FLASH,
-					"Failed to apply NRT settings: %d", rc);
-					return rc;
-				}
-				#endif
 			}
 		}
 	} else {
@@ -831,20 +796,11 @@ int cam_flash_i2c_apply_setting(struct cam_flash_ctrl *fctrl,
 				&(i2c_set->list_head), list) {
 				rc = cam_sensor_util_i2c_apply_setting(
 					&(fctrl->io_master_info), i2c_list);
-				#ifndef OPLUS_FEATURE_CAMERA_COMMON
-				/*zhongxuejian@Camera 2021/06/04 add for type i2c flash*/
 				if (rc) {
 					CAM_ERR(CAM_FLASH,
 					"Failed to apply settings: %d", rc);
 					return rc;
 				}
-				#else
-				if (rc < 0) {
-					CAM_ERR(CAM_FLASH,
-					"Failed to apply settings: %d", rc);
-					return rc;
-				}
-				#endif
 			}
 		}
 	}
@@ -1269,19 +1225,11 @@ int cam_flash_i2c_pkt_parser(struct cam_flash_ctrl *fctrl, void *arg)
 		}
 
 		rc = fctrl->func_tbl.apply_setting(fctrl, 0);
-		#ifndef OPLUS_FEATURE_CAMERA_COMMON
-		/*zhongxuejian@Camera 2021/06/04 add for type i2c flash*/
 		if (rc) {
 			CAM_ERR(CAM_FLASH,
 			"cannot apply settings rc = %d", rc);
 			return rc;
 		}
-		#else
-		if (rc < 0) {
-			CAM_ERR(CAM_FLASH, "cannot apply settings rc = %d", rc);
-			return rc;
-		}
-		#endif
 
 		fctrl->flash_state = CAM_FLASH_STATE_CONFIG;
 		break;
@@ -1298,17 +1246,7 @@ int cam_flash_i2c_pkt_parser(struct cam_flash_ctrl *fctrl, void *arg)
 			CAM_DBG(CAM_FLASH, "settings already valid");
 			i2c_reg_settings->request_id = 0;
 			i2c_reg_settings->is_settings_valid = false;
-			#ifndef OPLUS_FEATURE_CAMERA_COMMON
-			/*zhongxuejian@Camera 2021/06/04 add for type i2c flash*/
 			goto update_req_mgr;
-			#else
-			rc = delete_request(i2c_reg_settings);
-			if (rc) {
-				CAM_ERR(CAM_FLASH,
-				"Failed in Deleting the err: %d", rc);
-				return rc;
-			}
-			#endif
 		}
 		i2c_reg_settings->is_settings_valid = true;
 		i2c_reg_settings->request_id =

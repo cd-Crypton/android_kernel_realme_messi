@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
  * Copyright (c) 2017-2021, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 #include <linux/delay.h>
@@ -1361,11 +1362,7 @@ static void cam_hw_cdm_work(struct work_struct *work)
 			clear_bit(CAM_CDM_ERROR_HW_STATUS,
 				&core->cdm_status);
 	} else {
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-		CAM_DBG(CAM_CDM, "NULL payload");
-#else
 		CAM_ERR(CAM_CDM, "NULL payload");
-#endif
 	}
 	kfree(payload);
 	payload = NULL;
