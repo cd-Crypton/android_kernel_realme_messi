@@ -10,20 +10,9 @@
 
 #define CAM_SENSOR_PINCTRL_STATE_SLEEP "cam_suspend"
 #define CAM_SENSOR_PINCTRL_STATE_DEFAULT "cam_default"
-#ifdef CONFIG_CAMERA_FLASH_PWM
-#define CAM_PWM_PINCTRL_STATE_DEFAULT "pwm_default"
-#define CAM_PWM_PINCTRL_STATE_SLEEP "pwm_suspend"
-#endif
 
 #define VALIDATE_VOLTAGE(min, max, config_val) ((config_val) && \
 	(config_val >= min) && (config_val <= max))
-
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-extern int fan53870_cam_ldo_disable(int LDO_NUM);
-extern int fan53870_cam_ldo_set_voltage(int LDO_NUM, int set_mv);
-extern struct mutex cam_ldo_mutex;
-static int user_cnt[7]={0};
-#endif
 
 static struct i2c_settings_list*
 	cam_sensor_get_i2c_ptr(struct i2c_settings_array *i2c_reg_settings,
@@ -908,13 +897,7 @@ int32_t msm_camera_fill_vreg_params(
 
 	num_vreg = soc_info->num_rgltr;
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	/*zhangsiyuan@Camera 2021/06/04 add  i2c flash*/
-	CAM_INFO(CAM_SENSOR, "Read regulator num: %d", num_vreg);
-	if ((num_vreg < 0) || (num_vreg > CAM_SOC_MAX_REGULATOR)) {
-	#else
 	if ((num_vreg <= 0) || (num_vreg > CAM_SOC_MAX_REGULATOR)) {
-	#endif
 		CAM_ERR(CAM_SENSOR, "failed: num_vreg %d", num_vreg);
 		return -EINVAL;
 	}
@@ -1002,19 +985,6 @@ int32_t msm_camera_fill_vreg_params(
 			if (j == num_vreg)
 				power_setting[i].seq_val = INVALID_VREG;
 			break;
-
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-		case SENSOR_EXT_L1:
-		case SENSOR_EXT_L2:
-		case SENSOR_EXT_L3:
-		case SENSOR_EXT_L4:
-		case SENSOR_EXT_L5:
-		case SENSOR_EXT_L6:
-		case SENSOR_EXT_L7:
-			CAM_DBG(CAM_SENSOR, "seq type %d config val %ld", power_setting[i].seq_type, power_setting[i].config_val);
-			power_setting[i].seq_val = 50;
-			break;
-#endif
 
 		case SENSOR_VAF:
 			for (j = 0; j < num_vreg; j++) {
@@ -1751,51 +1721,9 @@ int msm_camera_pinctrl_init(
 			"Failed to get the suspend state pinctrl handle");
 		return -EINVAL;
 	}
-	return 0;
-}
 
-#ifdef CONFIG_CAMERA_FLASH_PWM
-int msm_flash_pinctrl_init(
-	struct msm_pinctrl_info *sensor_pctrl, struct device *dev)
-{
-	sensor_pctrl->pinctrl = devm_pinctrl_get(dev);
-	if (IS_ERR_OR_NULL(sensor_pctrl->pinctrl)) {
-		CAM_DBG(CAM_SENSOR, "Getting pinctrl handle failed");
-		return -EINVAL;
-	}
-	sensor_pctrl->gpio_state_active =
-		pinctrl_lookup_state(sensor_pctrl->pinctrl,
-				CAM_SENSOR_PINCTRL_STATE_DEFAULT);
-	if (IS_ERR_OR_NULL(sensor_pctrl->gpio_state_active)) {
-		CAM_ERR(CAM_SENSOR,
-			"Failed to get the active state pinctrl handle");
-		return -EINVAL;
-	}
-	sensor_pctrl->gpio_state_suspend
-		= pinctrl_lookup_state(sensor_pctrl->pinctrl,
-				CAM_SENSOR_PINCTRL_STATE_SLEEP);
-	if (IS_ERR_OR_NULL(sensor_pctrl->gpio_state_suspend)) {
-		CAM_ERR(CAM_SENSOR,
-			"Failed to get the suspend state pinctrl handle");
-		return -EINVAL;
-	}
-	sensor_pctrl->pwm_state_active
-		= pinctrl_lookup_state(sensor_pctrl->pinctrl,
-				CAM_PWM_PINCTRL_STATE_DEFAULT);
-	if (IS_ERR_OR_NULL(sensor_pctrl->pwm_state_active)) {
-		CAM_ERR(CAM_SENSOR,
-			"Failed to get the pwm active state pinctrl handle");
-	}
-	sensor_pctrl->pwm_state_suspend
-		= pinctrl_lookup_state(sensor_pctrl->pinctrl,
-				CAM_PWM_PINCTRL_STATE_SLEEP);
-	if (IS_ERR_OR_NULL(sensor_pctrl->pwm_state_suspend)) {
-		CAM_ERR(CAM_SENSOR,
-			"Failed to get the pwm suspend state pinctrl handle");
-	}
 	return 0;
 }
-#endif
 
 int cam_sensor_bob_pwm_mode_switch(struct cam_hw_soc_info *soc_info,
 	int bob_reg_idx, bool flag)
@@ -1909,13 +1837,7 @@ int cam_sensor_core_power_up(struct cam_sensor_power_ctrl_t *ctrl,
 	gpio_num_info = ctrl->gpio_num_info;
 	num_vreg = soc_info->num_rgltr;
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	/*zhangsiyuan@Camera 2021/06/04 add  i2c flash*/
-	CAM_INFO(CAM_SENSOR, "Read regulator num: %d", num_vreg);
-	if ((num_vreg < 0) || (num_vreg > CAM_SOC_MAX_REGULATOR)) {
-	#else
 	if ((num_vreg <= 0) || (num_vreg > CAM_SOC_MAX_REGULATOR)) {
-	#endif
 		CAM_ERR(CAM_SENSOR, "failed: num_vreg %d", num_vreg);
 		return -EINVAL;
 	}
@@ -2067,17 +1989,6 @@ int cam_sensor_core_power_up(struct cam_sensor_power_ctrl_t *ctrl,
 		case SENSOR_VAF_PWDM:
 		case SENSOR_CUSTOM_REG1:
 		case SENSOR_CUSTOM_REG2:
-			#ifdef OPLUS_FEATURE_CAMERA_COMMON
-			/*zhangsiyuan@Camera 2021/06/24 compatile pmic & gpio powerup*/
-			if ((power_setting->seq_val != INVALID_VREG) && (power_setting->seq_val >= (CAM_VREG_MAX - 1))) {
-				CAM_ERR(CAM_SENSOR, "vreg index %d >= max %d",
-					power_setting->seq_val,
-					CAM_VREG_MAX);
-				goto power_up_failed;
-			}
-
-			if ((power_setting->seq_val < num_vreg) && (power_setting->seq_val != INVALID_VREG)) {
-			#else
 			if (power_setting->seq_val == INVALID_VREG)
 				break;
 
@@ -2088,7 +1999,6 @@ int cam_sensor_core_power_up(struct cam_sensor_power_ctrl_t *ctrl,
 				goto power_up_failed;
 			}
 			if (power_setting->seq_val < num_vreg) {
-			#endif
 				CAM_DBG(CAM_SENSOR, "Enable Regulator");
 				vreg_idx = power_setting->seq_val;
 
@@ -2124,7 +2034,7 @@ int cam_sensor_core_power_up(struct cam_sensor_power_ctrl_t *ctrl,
 				power_setting->data[0] =
 						soc_info->rgltr[vreg_idx];
 			} else {
-				CAM_INFO(CAM_SENSOR, "usr_idx:%d dts_idx:%d",
+				CAM_ERR(CAM_SENSOR, "usr_idx:%d dts_idx:%d",
 					power_setting->seq_val, num_vreg);
 			}
 
@@ -2137,31 +2047,6 @@ int cam_sensor_core_power_up(struct cam_sensor_power_ctrl_t *ctrl,
 				goto power_up_failed;
 			}
 			break;
-
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-		case SENSOR_EXT_L1:
-		case SENSOR_EXT_L2:
-		case SENSOR_EXT_L3:
-		case SENSOR_EXT_L4:
-		case SENSOR_EXT_L5:
-		case SENSOR_EXT_L6:
-		case SENSOR_EXT_L7:
-			if((power_setting->seq_type-SENSOR_EXT_L1) >= 0 && (power_setting->seq_type-SENSOR_EXT_L1) <= 6)
-			{
-				mutex_lock(&cam_ldo_mutex);
-				user_cnt[power_setting->seq_type-SENSOR_EXT_L1]++;
-				fan53870_cam_ldo_set_voltage(power_setting->seq_type - SENSOR_CUSTOM_GPIO2 , power_setting->config_val);
-				mutex_unlock(&cam_ldo_mutex);
-			}
-			else
-			{
-				CAM_ERR(CAM_SENSOR, "error user_cnt overflow  power seq type %d",power_setting->seq_type);
-			}
-			CAM_INFO(CAM_SENSOR, "fan53870 seq type %d seq val %d config value %d user_cnt %d",
-					power_setting->seq_type, power_setting->seq_val, power_setting->config_val,user_cnt[power_setting->seq_type-SENSOR_EXT_L1]);
-			break;
-#endif
-
 		default:
 			CAM_ERR(CAM_SENSOR, "error power seq type %d",
 				power_setting->seq_type);
@@ -2330,13 +2215,7 @@ int cam_sensor_util_power_down(struct cam_sensor_power_ctrl_t *ctrl,
 	gpio_num_info = ctrl->gpio_num_info;
 	num_vreg = soc_info->num_rgltr;
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	/*zhangsiyuan@Camera 2021/06/04 add  i2c flash*/
-	CAM_INFO(CAM_SENSOR, "Read regulator num: %d", num_vreg);
-	if ((num_vreg < 0) || (num_vreg > CAM_SOC_MAX_REGULATOR)) {
-	#else
 	if ((num_vreg <= 0) || (num_vreg > CAM_SOC_MAX_REGULATOR)) {
-	#endif
 		CAM_ERR(CAM_SENSOR, "failed: num_vreg %d", num_vreg);
 		return -EINVAL;
 	}
@@ -2394,14 +2273,6 @@ int cam_sensor_util_power_down(struct cam_sensor_power_ctrl_t *ctrl,
 		case SENSOR_VAF_PWDM:
 		case SENSOR_CUSTOM_REG1:
 		case SENSOR_CUSTOM_REG2:
-			#ifdef OPLUS_FEATURE_CAMERA_COMMON
-			/*zhangsiyuan@Camera 2021/06/24 compatile pmic & gpio powerup*/
-			ps = msm_camera_get_power_settings(
-				ctrl, pd->seq_type,
-				pd->seq_val);
-			if (ps) {
-				if ((pd->seq_val < num_vreg) && (pd->seq_val != INVALID_VREG)) {
-			#else
 			if (pd->seq_val == INVALID_VREG)
 				break;
 
@@ -2410,7 +2281,6 @@ int cam_sensor_util_power_down(struct cam_sensor_power_ctrl_t *ctrl,
 				pd->seq_val);
 			if (ps) {
 				if (pd->seq_val < num_vreg) {
-			#endif
 					CAM_DBG(CAM_SENSOR,
 						"Disable Regulator");
 					ret =  cam_soc_util_regulator_disable(
@@ -2439,7 +2309,7 @@ int cam_sensor_util_power_down(struct cam_sensor_power_ctrl_t *ctrl,
 						soc_info->rgltr[ps->seq_val]);
 					soc_info->rgltr[ps->seq_val] = NULL;
 				} else {
-					CAM_INFO(CAM_SENSOR,
+					CAM_ERR(CAM_SENSOR,
 						"seq_val:%d > num_vreg: %d",
 						 pd->seq_val,
 						num_vreg);
@@ -2455,37 +2325,6 @@ int cam_sensor_util_power_down(struct cam_sensor_power_ctrl_t *ctrl,
 				CAM_ERR(CAM_SENSOR,
 					"Error disabling VREG GPIO");
 			break;
-
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-		case SENSOR_EXT_L1:
-		case SENSOR_EXT_L2:
-		case SENSOR_EXT_L3:
-		case SENSOR_EXT_L4:
-		case SENSOR_EXT_L5:
-		case SENSOR_EXT_L6:
-		case SENSOR_EXT_L7:
-			CAM_INFO(CAM_SENSOR, "fan53870 seq type %d,user_cnt=%d",
-					pd->seq_type,user_cnt[pd->seq_type-SENSOR_EXT_L1]);
-			mutex_lock(&cam_ldo_mutex);
-			if((pd->seq_type-SENSOR_EXT_L1) >= 0 && (pd->seq_type-SENSOR_EXT_L1) <= 6)
-			{
-				if(user_cnt[pd->seq_type-SENSOR_EXT_L1] > 0)
-				{
-					user_cnt[pd->seq_type-SENSOR_EXT_L1]--;
-				}
-				if(user_cnt[pd->seq_type-SENSOR_EXT_L1] == 0)
-				{
-					fan53870_cam_ldo_disable(pd->seq_type-SENSOR_CUSTOM_GPIO2);
-				}
-			}
-			else
-			{
-				CAM_ERR(CAM_SENSOR, "error cnt overflow seq type %d",pd->seq_type);
-			}
-			mutex_unlock(&cam_ldo_mutex);
-			break;
-#endif
-
 		default:
 			CAM_ERR(CAM_SENSOR, "error power seq type %d",
 				pd->seq_type);
@@ -2511,22 +2350,12 @@ int cam_sensor_util_power_down(struct cam_sensor_power_ctrl_t *ctrl,
 	if (soc_info->use_shared_clk)
 		cam_res_mgr_shared_clk_config(false);
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	/*zhangsiyuan@Camera 2021/07/23 fix shared pinctrl status*/
-	ctrl->cam_pinctrl_status = 0;
-
-	cam_sensor_util_request_gpio_table(soc_info, 0);
-
-	cam_res_mgr_shared_pinctrl_select_state(false);
-	cam_res_mgr_shared_pinctrl_put();
-	#else
 	cam_res_mgr_shared_pinctrl_select_state(false);
 	cam_res_mgr_shared_pinctrl_put();
 
 	ctrl->cam_pinctrl_status = 0;
 
 	cam_sensor_util_request_gpio_table(soc_info, 0);
-	#endif
 
 	return 0;
 }

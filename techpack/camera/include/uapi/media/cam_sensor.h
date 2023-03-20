@@ -165,10 +165,6 @@ struct cam_cmd_probe {
 	uint32_t    data_mask;
 	uint16_t    camera_id;
 	uint16_t    reserved;
-	/* zhangsiyuan@camera 20210626 distinguish i2c flash for same sensor*/
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	uint16_t     flash_id;
-	#endif
 } __attribute__((packed));
 
 /**
@@ -488,25 +484,5 @@ struct cam_flash_query_cap_info {
 	uint32_t    max_current_torch[CAM_FLASH_MAX_LED_TRIGGERS];
 	uint32_t    flash_type;
 } __attribute__ ((packed));
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-#define FD_DFCT_MAX_NUM 5
-#define SG_DFCT_MAX_NUM 299
-#define FD_DFCT_NUM_ADDR 0x7678
-#define SG_DFCT_NUM_ADDR 0x767A
-#define FD_DFCT_ADDR 0x8B00
-#define SG_DFCT_ADDR 0x8B10
-#define V_ADDR_SHIFT 12
-#define H_DATA_MASK 0xFFF80000
-#define V_DATA_MASK 0x0007FF80
-
-struct sony_dfct_tbl_t {
-	//---- single static defect ----
-	int sg_dfct_num;                         // the number of single static defect
-	int sg_dfct_addr[SG_DFCT_MAX_NUM];       // [ u25 ( upper-u13 = x-addr, lower-u12 = y-addr ) ]
-	//---- FD static defect ----
-	int fd_dfct_num;                         // the number of FD static defect
-	int fd_dfct_addr[FD_DFCT_MAX_NUM];       // [ u25 ( upper-u13 = x-addr, lower-u12 = y-addr ) ]
-} __attribute__ ((packed));
-#endif
 
 #endif
