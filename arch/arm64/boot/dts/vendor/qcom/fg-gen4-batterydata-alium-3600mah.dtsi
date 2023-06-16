@@ -1,38 +1,38 @@
-qcom, alium_860_89032_0000_3600mah_averaged_masterslave_sep24th2018 {
+qcom,alium_860_89032_0000_3600mah_averaged_masterslave_sep24th2018 {
 	/* #Alium_860_89032_0000_3600mAh_averaged_MasterSlave_Sept24th2018*/
-	qcom, max - voltage - uv = <4350000>;
-	qcom, fastchg - current - ma = <5400>;
-	qcom, jeita - fcc - ranges = <0  100  2500000
+	qcom,max-voltage-uv = <4350000>;
+	qcom,fastchg-current-ma = <5400>;
+	qcom,jeita-fcc-ranges = <0  100  2500000
 	101 400  3600000
 	401 450  2500000>;
-	qcom, jeita - fv - ranges = <0   100  4250000
+	qcom,jeita-fv-ranges = <0   100  4250000
 	101 400  4350000
 	401 450  4250000>;
-	qcom, step - chg - ranges = <3600000  3800000  5400000
+	qcom,step-chg-ranges = <3600000  3800000  5400000
 	3800001  4300000  3600000
 	4300001  4350000  2500000>;
-	/* COLD = 0 DegC, HOT = 45 DegC */
-	qcom, jeita - hard - thresholds = <0x58cd 0x20b8>;
-	/* COOL = 10 DegC, WARM = 40 DegC */
-	qcom, jeita - soft - thresholds = <0x4ccc 0x25e3>;
-	/* COLD hys = 13 DegC, WARM hys = 37 DegC */
-	qcom, jeita - soft - hys - thresholds = <0x48d4 0x2943>;
-	qcom, jeita - soft - fcc - ua = <2500000 2500000>;
-	qcom, jeita - soft - fv - uv = <4250000 4250000>;
-	qcom, ocv - based - step - chg;
-	qcom, batt - id - kohm = <107>;
-	qcom, battery - beta = <4250>;
-	qcom, therm - room - temp = <100000>;
-	qcom, fg - cc - cv - threshold - mv = <4340>;
-	qcom, battery - type = "alium_860_89032_0000_3600mah_sept24th2018";
-	qcom, therm - coefficients = <0x2318 0xd0c 0xdaf7 0xc556 0x848d>;
-	qcom, therm - center - offset = <0x70>;
-	qcom, therm - pull - up = <100>;
-	qcom, rslow - normal - coeffs = <0xdf 0x02 0x77 0x1a>;
-	qcom, rslow - low - coeffs = <0x51 0x04 0xd0 0x13>;
-	qcom, checksum = <0x1538>;
-	qcom, gui - version = "PM855GUI - 1.0.0.10";
-	qcom, fg - profile - data = [
+	/* COLD = 0 DegC,HOT = 45 DegC */
+	qcom,jeita-hard-thresholds = <0x58cd 0x20b8>;
+	/* COOL = 10 DegC,WARM = 40 DegC */
+	qcom,jeita-soft-thresholds = <0x4ccc 0x25e3>;
+	/* COLD hys = 13 DegC,WARM hys = 37 DegC */
+	qcom,jeita-soft-hys-thresholds = <0x48d4 0x2943>;
+	qcom,jeita-soft-fcc-ua = <2500000 2500000>;
+	qcom,jeita-soft-fv-uv = <4250000 4250000>;
+	qcom,ocv-based-step-chg;
+	qcom,batt-id-kohm = <107>;
+	qcom,battery-beta = <4250>;
+	qcom,therm-room-temp = <100000>;
+	qcom,fg-cc-cv-threshold-mv = <4340>;
+	qcom,battery-type = "alium_860_89032_0000_3600mah_sept24th2018";
+	qcom,therm-coefficients = <0x2318 0xd0c 0xdaf7 0xc556 0x848d>;
+	qcom,therm-center-offset = <0x70>;
+	qcom,therm-pull-up = <100>;
+	qcom,rslow-normal-coeffs = <0xdf 0x02 0x77 0x1a>;
+	qcom,rslow-low-coeffs = <0x51 0x04 0xd0 0x13>;
+	qcom,checksum = <0x1538>;
+	qcom,gui-version = "PM855GUI-1.0.0.10";
+	qcom,fg-profile-data = [
 		09 00 C7 EA
 		C4 DC 8E E2
 		3A DD 00 00

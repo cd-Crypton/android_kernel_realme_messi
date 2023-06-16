@@ -1,7 +1,7 @@
 #include "scuba.dtsi"
 
 / {
-	model = "Qualcomm Technologies, Inc. IOT SCUBA";
+	model = "Qualcomm Technologies,Inc. IOT SCUBA";
 	compatible = "qcom,scuba-iot";
-	qcom, msm - id = <473 0x0>;
+	qcom,msm-id = <473 0x0>;
 };

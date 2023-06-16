@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "bengal-iot-low-ram.dtsi"
 #include "bengal-iot-idp-low-ram.dtsi"

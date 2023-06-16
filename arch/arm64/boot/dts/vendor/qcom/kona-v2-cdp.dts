@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "kona-v2.dtsi"
 #include "kona-cdp.dtsi"

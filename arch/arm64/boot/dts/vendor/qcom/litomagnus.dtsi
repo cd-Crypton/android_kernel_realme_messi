@@ -3,7 +3,7 @@
 #include "magnus.dtsi"
 
 / {
-	model = "Qualcomm Technologies, Inc. Litomagnus";
+	model = "Qualcomm Technologies,Inc. Litomagnus";
 	compatible = "qcom,lito";
 };
 

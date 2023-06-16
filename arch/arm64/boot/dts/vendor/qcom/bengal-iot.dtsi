@@ -2,8 +2,8 @@
 #include "bengal-pmi632.dtsi"
 
 / {
-	model = "Qualcomm Technologies, Inc. BENGAL-IOT";
+	model = "Qualcomm Technologies,Inc. BENGAL-IOT";
 	compatible = "qcom,bengal-iot";
-	qcom, msm - id = <469 0x0>;
-	qcom, msm - name = "BENGAL-IOT";
+	qcom,msm-id = <469 0x0>;
+	qcom,msm-name = "BENGAL-IOT";
 };

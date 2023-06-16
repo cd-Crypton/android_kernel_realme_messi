@@ -1,20 +1,20 @@
-qcom, 4295629_goertek_vdl_6100mah_pm8150b_sep18th2020 {
+qcom,4295629_goertek_vdl_6100mah_pm8150b_sep18th2020 {
 	/* 4295629_Goertek_MorpheusVDL_6100mAh_avged_MasterSlave_Sept18th2020 */
-	qcom, max - voltage - uv = <4350000>;
-	qcom, fg - cc - cv - threshold - mv = <4340>;
-	qcom, nom - batt - capacity - mah = <6100>;
-	qcom, batt - id - kohm = <35>;
-	qcom, battery - beta = <4250>;
-	qcom, therm - room - temp = <100000>;
-	qcom, battery - type = "4295629_goertek_vdl_6100mah_pm8150b_sep18th2020";
-	qcom, therm - coefficients = <0x2318 0xd0c 0xdaf7 0xc556 0x848d>;
-	qcom, therm - center - offset = <0x70>;
-	qcom, therm - pull - up = <100>;
-	qcom, rslow - normal - coeffs = <0x4d 0xf4 0xd1 0x12>;
-	qcom, rslow - low - coeffs = <0x5e 0x15 0x67 0x07>;
-	qcom, checksum = <0xF24D>;
-	qcom, gui - version = "PM855GUI - 1.0.0.14";
-	qcom, fg - profile - data = [
+	qcom,max-voltage-uv = <4350000>;
+	qcom,fg-cc-cv-threshold-mv = <4340>;
+	qcom,nom-batt-capacity-mah = <6100>;
+	qcom,batt-id-kohm = <35>;
+	qcom,battery-beta = <4250>;
+	qcom,therm-room-temp = <100000>;
+	qcom,battery-type = "4295629_goertek_vdl_6100mah_pm8150b_sep18th2020";
+	qcom,therm-coefficients = <0x2318 0xd0c 0xdaf7 0xc556 0x848d>;
+	qcom,therm-center-offset = <0x70>;
+	qcom,therm-pull-up = <100>;
+	qcom,rslow-normal-coeffs = <0x4d 0xf4 0xd1 0x12>;
+	qcom,rslow-low-coeffs = <0x5e 0x15 0x67 0x07>;
+	qcom,checksum = <0xF24D>;
+	qcom,gui-version = "PM855GUI-1.0.0.14";
+	qcom,fg-profile-data = [
 		09 00 8B E2
 		ED DD A2 DB
 		26 D4 00 00

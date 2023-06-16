@@ -1,45 +1,45 @@
 &mdss_mdp {
 dsi_lgd_incell_sw49106_fhd_video:
-	qcom, mdss_dsi_lgd_incell_sw49106_fhd_video {
-		qcom, mdss - dsi - panel - name =
+	qcom,mdss_dsi_lgd_incell_sw49106_fhd_video {
+		qcom,mdss-dsi-panel-name =
 		"lgd incell sw49106 fhd video";
-		qcom, mdss - dsi - panel - type = "dsi_video_mode";
-		qcom, mdss - dsi - panel - framerate = <60>;
-		qcom, mdss - dsi - virtual - channel - id = <0>;
-		qcom, mdss - dsi - stream = <0>;
-		qcom, mdss - dsi - panel - width = <1080>;
-		qcom, mdss - dsi - panel - height = <2160>;
-		qcom, mdss - dsi - h - front - porch = <8>;
-		qcom, mdss - dsi - h - back - porch = <8>;
-		qcom, mdss - dsi - h - pulse - width = <4>;
-		qcom, mdss - dsi - h - sync - skew = <0>;
-		qcom, mdss - dsi - v - back - porch = <92>;
-		qcom, mdss - dsi - v - front - porch = <170>;
-		qcom, mdss - dsi - v - pulse - width = <1>;
-		qcom, mdss - dsi - h - left - border = <0>;
-		qcom, mdss - dsi - h - right - border = <0>;
-		qcom, mdss - dsi - v - top - border = <0>;
-		qcom, mdss - dsi - v - bottom - border = <0>;
-		qcom, mdss - dsi - bpp = <24>;
-		qcom, mdss - dsi - underflow - color = <0xff>;
-		qcom, mdss - dsi - border - color = <0>;
-		qcom, mdss - dsi - h - sync - pulse = <0>;
-		qcom, mdss - dsi - traffic - mode = "burst_mode";
-		qcom, mdss - dsi - bllp - eof - power - mode;
-		qcom, mdss - dsi - bllp - power - mode;
-		qcom, mdss - dsi - lane - 0 - state;
-		qcom, mdss - dsi - lane - 1 - state;
-		qcom, mdss - dsi - lane - 2 - state;
-		qcom, mdss - dsi - lane - 3 - state;
-		qcom, mdss - dsi - panel - timings = [F8 3C 28 00 6E 72 2E
+		qcom,mdss-dsi-panel-type = "dsi_video_mode";
+		qcom,mdss-dsi-panel-framerate = <60>;
+		qcom,mdss-dsi-virtual-channel-id = <0>;
+		qcom,mdss-dsi-stream = <0>;
+		qcom,mdss-dsi-panel-width = <1080>;
+		qcom,mdss-dsi-panel-height = <2160>;
+		qcom,mdss-dsi-h-front-porch = <8>;
+		qcom,mdss-dsi-h-back-porch = <8>;
+		qcom,mdss-dsi-h-pulse-width = <4>;
+		qcom,mdss-dsi-h-sync-skew = <0>;
+		qcom,mdss-dsi-v-back-porch = <92>;
+		qcom,mdss-dsi-v-front-porch = <170>;
+		qcom,mdss-dsi-v-pulse-width = <1>;
+		qcom,mdss-dsi-h-left-border = <0>;
+		qcom,mdss-dsi-h-right-border = <0>;
+		qcom,mdss-dsi-v-top-border = <0>;
+		qcom,mdss-dsi-v-bottom-border = <0>;
+		qcom,mdss-dsi-bpp = <24>;
+		qcom,mdss-dsi-underflow-color = <0xff>;
+		qcom,mdss-dsi-border-color = <0>;
+		qcom,mdss-dsi-h-sync-pulse = <0>;
+		qcom,mdss-dsi-traffic-mode = "burst_mode";
+		qcom,mdss-dsi-bllp-eof-power-mode;
+		qcom,mdss-dsi-bllp-power-mode;
+		qcom,mdss-dsi-lane-0-state;
+		qcom,mdss-dsi-lane-1-state;
+		qcom,mdss-dsi-lane-2-state;
+		qcom,mdss-dsi-lane-3-state;
+		qcom,mdss-dsi-panel-timings = [F8 3C 28 00 6E 72 2E
 		40 30 03 04 00];
-		qcom, mdss - dsi - t - clk - post = <0x02>;
-		qcom, mdss - dsi - t - clk - pre = <0x2D>;
-		qcom, mdss - dsi - bl - min - level = <1>;
-		qcom, mdss - dsi - bl - max - level = <4095>;
-		qcom, mdss - dsi - dma - trigger = "trigger_sw";
-		qcom, mdss - dsi - mdp - trigger = "none";
-		qcom, mdss - dsi - on - command = [05 01 00 00 0B 00 02 35 00
+		qcom,mdss-dsi-t-clk-post = <0x02>;
+		qcom,mdss-dsi-t-clk-pre = <0x2D>;
+		qcom,mdss-dsi-bl-min-level = <1>;
+		qcom,mdss-dsi-bl-max-level = <4095>;
+		qcom,mdss-dsi-dma-trigger = "trigger_sw";
+		qcom,mdss-dsi-mdp-trigger = "none";
+		qcom,mdss-dsi-on-command = [05 01 00 00 0B 00 02 35 00
 		15 01 00 00 00 00 02 36 00
 		15 01 00 00 00 00 02 51 FF
 		15 01 00 00 00 00 02 53 24
@@ -91,13 +91,13 @@ dsi_lgd_incell_sw49106_fhd_video:
 		39 01 00 00 64 00 07 F3 00 50 90 C9 00 01
 		05 01 00 00 78 00 02 11 00
 		05 01 00 00 05 00 02 29 00];
-		qcom, mdss - dsi - off - command = [05 01 00 00 32 00 02 28 00
+		qcom,mdss-dsi-off-command = [05 01 00 00 32 00 02 28 00
 		05 01 00 00 64 00 02 10 00];
-		qcom, mdss - dsi - on - command - state = "dsi_lp_mode";
-		qcom, mdss - dsi - off - command - state = "dsi_lp_mode";
-		qcom, mdss - dsi - bl - pmic - control - type = "bl_ctrl_wled";
-		qcom, mdss - dsi - reset - sequence = <1 400>, <0 400>, <1 400>;
-		qcom, mdss - dsi - tx - eot - append;
-		qcom, mdss - dsi - post - init - delay = <1>;
+		qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
+		qcom,mdss-dsi-off-command-state = "dsi_lp_mode";
+		qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
+		qcom,mdss-dsi-reset-sequence = <1 400>,<0 400>,<1 400>;
+		qcom,mdss-dsi-tx-eot-append;
+		qcom,mdss-dsi-post-init-delay = <1>;
 	};
 };

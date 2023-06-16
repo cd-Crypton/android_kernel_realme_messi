@@ -1,20 +1,20 @@
-qcom, 5376013_goertek_oracle_650mah_pm8150b_sept23rd2021 {
+qcom,5376013_goertek_oracle_650mah_pm8150b_sept23rd2021 {
 	/* #5376013_Goertek_Oracle_650mAH_averaged_MasterSlave_Sept23rd2021*/
-	qcom, max - voltage - uv = <4480000>;
-	qcom, fg - cc - cv - threshold - mv = <4470>;
-	qcom, nom - batt - capacity - mah = <650>;
-	qcom, batt - id - kohm = <100>;
-	qcom, battery - beta = <4250>;
-	qcom, therm - room - temp = <100000>;
-	qcom, battery - type = "goertek_oracle_650mah_pm8150b_sept23rd2021";
-	qcom, therm - coefficients = <0x2318 0xd0c 0xdaf7 0xc556 0x848d>;
-	qcom, therm - center - offset = <0x70>;
-	qcom, therm - pull - up = <100>;
-	qcom, rslow - normal - coeffs = <0x3b 0xf2 0x34 0x0b>;
-	qcom, rslow - low - coeffs = <0x3f 0x0d 0x0c 0xea>;
-	qcom, checksum = <0x4B53>;
-	qcom, gui - version = "PM855GUI - 1.0.0.14";
-	qcom, fg - profile - data = [
+	qcom,max-voltage-uv = <4480000>;
+	qcom,fg-cc-cv-threshold-mv = <4470>;
+	qcom,nom-batt-capacity-mah = <650>;
+	qcom,batt-id-kohm = <100>;
+	qcom,battery-beta = <4250>;
+	qcom,therm-room-temp = <100000>;
+	qcom,battery-type = "goertek_oracle_650mah_pm8150b_sept23rd2021";
+	qcom,therm-coefficients = <0x2318 0xd0c 0xdaf7 0xc556 0x848d>;
+	qcom,therm-center-offset = <0x70>;
+	qcom,therm-pull-up = <100>;
+	qcom,rslow-normal-coeffs = <0x3b 0xf2 0x34 0x0b>;
+	qcom,rslow-low-coeffs = <0x3f 0x0d 0x0c 0xea>;
+	qcom,checksum = <0x4B53>;
+	qcom,gui-version = "PM855GUI-1.0.0.14";
+	qcom,fg-profile-data = [
 		09 00 2F 01
 		F8 05 9C 03
 		0F FC 00 00

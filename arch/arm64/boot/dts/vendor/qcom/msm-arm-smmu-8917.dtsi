@@ -1,18 +1,18 @@
 &soc {
 gfx_iommu:
-	qcom, iommu@1f00000 {
+	qcom,iommu@1f00000 {
 		status = "ok";
 		compatible = "qcom,qsmmu-v500";
 		reg = <0x1f00000 0x10000>,
 		<0x1ee2000 0x20>;
-		reg - names = "base", "tcu-base";
+		reg-names = "base","tcu-base";
 #iommu-cells = <1>;
-		qcom, tz - device - id = "GPU";
-		qcom, skip - init;
-		qcom, enable - static - cb;
-		qcom, dynamic;
-		qcom, use - 3 - lvl - tables;
-		qcom, regulator - names = "vdd";
+		qcom,tz-device-id = "GPU";
+		qcom,skip-init;
+		qcom,enable-static-cb;
+		qcom,dynamic;
+		qcom,use-3-lvl-tables;
+		qcom,regulator-names = "vdd";
 #global-interrupts = <0>;
 #size-cells = <1>;
 #address-cells = <1>;
@@ -23,24 +23,24 @@ gfx_iommu:
 		<GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&gcc GCC_SMMU_CFG_CLK>,
 		<&gcc GCC_GFX_TCU_CLK>;
-		clock - names = "iface_clk", "core_clk";
+		clock-names = "iface_clk","core_clk";
 	};
 
 apps_iommu:
-	qcom, iommu@1e00000 {
+	qcom,iommu@1e00000 {
 		status = "okay";
 		compatible = "qcom,qsmmu-v500";
 		reg = <0x1e00000 0x40000>,
 		<0x1ee2000 0x20>;
-		reg - names = "base", "tcu-base";
+		reg-names = "base","tcu-base";
 #iommu-cells = <2>;
-		qcom, tz - device - id = "APPS";
-		qcom, skip - init;
-		qcom, disable - atos;
+		qcom,tz-device-id = "APPS";
+		qcom,skip-init;
+		qcom,disable-atos;
 		ranges;
-		qcom, enable - static - cb;
-		qcom, use - 3 - lvl - tables;
-		qcom, regulator - names = "vdd";
+		qcom,enable-static-cb;
+		qcom,use-3-lvl-tables;
+		qcom,regulator-names = "vdd";
 #global-interrupts = <0>;
 #size-cells = <1>;
 #address-cells = <1>;
@@ -78,6 +78,6 @@ apps_iommu:
 		<GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&gcc GCC_SMMU_CFG_CLK>,
 		<&gcc GCC_APSS_TCU_CLK>;
-		clock - names = "iface_clk", "core_clk";
+		clock-names = "iface_clk","core_clk";
 	};
 };

@@ -1,9 +1,9 @@
 &soc {
 kgsl_smmu:
-	arm, smmu - kgsl@1c40000 {
+	arm,smmu-kgsl@1c40000 {
 		status = "ok";
 		compatible = "qcom,smmu-v2";
-		qcom, tz - device - id = "GPU";
+		qcom,tz-device-id = "GPU";
 		reg = <0x1c40000 0x10000>;
 #iommu-cells = <1>;
 #global-interrupts = <0>;
@@ -11,15 +11,15 @@ kgsl_smmu:
 		<GIC_SPI 232 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 233 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 234 IRQ_TYPE_LEVEL_HIGH>;
-		qcom, dynamic;
-		qcom, use - 3 - lvl - tables;
-		qcom, enable - smmu - halt;
-		qcom, skip - init;
-		vdd - supply = <&gdsc_oxili_cx>;
-		qcom, regulator - names = "vdd";
+		qcom,dynamic;
+		qcom,use-3-lvl-tables;
+		qcom,enable-smmu-halt;
+		qcom,skip-init;
+		vdd-supply = <&gdsc_oxili_cx>;
+		qcom,regulator-names = "vdd";
 		clocks = <&gcc GCC_OXILI_AHB_CLK>,
 		<&gcc GCC_BIMC_GFX_CLK>;
-		clock - names = "gpu_ahb_clk", "gcc_bimc_gfx_clk";
+		clock-names = "gpu_ahb_clk","gcc_bimc_gfx_clk";
 	};
 
 	/* A test device to test the SMMU operation */
@@ -33,19 +33,19 @@ kgsl_smmu:
 	};
 
 apps_iommu:
-	qcom, iommu@1e00000 {
+	qcom,iommu@1e00000 {
 		status = "okay";
 		compatible = "qcom,qsmmu-v500";
 		reg = <0x1e00000 0x40000>,
 		<0x1ee2000 0x20>;
-		reg - names = "base", "tcu-base";
+		reg-names = "base","tcu-base";
 #iommu-cells = <2>;
-		qcom, tz - device - id = "APPS";
-		qcom, skip - init;
-		qcom, enable - static - cb;
-		qcom, use - 3 - lvl - tables;
-		qcom, disable - atos;
-		qcom, regulator - names = "vdd";
+		qcom,tz-device-id = "APPS";
+		qcom,skip-init;
+		qcom,enable-static-cb;
+		qcom,use-3-lvl-tables;
+		qcom,disable-atos;
+		qcom,regulator-names = "vdd";
 #global-interrupts = <0>;
 #size-cells = <1>;
 #address-cells = <1>;
@@ -84,7 +84,7 @@ apps_iommu:
 		<GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&gcc GCC_SMMU_CFG_CLK>,
 		<&gcc GCC_APSS_TCU_CLK>;
-		clock - names = "iface_clk", "core_clk";
+		clock-names = "iface_clk","core_clk";
 	};
 };
 

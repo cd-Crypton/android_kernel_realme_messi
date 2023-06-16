@@ -1,5 +1,5 @@
 &soc {
-	qcom, rmnet - ipa {
+	qcom,rmnet-ipa {
 		status = "disabled";
 	};
 };

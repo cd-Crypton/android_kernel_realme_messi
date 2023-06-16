@@ -1,48 +1,48 @@
 &soc {
 	/* GCC GDSCs */
 gdsc_usb30:
-	qcom, gdsc@10f004 {
+	qcom,gdsc@10f004 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_usb30";
+		regulator-name = "gdsc_usb30";
 		reg = <0x10f004 0x4>;
 		status = "disabled";
 	};
 
 gdsc_ufs:
-	qcom, gdsc@175004 {
+	qcom,gdsc@175004 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_ufs";
+		regulator-name = "gdsc_ufs";
 		reg = <0x175004 0x4>;
 		status = "disabled";
 	};
 
 gdsc_hlos1_vote_lpass_adsp:
-	qcom, gdsc@17d034 {
+	qcom,gdsc@17d034 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_hlos1_vote_lpass_adsp";
+		regulator-name = "gdsc_hlos1_vote_lpass_adsp";
 		reg = <0x17d034 0x4>;
-		qcom, no - status - check - on - disable;
-		qcom, gds - timeout = <500>;
+		qcom,no-status-check-on-disable;
+		qcom,gds-timeout = <500>;
 		status = "disabled";
 	};
 
 gdsc_hlos1_vote_turing_adsp:
-	qcom, gdsc@17d04c {
+	qcom,gdsc@17d04c {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_hlos1_vote_turing_adsp";
+		regulator-name = "gdsc_hlos1_vote_turing_adsp";
 		reg = <0x17d04c 0x4>;
-		qcom, no - status - check - on - disable;
-		qcom, gds - timeout = <500>;
+		qcom,no-status-check-on-disable;
+		qcom,gds-timeout = <500>;
 		status = "disabled";
 	};
 
 gdsc_hlos2_vote_turing_adsp:
-	qcom, gdsc@17e04c {
+	qcom,gdsc@17e04c {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_hlos2_vote_turing_adsp";
+		regulator-name = "gdsc_hlos2_vote_turing_adsp";
 		reg = <0x17e04c 0x4>;
-		qcom, no - status - check - on - disable;
-		qcom, gds - timeout = <500>;
+		qcom,no-status-check-on-disable;
+		qcom,gds-timeout = <500>;
 		status = "disabled";
 	};
 
@@ -54,68 +54,68 @@ bimc_smmu_hw_ctrl:
 	};
 
 gdsc_bimc_smmu:
-	qcom, gdsc@c8ce020 {
+	qcom,gdsc@c8ce020 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_bimc_smmu";
+		regulator-name = "gdsc_bimc_smmu";
 		reg = <0xc8ce020 0x4>;
-		hw - ctrl - addr = <&bimc_smmu_hw_ctrl>;
-		qcom, no - status - check - on - disable;
-		qcom, gds - timeout = <500>;
+		hw-ctrl-addr = <&bimc_smmu_hw_ctrl>;
+		qcom,no-status-check-on-disable;
+		qcom,gds-timeout = <500>;
 		status = "disabled";
 	};
 
 gdsc_venus:
-	qcom, gdsc@c8c1024 {
+	qcom,gdsc@c8c1024 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_venus";
+		regulator-name = "gdsc_venus";
 		reg = <0xc8c1024 0x4>;
 		status = "disabled";
 	};
 
 gdsc_venus_core0:
-	qcom, gdsc@c8c1040 {
+	qcom,gdsc@c8c1040 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_venus_core0";
+		regulator-name = "gdsc_venus_core0";
 		reg = <0xc8c1040 0x4>;
 		status = "disabled";
 	};
 
 gdsc_camss_top:
-	qcom, gdsc@c8c34a0 {
+	qcom,gdsc@c8c34a0 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_camss_top";
+		regulator-name = "gdsc_camss_top";
 		reg = <0xc8c34a0 0x4>;
 		status = "disabled";
 	};
 
 gdsc_vfe0:
-	qcom, gdsc@c8c3664 {
+	qcom,gdsc@c8c3664 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_vfe0";
+		regulator-name = "gdsc_vfe0";
 		reg = <0xc8c3664 0x4>;
 		status = "disabled";
 	};
 
 gdsc_vfe1:
-	qcom, gdsc@c8c3674 {
+	qcom,gdsc@c8c3674 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_vfe1";
+		regulator-name = "gdsc_vfe1";
 		reg = <0xc8c3674 0x4>;
 		status = "disabled";
 	};
 
 gdsc_cpp:
-	qcom, gdsc@c8c36d4 {
+	qcom,gdsc@c8c36d4 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_cpp";
+		regulator-name = "gdsc_cpp";
 		reg = <0xc8c36d4 0x4>;
 		status = "disabled";
 	};
 
 gdsc_mdss:
-	qcom, gdsc@c8c2304 {
+	qcom,gdsc@c8c2304 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_mdss";
+		regulator-name = "gdsc_mdss";
 		reg = <0xc8c2304 0x4>;
 		status = "disabled";
 	};
@@ -128,13 +128,13 @@ gpu_cx_hw_ctrl:
 	};
 
 gdsc_gpu_cx:
-	qcom, gdsc@5066004 {
+	qcom,gdsc@5066004 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_gpu_cx";
+		regulator-name = "gdsc_gpu_cx";
 		reg = <0x5066004 0x4>;
-		hw - ctrl - addr = <&gpu_cx_hw_ctrl>;
-		qcom, no - status - check - on - disable;
-		qcom, gds - timeout = <2000>;
+		hw-ctrl-addr = <&gpu_cx_hw_ctrl>;
+		qcom,no-status-check-on-disable;
+		qcom,gds-timeout = <2000>;
 		status = "disabled";
 	};
 
@@ -152,14 +152,14 @@ gpu_gx_sw_reset:
 	};
 
 gdsc_gpu_gx:
-	qcom, gdsc@5066094 {
+	qcom,gdsc@5066094 {
 		compatible = "qcom,gdsc";
-		regulator - name = "gdsc_gpu_gx";
+		regulator-name = "gdsc_gpu_gx";
 		reg = <0x5066094 0x4>;
-		domain - addr = <&gpu_gx_domain_addr>;
-		sw - reset = <&gpu_gx_sw_reset>;
-		qcom, retain - periph;
-		qcom, reset - aon - logic;
+		domain-addr = <&gpu_gx_domain_addr>;
+		sw-reset = <&gpu_gx_sw_reset>;
+		qcom,retain-periph;
+		qcom,reset-aon-logic;
 		status = "disabled";
 	};
 };

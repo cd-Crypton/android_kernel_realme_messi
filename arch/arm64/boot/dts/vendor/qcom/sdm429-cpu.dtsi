@@ -1,11 +1,11 @@
 / {
-	/ delete - node / cpus;
-	/ delete - node / energy - costs;
+	/ delete-node / cpus;
+	/ delete-node / energy-costs;
 
 	cpus {
 #address-cells = <1>;
 #size-cells = <0>;
-		cpu - map {
+		cpu-map {
 			cluster0 {
 				core0 {
 					cpu = <&CPU0>;
@@ -30,25 +30,25 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x100>;
-			enable - method = "psci";
-			cpu - release - addr = <0x0 0x90000000>;
-			capacity - dmips - mhz = <1024>;
-			sched - energy - costs = <&CPU_COST_0>;
-			next - level - cache = <&L2_1>;
+			enable-method = "psci";
+			cpu-release-addr = <0x0 0x90000000>;
+			capacity-dmips-mhz = <1024>;
+			sched-energy-costs = <&CPU_COST_0>;
+			next-level-cache = <&L2_1>;
 #cooling-cells = <2>;
 		L2_1:
-			l2 - cache {
+			l2-cache {
 				compatible = "arm,arch-cache";
-				cache - level = <2>;
+				cache-level = <2>;
 			};
 
 		L1_I_100:
-			l1 - icache {
+			l1-icache {
 				compatible = "arm,arch-cache";
 			};
 
 		L1_D_100:
-			l1 - dcache {
+			l1-dcache {
 				compatible = "arm,arch-cache";
 			};
 		};
@@ -58,19 +58,19 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x101>;
-			enable - method = "psci";
-			cpu - release - addr = <0x0 0x90000000>;
-			capacity - dmips - mhz = <1024>;
-			sched - energy - costs = <&CPU_COST_0>;
-			next - level - cache = <&L2_1>;
+			enable-method = "psci";
+			cpu-release-addr = <0x0 0x90000000>;
+			capacity-dmips-mhz = <1024>;
+			sched-energy-costs = <&CPU_COST_0>;
+			next-level-cache = <&L2_1>;
 #cooling-cells = <2>;
 		L1_I_101:
-			l1 - icache {
+			l1-icache {
 				compatible = "arm,arch-cache";
 			};
 
 		L1_D_101:
-			l1 - dcache {
+			l1-dcache {
 				compatible = "arm,arch-cache";
 			};
 		};
@@ -80,19 +80,19 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x102>;
-			enable - method = "psci";
-			cpu - release - addr = <0x0 0x90000000>;
-			capacity - dmips - mhz = <1024>;
-			sched - energy - costs = <&CPU_COST_0>;
-			next - level - cache = <&L2_1>;
+			enable-method = "psci";
+			cpu-release-addr = <0x0 0x90000000>;
+			capacity-dmips-mhz = <1024>;
+			sched-energy-costs = <&CPU_COST_0>;
+			next-level-cache = <&L2_1>;
 #cooling-cells = <2>;
 		L1_I_102:
-			l1 - icache {
+			l1-icache {
 				compatible = "arm,arch-cache";
 			};
 
 		L1_D_102:
-			l1 - dcache {
+			l1-dcache {
 				compatible = "arm,arch-cache";
 			};
 		};
@@ -102,19 +102,19 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x103>;
-			enable - method = "psci";
-			cpu - release - addr = <0x0 0x90000000>;
-			capacity - dmips - mhz = <1024>;
-			sched - energy - costs = <&CPU_COST_0>;
-			next - level - cache = <&L2_1>;
+			enable-method = "psci";
+			cpu-release-addr = <0x0 0x90000000>;
+			capacity-dmips-mhz = <1024>;
+			sched-energy-costs = <&CPU_COST_0>;
+			next-level-cache = <&L2_1>;
 #cooling-cells = <2>;
 		L1_I_103:
-			l1 - icache {
+			l1-icache {
 				compatible = "arm,arch-cache";
 			};
 
 		L1_D_103:
-			l1 - dcache {
+			l1-dcache {
 				compatible = "arm,arch-cache";
 			};
 		};
@@ -122,11 +122,11 @@
 	};
 
 energy_costs:
-	energy - costs {
+	energy-costs {
 
 	CPU_COST_0:
-		core - cost0 {
-			busy - cost - data = <
+		core-cost0 {
+			busy-cost-data = <
 			488 159
 			663 207
 			761 256
@@ -141,14 +141,14 @@ energy_costs:
 
 &soc {
 	cpuss_dump {
-		/ delete - node / qcom, l2_dump0;
-		/ delete - node / qcom, l1_i_cache0;
-		/ delete - node / qcom, l1_i_cache1;
-		/ delete - node / qcom, l1_i_cache2;
-		/ delete - node / qcom, l1_i_cache3;
-		/ delete - node / qcom, l1_d_cache0;
-		/ delete - node / qcom, l1_d_cache1;
-		/ delete - node / qcom, l1_d_cache2;
-		/ delete - node / qcom, l1_d_cache3;
+		/ delete-node / qcom,l2_dump0;
+		/ delete-node / qcom,l1_i_cache0;
+		/ delete-node / qcom,l1_i_cache1;
+		/ delete-node / qcom,l1_i_cache2;
+		/ delete-node / qcom,l1_i_cache3;
+		/ delete-node / qcom,l1_d_cache0;
+		/ delete-node / qcom,l1_d_cache1;
+		/ delete-node / qcom,l1_d_cache2;
+		/ delete-node / qcom,l1_d_cache3;
 	};
 };

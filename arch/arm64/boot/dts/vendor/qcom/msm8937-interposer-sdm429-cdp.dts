@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "msm8937-interposer-sdm429.dtsi"
 #include "sdm429-cdp.dtsi"
