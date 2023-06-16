@@ -1,0 +1,1 @@
+# Removing to avoid possible error in android/kernel build.

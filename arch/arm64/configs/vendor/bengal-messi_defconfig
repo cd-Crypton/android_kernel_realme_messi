@@ -205,6 +205,8 @@ CONFIG_ARCH_QCOM=y
 CONFIG_ARCH_BENGAL=y
 CONFIG_ARCH_KHAJE=y
 CONFIG_ARCH_SCUBA=y
+CONFIG_BUILD_ARM64_DT_OVERLAY=y
+CONFIG_OF=y
 
 #
 # ARM errata workarounds via the alternatives framework

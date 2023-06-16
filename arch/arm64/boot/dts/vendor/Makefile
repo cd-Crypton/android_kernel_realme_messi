@@ -1,5 +1,6 @@
 vendor := $(srctree)/$(src)
 
-#ifneq "$(wildcard $(vendor)/qcom)" ""
+subdir-y += qcom
+ifeq ($(BRAND_SHOW_FLAG),realme)
 subdir-y += oplus/messi
-#endif
+endif
