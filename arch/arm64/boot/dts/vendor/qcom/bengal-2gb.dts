@@ -5,5 +5,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. Bengal 2Gb DDR HD+ SoC";
 	compatible = "qcom,bengal";
-	qcom, board - id = <0 0x403>;
+	qcom,board-id = <0 0x403>;
 };

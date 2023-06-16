@@ -2,28 +2,28 @@
 / {
 };
 
-/ delete-node / &hyp_mem;
-/ delete-node / &xbl_aop_mem;
-/ delete-node / &sec_apps_mem;
-/ delete-node / &smem_mem;
-/ delete-node / &removed_mem;
-/ delete-node / &pil_modem_mem;
-/ delete-node / &pil_video_mem;
-/ delete-node / &wlan_msa_mem;
-/ delete-node / &pil_cdsp_mem;
-/ delete-node / &pil_adsp_mem;
-/ delete-node / &pil_ipa_fw_mem;
-/ delete-node / &pil_ipa_gsi_mem;
-/ delete-node / &pil_gpu_mem;
-/ delete-node / &cdsp_sec_mem;
+/delete-node/ &hyp_mem;
+/delete-node/ &xbl_aop_mem;
+/delete-node/ &sec_apps_mem;
+/delete-node/ &smem_mem;
+/delete-node/ &removed_mem;
+/delete-node/ &pil_modem_mem;
+/delete-node/ &pil_video_mem;
+/delete-node/ &wlan_msa_mem;
+/delete-node/ &pil_cdsp_mem;
+/delete-node/ &pil_adsp_mem;
+/delete-node/ &pil_ipa_fw_mem;
+/delete-node/ &pil_ipa_gsi_mem;
+/delete-node/ &pil_gpu_mem;
+/delete-node/ &cdsp_sec_mem;
 
-/ delete-node / &user_contig_mem;
-/ delete-node / &qseecom_mem;
-/ delete-node / &qseecom_ta_mem;
+/delete-node/ &user_contig_mem;
+/delete-node/ &qseecom_mem;
+/delete-node/ &qseecom_ta_mem;
 
-/ delete-node / &secure_display_memory;
+/delete-node/ &secure_display_memory;
 
-/ delete-node / &disp_rdump_memory;
+/delete-node/ &disp_rdump_memory;
 
 &reserved_memory {
 hyp_mem:
@@ -149,9 +149,9 @@ qseecom_ta_mem:
 
 &soc {
 	qcom,ion {
-		/ delete-node / qcom,ion-heap@14;
-		/ delete-node / qcom,ion-heap@10;
-		/ delete-node / qcom,ion-heap@26;
+		/delete-node/ qcom,ion-heap@14;
+		/delete-node/ qcom,ion-heap@10;
+		/delete-node/ qcom,ion-heap@26;
 	};
 
 qcom_seecom:

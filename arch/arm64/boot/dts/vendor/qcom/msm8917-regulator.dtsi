@@ -2,8 +2,8 @@
 
 &soc {
 	/* delete the CPR and MEM ACC nodes of msm8937 */
-	/ delete-node / regulator@b018000;
-	/ delete-node / regulator@01946004;
+	/delete-node/ regulator@b018000;
+	/delete-node/ regulator@01946004;
 
 mem_acc_vreg_corner:
 	regulator@01946004 {

@@ -1595,7 +1595,7 @@ keepalive_opp_table:
 	keepalive-opp-table {
 		compatible = "operating-points-v2";
 		opp-1 {
-			opp-hz = / bits / 64 < 1 >;
+			opp-hz = /bits/ 64 < 1 >;
 		};
 	};
 

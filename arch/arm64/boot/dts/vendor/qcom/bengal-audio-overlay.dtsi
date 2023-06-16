@@ -39,7 +39,7 @@ rx_macro:
 		<&clock_audio_rx_2 0>;
 		qcom,rx-swr-gpios = <&rx_swr_gpios>;
 		qcom,rx_mclk_mode_muxsel = <0x0a5640d8>;
-		qcom,rx-bcl-pmic-params = / bits / 8 <0x00 0x04 0x3E>;
+		qcom,rx-bcl-pmic-params = /bits/ 8 <0x00 0x04 0x3E>;
 
 	qcom,default-clk-id = <TX_CORE_CLK>;
 		swr1:

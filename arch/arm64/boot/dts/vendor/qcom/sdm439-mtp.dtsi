@@ -382,7 +382,7 @@
 	qcom,mdss-dsi-panel-on-check-value = <0x9c>;
 	qcom,mdss-dsi-panel-status-read-length = <1>;
 	qcom,mdss-dsi-panel-max-error-count = <3>;
-	/ delete-node / qcom,mdss-dsi-display-timings;
+	/delete-node/ qcom,mdss-dsi-display-timings;
 };
 
 &dsi_nt35695b_truly_fhd_video {
@@ -535,7 +535,7 @@
 	qcom,mdss-dsi-bl-pmic-pwm-frequency = <100>;
 	qcom,mdss-dsi-bl-pmic-bank-select = <0>;
 	qcom,mdss-dsi-pwm-gpio = <&pm8953_gpios 8 0>;
-	/ delete-node / qcom,mdss-dsi-display-timings;
+	/delete-node/ qcom,mdss-dsi-display-timings;
 };
 
 &dsi_truly_1080_vid {

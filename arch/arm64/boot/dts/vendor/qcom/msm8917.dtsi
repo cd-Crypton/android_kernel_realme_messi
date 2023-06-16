@@ -2123,7 +2123,7 @@ ssc_sensors:
 	qcom,gpu-speed-bin-vectors =
 	<0x6018 0x80000000 31>,
 	<0x0164 0x00000400 9>;
-	/ delete-node / qcom,gpu-pwrlevels;
+	/delete-node/ qcom,gpu-pwrlevels;
 
 	qcom,gpu-pwrlevel-bins {
 #address-cells = <1>;

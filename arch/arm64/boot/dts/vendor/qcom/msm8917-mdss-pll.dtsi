@@ -4,4 +4,4 @@
 	vddio-supply = <&pm8937_l6>;
 };
 
-/ delete-node / &mdss_dsi1_pll;
+/delete-node/ &mdss_dsi1_pll;

@@ -43,7 +43,7 @@ qrd_batterydata:
 
 	qcom,gpu-speed-bin = <0x0164 0x00000600 9>;
 	/ delete-property / qcom,gpu-speed-bin-vectors;
-	/ delete-node / qcom,gpu-pwrlevel-bins;
+	/delete-node/ qcom,gpu-pwrlevel-bins;
 
 	qcom,gpu-pwrlevel-bins {
 #address-cells = <1>;

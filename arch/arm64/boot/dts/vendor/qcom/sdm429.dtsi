@@ -8,18 +8,18 @@
 };
 
 &soc {
-	/ delete-node / etm@619c000;
-	/ delete-node / etm@619d000;
-	/ delete-node / etm@619e000;
-	/ delete-node / etm@619f000;
-	/ delete-node / cti@6198000;
-	/ delete-node / cti@6199000;
-	/ delete-node / cti@619a000;
-	/ delete-node / cti@619b000;
-	/ delete-node / jtagmm@619c000;
-	/ delete-node / jtagmm@619d000;
-	/ delete-node / jtagmm@619e000;
-	/ delete-node / jtagmm@619f000;
+	/delete-node/ etm@619c000;
+	/delete-node/ etm@619d000;
+	/delete-node/ etm@619e000;
+	/delete-node/ etm@619f000;
+	/delete-node/ cti@6198000;
+	/delete-node/ cti@6199000;
+	/delete-node/ cti@619a000;
+	/delete-node/ cti@619b000;
+	/delete-node/ jtagmm@619c000;
+	/delete-node/ jtagmm@619d000;
+	/delete-node/ jtagmm@619e000;
+	/delete-node/ jtagmm@619f000;
 
 	qcom,spm@b1d2000 {
 		qcom,cpu-vctl-list = <&CPU0 &CPU1 &CPU2 &CPU3>;
@@ -27,18 +27,18 @@
 
 	qcom,lpm-levels {
 		qcom,pm-cluster@0 {
-			/ delete-node / qcom,pm-cluster@1;
+			/delete-node/ qcom,pm-cluster@1;
 		};
 	};
 
-	/ delete-node / syscon@0b11101c;
+	/delete-node/ syscon@0b11101c;
 cpu_debug:
 	syscon@0b01101c {
 		compatible = "syscon";
 		reg = <0x0b01101c 0x4>;
 	};
 
-	/ delete-node / qcom,msm-cpufreq;
+	/delete-node/ qcom,msm-cpufreq;
 msm_cpufreq:
 	qcom,msm-cpufreq {
 		compatible = "qcom,msm-cpufreq";
@@ -58,9 +58,9 @@ msm_cpufreq:
 		< 2016000 >;
 	};
 
-	/ delete-node / qcom,cpu4-cpu-ddr-latfloor;
+	/delete-node/ qcom,cpu4-cpu-ddr-latfloor;
 
-	/ delete-node / qcom,cpu0-cpugrp;
+	/delete-node/ qcom,cpu0-cpugrp;
 cpu0_memlat_cpugrp:
 	qcom,cpu0-cpugrp {
 		compatible = "qcom,arm-memlat-cpugrp";
@@ -77,37 +77,37 @@ cpu0_memlat_cpugrp:
 		};
 	};
 
-	/ delete-node / qcom,cpu4-cpugrp;
+	/delete-node/ qcom,cpu4-cpugrp;
 
 };
 
 &funnel_apss {
 	ports {
-		/ delete-node / port@1;
-		/ delete-node / port@2;
-		/ delete-node / port@3;
-		/ delete-node / port@4;
+		/delete-node/ port@1;
+		/delete-node/ port@2;
+		/delete-node/ port@3;
+		/delete-node/ port@4;
 	};
 };
 
 &thermal_zones {
 	hexa-cpu-max-step {
 		cooling-maps {
-			/ delete-node / cpu4_cdev;
-			/ delete-node / cpu5_cdev;
-			/ delete-node / cpu6_cdev;
-			/ delete-node / cpu7_cdev;
+			/delete-node/ cpu4_cdev;
+			/delete-node/ cpu5_cdev;
+			/delete-node/ cpu6_cdev;
+			/delete-node/ cpu7_cdev;
 		};
 	};
 
-	/ delete-node / cpuss0-step;
+	/delete-node/ cpuss0-step;
 
 	quiet-therm-step {
 		cooling-maps {
-			/ delete-node / skin_cpu4;
-			/ delete-node / skin_cpu5;
-			/ delete-node / skin_cpu6;
-			/ delete-node / skin_cpu7;
+			/delete-node/ skin_cpu4;
+			/delete-node/ skin_cpu5;
+			/delete-node/ skin_cpu6;
+			/delete-node/ skin_cpu7;
 		};
 	};
 };
@@ -122,7 +122,7 @@ cpu0_memlat_cpugrp:
 };
 
 &soc {
-	/ delete-node / qcom,clock-cpu@b111050;
+	/delete-node/ qcom,clock-cpu@b111050;
 apsscc:
 	qcom,clock-cpu@b111050 {
 		compatible = "qcom,cpu-clock-sdm429";
@@ -225,10 +225,10 @@ apsscc:
 
 	/* Disable secure_mem node */
 	qcom,ion {
-		/ delete-node / qcom,ion-heap@8;
+		/delete-node/ qcom,ion-heap@8;
 	};
 	/* delete hypervisor node for GPU*/
-	/ delete-node / qcom,kgsl-hyp;
+	/delete-node/ qcom,kgsl-hyp;
 };
 
 &secure_mem {
@@ -256,10 +256,10 @@ apsscc:
 	qcom,chipid = <0x05000400>;
 
 	/* disable mem pools */
-	/ delete-node / qcom,gpu-mempools;
+	/delete-node/ qcom,gpu-mempools;
 };
 
 /* Disable secure context for Graphics*/
 &kgsl_msm_iommu {
-	/ delete-node / gfx3d_secure;
+	/delete-node/ gfx3d_secure;
 };

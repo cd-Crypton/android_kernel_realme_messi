@@ -51,7 +51,7 @@ msm_audio_ion_ar:
 		qcom,smmu-enabled;
 		iommus = <&apps_smmu 0x1801 0x0>;
 		qcom,iommu-dma-addr-pool = <0x10000000 0x10000000>;
-		qcom,smmu-sid-mask = / bits / 64 <0xf>;
+		qcom,smmu-sid-mask = /bits/ 64 <0xf>;
 	};
 
 lpass_core_hw_vote_ar:

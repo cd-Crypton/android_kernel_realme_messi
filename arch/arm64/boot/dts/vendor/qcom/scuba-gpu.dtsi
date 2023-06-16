@@ -12,37 +12,37 @@ gpu_opp_table:
 		compatible = "operating-points-v2";
 
 		opp-1123200000 {
-			opp-hz = / bits / 64 <1123200000>;
+			opp-hz = /bits/ 64 <1123200000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
 		};
 
 		opp-1017600000 {
-			opp-hz = / bits / 64 <1017600000>;
+			opp-hz = /bits/ 64 <1017600000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_TURBO>;
 		};
 
 		opp-921600000 {
-			opp-hz = / bits / 64 <921600000>;
+			opp-hz = /bits/ 64 <921600000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_NOM_L1>;
 		};
 
 		opp-844800000 {
-			opp-hz = / bits / 64 <844800000>;
+			opp-hz = /bits/ 64 <844800000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_NOM>;
 		};
 
 		opp-672000000 {
-			opp-hz = / bits / 64 <672000000>;
+			opp-hz = /bits/ 64 <672000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_SVS_L1>;
 		};
 
 		opp-537600000 {
-			opp-hz = / bits / 64 <537600000>;
+			opp-hz = /bits/ 64 <537600000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_SVS>;
 		};
 
 		opp-355200000 {
-			opp-hz = / bits / 64 <355200000>;
+			opp-hz = /bits/ 64 <355200000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
 		};
 	};
@@ -58,29 +58,29 @@ gpu_bw_tbl:
 	gpu-bw-tbl {
 		compatible = "operating-points-v2";
 
-		opp-0    { opp-hz = / bits / 64 < 0 >;     }; /*  OFF */
+		opp-0    { opp-hz = /bits/ 64 < 0 >;     }; /*  OFF */
 
-		opp-100  { opp-hz = / bits / 64 < 762 >;   }; /*  1.100 MHz */
+		opp-100  { opp-hz = /bits/ 64 < 762 >;   }; /*  1.100 MHz */
 
-		opp-200  { opp-hz = / bits / 64 < 1525 >;  }; /*  2.200 MHz */
+		opp-200  { opp-hz = /bits/ 64 < 1525 >;  }; /*  2.200 MHz */
 
-		opp-300  { opp-hz = / bits / 64 < 2288 >;  }; /*  3.300 MHz */
+		opp-300  { opp-hz = /bits/ 64 < 2288 >;  }; /*  3.300 MHz */
 
-		opp-451  { opp-hz = / bits / 64 < 3440 >;  }; /*  4.451 MHz */
+		opp-451  { opp-hz = /bits/ 64 < 3440 >;  }; /*  4.451 MHz */
 
-		opp-547  { opp-hz = / bits / 64 < 4173 >;  }; /*  5.547 MHz */
+		opp-547  { opp-hz = /bits/ 64 < 4173 >;  }; /*  5.547 MHz */
 
-		opp-681  { opp-hz = / bits / 64 < 5195 >;  }; /*  6.681 MHz */
+		opp-681  { opp-hz = /bits/ 64 < 5195 >;  }; /*  6.681 MHz */
 
-		opp-768  { opp-hz = / bits / 64 < 5859 >;  }; /*  7.768 MHz */
+		opp-768  { opp-hz = /bits/ 64 < 5859 >;  }; /*  7.768 MHz */
 
-		opp-1017 { opp-hz = / bits / 64 < 7759 >;  }; /*  8.1017 MHz */
+		opp-1017 { opp-hz = /bits/ 64 < 7759 >;  }; /*  8.1017 MHz */
 
-		opp-1353 { opp-hz = / bits / 64 < 10322 >; }; /*  9.1353 MHz */
+		opp-1353 { opp-hz = /bits/ 64 < 10322 >; }; /*  9.1353 MHz */
 
-		opp-1555 { opp-hz = / bits / 64 < 11863 >; }; /* 10.1555 MHz */
+		opp-1555 { opp-hz = /bits/ 64 < 11863 >; }; /* 10.1555 MHz */
 
-		opp-1804 { opp-hz = / bits / 64 < 13763 >; }; /* 11.1804 MHz */
+		opp-1804 { opp-hz = /bits/ 64 < 13763 >; }; /* 11.1804 MHz */
 	};
 
 gpubw:

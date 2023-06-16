@@ -273,7 +273,7 @@ qcom,dsi-default-panel = <&dsi_td4330_truly_v2_video>;
 };
 
 &thermal_zones {
-	/ delete-node / quiet-therm-step;
+	/delete-node/ quiet-therm-step;
 
 	quiet-therm-step {
 		polling-delay-passive = <2000>;

@@ -15,7 +15,7 @@
 #address-cells = <5>;
 #size-cells = <0>;
 
-	/ delete-node / cnss_pci;
+	/delete-node/ cnss_pci;
 asm2806_switch:
 	asm2806_switch {
 		reg = <0x00010000 0x0 0x0 0x0 0x0>;

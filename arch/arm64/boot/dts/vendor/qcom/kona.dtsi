@@ -988,7 +988,7 @@ keepalive_opp_table:
 	keepalive-opp-table {
 		compatible = "operating-points-v2";
 		opp-1 {
-			opp-hz = / bits / 64 < 1 >;
+			opp-hz = /bits/ 64 < 1 >;
 		};
 	};
 
@@ -1263,11 +1263,11 @@ qoslat_opp_table:
 	qoslat-opp-table {
 		compatible = "operating-points-v2";
 		opp-0 {
-			opp-hz = / bits / 64 < 1 >;
+			opp-hz = /bits/ 64 < 1 >;
 		};
 
 		opp-1 {
-			opp-hz = / bits / 64 < 2 >;
+			opp-hz = /bits/ 64 < 2 >;
 		};
 	};
 
@@ -1468,7 +1468,7 @@ keepalive_opp_table:
 	keepalive-opp-table {
 		compatible = "operating-points-v2";
 		opp-1 {
-			opp-hz = / bits / 64 < 1 >;
+			opp-hz = /bits/ 64 < 1 >;
 		};
 	};
 

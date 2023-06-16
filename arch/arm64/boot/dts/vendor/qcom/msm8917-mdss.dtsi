@@ -25,7 +25,7 @@
 	vddio-supply = <&pm8937_l6>;
 };
 
-/ delete-node / &mdss_dsi1;
+/delete-node/ &mdss_dsi1;
 
 &mdss_mdp {
 	qcom,max-bandwidth-low-kbps = <1800000>;
@@ -80,4 +80,4 @@
 	/ delete-property / qcom,mdss-has-ubwc;
 };
 
-/ delete-node / &mdss_fb2;
+/delete-node/ &mdss_fb2;

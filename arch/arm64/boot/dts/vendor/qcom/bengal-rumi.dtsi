@@ -60,35 +60,35 @@ bi_tcxo_ao:
 
 &rpm_bus {
 	rpm-standalone;
-	/ delete-node / rpm-regulator-smpa3;
-	/ delete-node / rpm-regulator-smpa5;
-	/ delete-node / rpm-regulator-smpa6;
-	/ delete-node / rpm-regulator-smpa7;
-	/ delete-node / rpm-regulator-smpa8;
-	/ delete-node / rpm-regulator-ldoa1;
-	/ delete-node / rpm-regulator-ldoa2;
-	/ delete-node / rpm-regulator-ldoa3;
-	/ delete-node / rpm-regulator-ldoa4;
-	/ delete-node / rpm-regulator-ldoa5;
-	/ delete-node / rpm-regulator-ldoa6;
-	/ delete-node / rpm-regulator-ldoa7;
-	/ delete-node / rpm-regulator-ldoa8;
-	/ delete-node / rpm-regulator-ldoa9;
-	/ delete-node / rpm-regulator-ldoa10;
-	/ delete-node / rpm-regulator-ldoa11;
-	/ delete-node / rpm-regulator-ldoa12;
-	/ delete-node / rpm-regulator-ldoa13;
-	/ delete-node / rpm-regulator-ldoa14;
-	/ delete-node / rpm-regulator-ldoa15;
-	/ delete-node / rpm-regulator-ldoa16;
-	/ delete-node / rpm-regulator-ldoa17;
-	/ delete-node / rpm-regulator-ldoa18;
-	/ delete-node / rpm-regulator-ldoa19;
-	/ delete-node / rpm-regulator-ldoa20;
-	/ delete-node / rpm-regulator-ldoa21;
-	/ delete-node / rpm-regulator-ldoa22;
-	/ delete-node / rpm-regulator-ldoa23;
-	/ delete-node / rpm-regulator-ldoa24;
+	/delete-node/ rpm-regulator-smpa3;
+	/delete-node/ rpm-regulator-smpa5;
+	/delete-node/ rpm-regulator-smpa6;
+	/delete-node/ rpm-regulator-smpa7;
+	/delete-node/ rpm-regulator-smpa8;
+	/delete-node/ rpm-regulator-ldoa1;
+	/delete-node/ rpm-regulator-ldoa2;
+	/delete-node/ rpm-regulator-ldoa3;
+	/delete-node/ rpm-regulator-ldoa4;
+	/delete-node/ rpm-regulator-ldoa5;
+	/delete-node/ rpm-regulator-ldoa6;
+	/delete-node/ rpm-regulator-ldoa7;
+	/delete-node/ rpm-regulator-ldoa8;
+	/delete-node/ rpm-regulator-ldoa9;
+	/delete-node/ rpm-regulator-ldoa10;
+	/delete-node/ rpm-regulator-ldoa11;
+	/delete-node/ rpm-regulator-ldoa12;
+	/delete-node/ rpm-regulator-ldoa13;
+	/delete-node/ rpm-regulator-ldoa14;
+	/delete-node/ rpm-regulator-ldoa15;
+	/delete-node/ rpm-regulator-ldoa16;
+	/delete-node/ rpm-regulator-ldoa17;
+	/delete-node/ rpm-regulator-ldoa18;
+	/delete-node/ rpm-regulator-ldoa19;
+	/delete-node/ rpm-regulator-ldoa20;
+	/delete-node/ rpm-regulator-ldoa21;
+	/delete-node/ rpm-regulator-ldoa22;
+	/delete-node/ rpm-regulator-ldoa23;
+	/delete-node/ rpm-regulator-ldoa24;
 };
 
 &tsens0 {
@@ -120,16 +120,16 @@ bi_tcxo_ao:
 };
 
 &thermal_zones {
-	/ delete-node / mapss-lowf;
-	/ delete-node / camera-lowf;
-	/ delete-node / pmi632-ibat-lvl0;
-	/ delete-node / pmi632-ibat-lvl1;
-	/ delete-node / pmi632-vbat-lvl0;
-	/ delete-node / pmi632-vbat-lvl1;
-	/ delete-node / pmi632-vbat-lvl2;
-	/ delete-node / pmi632-bcl-lvl0;
-	/ delete-node / pmi632-bcl-lvl1;
-	/ delete-node / pmi632-bcl-lvl2;
+	/delete-node/ mapss-lowf;
+	/delete-node/ camera-lowf;
+	/delete-node/ pmi632-ibat-lvl0;
+	/delete-node/ pmi632-ibat-lvl1;
+	/delete-node/ pmi632-vbat-lvl0;
+	/delete-node/ pmi632-vbat-lvl1;
+	/delete-node/ pmi632-vbat-lvl2;
+	/delete-node/ pmi632-bcl-lvl0;
+	/delete-node/ pmi632-bcl-lvl1;
+	/delete-node/ pmi632-bcl-lvl2;
 };
 
 #include "bengal-stub-regulator.dtsi"

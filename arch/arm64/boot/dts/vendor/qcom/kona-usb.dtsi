@@ -88,7 +88,7 @@ usb0:
 			linux,sysdev_is_parent;
 			snps,disable-clk-gating;
 			snps,has-lpm-erratum;
-			snps,hird-threshold = / bits / 8 <0x10>;
+			snps,hird-threshold = /bits/ 8 <0x10>;
 			snps,usb3-u1u2-disable;
 			usb-core-id = <0>;
 			tx-fifo-resize;
@@ -431,7 +431,7 @@ usb1:
 			linux,sysdev_is_parent;
 			snps,disable-clk-gating;
 			snps,has-lpm-erratum;
-			snps,hird-threshold = / bits / 8 <0x10>;
+			snps,hird-threshold = /bits/ 8 <0x10>;
 			snps,usb3_lpm_capable;
 			usb-core-id = <1>;
 			tx-fifo-resize;

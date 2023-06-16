@@ -11,37 +11,37 @@ gpu_opp_table_v2:
 		compatible = "operating-points-v2";
 
 		opp-670000000 {
-			opp-hz = / bits / 64 <670000000>;
+			opp-hz = /bits/ 64 <670000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_NOM_L1>;
 		};
 
 		opp-587000000 {
-			opp-hz = / bits / 64 <587000000>;
+			opp-hz = /bits/ 64 <587000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_NOM>;
 		};
 
 		opp-525000000 {
-			opp-hz = / bits / 64 <525000000>;
+			opp-hz = /bits/ 64 <525000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_SVS_L2>;
 		};
 
 		opp-490000000 {
-			opp-hz = / bits / 64 <490000000>;
+			opp-hz = /bits/ 64 <490000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_SVS_L1>;
 		};
 
 		opp-441600000 {
-			opp-hz = / bits / 64 <441600000>;
+			opp-hz = /bits/ 64 <441600000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_SVS_L0>;
 		};
 
 		opp-400000000 {
-			opp-hz = / bits / 64 <400000000>;
+			opp-hz = /bits/ 64 <400000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_SVS>;
 		};
 
 		opp-305000000 {
-			opp-hz = / bits / 64 <305000000>;
+			opp-hz = /bits/ 64 <305000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
 		};
 	};
@@ -54,7 +54,7 @@ gpu_opp_table_v2:
 	operating-points-v2 = <&gpu_opp_table_v2>;
 
 	/ delete-property / qcom,initial-pwrlevel;
-	/ delete-node / qcom,gpu-pwrlevels;
+	/delete-node/ qcom,gpu-pwrlevels;
 
 	/* Power levels bins */
 	qcom,gpu-pwrlevel-bins {

@@ -3721,7 +3721,7 @@ tpdm_turing_llm:
 		};
 	};
 
-	/ delete-node / tpdm@8a58000;
+	/delete-node/ tpdm@8a58000;
 tpdm_west:
 	tpdm@8a58000 {
 		compatible = "arm,primecell";
@@ -3762,7 +3762,7 @@ tpdm_spdm:
 		};
 	};
 
-	/ delete-node / funnel@8861000;
+	/delete-node/ funnel@8861000;
 funnel_turing:
 	funnel@8863000 {
 		compatible = "arm,primecell";
@@ -3829,7 +3829,7 @@ funnel_turing:
 		};
 	};
 
-	/ delete-node / tpda@8004000;
+	/delete-node/ tpda@8004000;
 tpda:
 	tpda@8004000 {
 		compatible = "arm,primecell";
@@ -3969,7 +3969,7 @@ tpda:
 		};
 	};
 
-	/ delete-node / cti@8867000;
+	/delete-node/ cti@8867000;
 cti_turing_q6:
 	cti@8862000 {
 		compatible = "arm,primecell";
@@ -4056,9 +4056,9 @@ cti_turing_q6:
 #include "khaje-sde.dtsi"
 
 &soc {
-	/ delete-node / gpu_bw_tbl;
-	/ delete-node / gpubw;
-	/ delete-node / gpu_opp_table;
+	/delete-node/ gpu_bw_tbl;
+	/delete-node/ gpubw;
+	/delete-node/ gpu_opp_table;
 
 gpu_bw_tbl:
 	gpu-bw-tbl {
@@ -4086,32 +4086,32 @@ gpu_opp_table:
 		compatible = "operating-points-v2";
 
 		opp-1114800000 {
-			opp-hz = / bits / 64 <1114800000>;
+			opp-hz = /bits/ 64 <1114800000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
 		};
 
 		opp-1025000000 {
-			opp-hz = / bits / 64 <1025000000>;
+			opp-hz = /bits/ 64 <1025000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_TURBO>;
 		};
 
 		opp-785000000 {
-			opp-hz = / bits / 64 <785000000>;
+			opp-hz = /bits/ 64 <785000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_NOM>;
 		};
 
 		opp-600000000 {
-			opp-hz = / bits / 64 <600000000>;
+			opp-hz = /bits/ 64 <600000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_SVS_L1>;
 		};
 
 		opp-465000000 {
-			opp-hz = / bits / 64 <465000000>;
+			opp-hz = /bits/ 64 <465000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_SVS>;
 		};
 
 		opp-320000000 {
-			opp-hz = / bits / 64 <320000000>;
+			opp-hz = /bits/ 64 <320000000>;
 			opp-microvolt = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
 		};
 	};
@@ -4130,7 +4130,7 @@ gpu_opp_table:
 	<26 512 0 14432000>,/*  6 bus=1804 (TURBO)   */
 	<26 512 0 16736000>;  /*  7 bus=2092 (TURBO_L1)   */
 
-	/ delete-node / qcom,gpu-pwrlevel-bins;
+	/delete-node/ qcom,gpu-pwrlevel-bins;
 	/*
 	 * Speed-bin zero is default speed bin.
 	 * For rest of the speed bins,speed-bin value
