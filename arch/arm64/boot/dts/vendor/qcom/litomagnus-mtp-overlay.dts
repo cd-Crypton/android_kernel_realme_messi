@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -8,8 +8,8 @@
 / {
 	model = "Qualcomm Technologies, Inc. Litomagnus MTP";
 	compatible = "qcom,lito-mtp", "qcom,lito", "qcom,mtp";
-	qcom, msm - id = <400 0x20000>, <440 0x20000>;
-	qcom, board - id = <8 1>;
+	qcom,msm-id = <400 0x20000>, <440 0x20000>;
+	qcom,board-id = <8 1>;
 };
 
 /*
@@ -17,5 +17,5 @@
  * to allow default adsp img load
  */
 &adsp_loader {
-	adsp - fw - names = "";
+	adsp-fw-names = "";
 };

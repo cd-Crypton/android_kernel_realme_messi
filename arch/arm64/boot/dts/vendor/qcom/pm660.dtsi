@@ -3,61 +3,61 @@
 #include <dt-bindings/interrupt-controller/irq.h>
 
 &spmi_bus {
-	qcom, pm660@0 {
+	qcom,pm660@0 {
 		compatible = "qcom,spmi-pmic";
 		reg = <0x0 SPMI_USID>;
 #address-cells = <2>;
 #size-cells = <0>;
 
 	pm660_revid:
-		qcom, revid@100 {
+		qcom,revid@100 {
 			compatible = "qcom,qpnp-revid";
 			reg = <0x100 0x100>;
-			qcom, fab - id - valid;
-			qcom, tp - rev - valid;
+			qcom,fab-id-valid;
+			qcom,tp-rev-valid;
 		};
 
 	pm660_misc:
-		qcom, misc@900 {
+		qcom,misc@900 {
 			compatible = "qcom,qpnp-misc";
 			reg = <0x900 0x100>;
 		};
 
 	pm660_pon:
-		qcom, power - on@800 {
+		qcom,power-on@800 {
 			compatible = "qcom,qpnp-power-on";
 			reg = <0x800 0x100>;
 			interrupts = <0x0 0x8 0x0 IRQ_TYPE_NONE>,
 			<0x0 0x8 0x1 IRQ_TYPE_NONE>,
 			<0x0 0x8 0x4 IRQ_TYPE_NONE>,
 			<0x0 0x8 0x5 IRQ_TYPE_NONE>;
-			interrupt - names = "kpdpwr", "resin",
+			interrupt-names = "kpdpwr", "resin",
 			"resin-bark", "kpdpwr-resin-bark";
-			qcom, pon - dbc - delay = <15625>;
-			qcom, kpdpwr - sw - debounce;
-			qcom, system - reset;
-			qcom, store - hard - reset - reason;
+			qcom,pon-dbc-delay = <15625>;
+			qcom,kpdpwr-sw-debounce;
+			qcom,system-reset;
+			qcom,store-hard-reset-reason;
 
-			qcom, pon_1 {
-				qcom, pon - type = <0>;
-				qcom, pull - up = <1>;
-				linux, code = <116>;
+			qcom,pon_1 {
+				qcom,pon-type = <0>;
+				qcom,pull-up = <1>;
+				linux,code = <116>;
 			};
 
-			qcom, pon_2 {
-				qcom, pon - type = <1>;
-				qcom, pull - up = <1>;
-				linux, code = <114>;
+			qcom,pon_2 {
+				qcom,pon-type = <1>;
+				qcom,pull-up = <1>;
+				linux,code = <114>;
 			};
 		};
 
 	pm660_tz:
-		qcom, temp - alarm@2400 {
+		qcom,temp-alarm@2400 {
 			compatible = "qcom,spmi-temp-alarm";
 			reg = <0x2400 0x100>;
 			interrupts = <0x0 0x24 0x0 IRQ_TYPE_EDGE_RISING>;
 #thermal-sensor-cells = <0>;
-			qcom, temperature - threshold - set = <1>;
+			qcom,temperature-threshold-set = <1>;
 		};
 
 	pm660_gpios:
@@ -77,25 +77,25 @@
 			<0x0 0xca 0 IRQ_TYPE_NONE>,
 			<0x0 0xcb 0 IRQ_TYPE_NONE>,
 			<0x0 0xcc 0 IRQ_TYPE_NONE>;
-			interrupt - names = "pm660_gpio1", "pm660_gpio2",
+			interrupt-names = "pm660_gpio1", "pm660_gpio2",
 			"pm660_gpio3", "pm660_gpio4",
 			"pm660_gpio5", "pm660_gpio6",
 			"pm660_gpio7", "pm660_gpio8",
 			"pm660_gpio9", "pm660_gpio10",
 			"pm660_gpio11", "pm660_gpio12",
 			"pm660_gpio13";
-			gpio - controller;
+			gpio-controller;
 #gpio-cells = <2>;
 		};
 
 	pm660_rtc:
-		qcom, pm660_rtc {
+		qcom,pm660_rtc {
 			compatible = "qcom,pm8941-rtc";
 			interrupts = <0x0 0x61 0x1 IRQ_TYPE_NONE>;
 		};
 
 	pm660_pbs:
-		qcom, pbs@7400 {
+		qcom,pbs@7400 {
 			compatible = "qcom,qpnp-pbs";
 			reg = <0x7400 0x100>;
 			status = "disabled";
@@ -108,114 +108,114 @@
 #address-cells = <1>;
 #size-cells = <0>;
 			interrupts = <0x0 0x31 0x0 IRQ_TYPE_EDGE_RISING>;
-			interrupt - names = "eoc-int-en-set";
+			interrupt-names = "eoc-int-en-set";
 #io-channel-cells = <1>;
-			io - channel - ranges;
+			io-channel-ranges;
 
 			/* Channel nodes */
 			die_temp {
 				reg = <ADC_DIE_TEMP>;
 				label = "die_temp";
-				qcom, pre - scaling = <1 1>;
+				qcom,pre-scaling = <1 1>;
 			};
 
 			ref_gnd {
 				reg = <ADC_REF_GND>;
 				label = "ref_gnd";
-				qcom, pre - scaling = <1 1>;
+				qcom,pre-scaling = <1 1>;
 			};
 
 			vref_1p25 {
 				reg = <ADC_1P25VREF>;
 				label = "vref_1p25";
-				qcom, pre - scaling = <1 1>;
+				qcom,pre-scaling = <1 1>;
 			};
 
 
 			vph_pwr {
 				reg = <ADC_VPH_PWR>;
 				label = "vph_pwr";
-				qcom, pre - scaling = <1 3>;
+				qcom,pre-scaling = <1 3>;
 			};
 
 			vcoin {
 				reg = <ADC_VCOIN>;
 				label = "vcoin";
-				qcom, pre - scaling = <1 3>;
+				qcom,pre-scaling = <1 3>;
 			};
 
 			xo_therm {
 				reg = <ADC_XO_THERM_PU2>;
 				label = "xo_therm";
-				qcom, ratiometric;
-				qcom, hw - settle - time = <200>;
-				qcom, pre - scaling = <1 1>;
+				qcom,ratiometric;
+				qcom,hw-settle-time = <200>;
+				qcom,pre-scaling = <1 1>;
 			};
 
 			msm_therm{
 				reg = <ADC_AMUX_THM1_PU2>;
 				label = "msm_therm";
-				qcom, ratiometric;
-				qcom, hw - settle - time = <200>;
-				qcom, pre - scaling = <1 1>;
+				qcom,ratiometric;
+				qcom,hw-settle-time = <200>;
+				qcom,pre-scaling = <1 1>;
 			};
 
 			quiet_therm{
 				reg = <ADC_AMUX_THM5_PU2>;
 				label = "quiet_therm";
-				qcom, ratiometric;
-				qcom, hw - settle - time = <200>;
-				qcom, pre - scaling = <1 1>;
+				qcom,ratiometric;
+				qcom,hw-settle-time = <200>;
+				qcom,pre-scaling = <1 1>;
 			};
 
 			emmc_therm{
 				reg = <ADC_AMUX_THM2_PU2>;
 				label = "emmc_therm";
-				qcom, ratiometric;
-				qcom, hw - settle - time = <200>;
-				qcom, pre - scaling = <1 1>;
+				qcom,ratiometric;
+				qcom,hw-settle-time = <200>;
+				qcom,pre-scaling = <1 1>;
 			};
 
 			pa_therm0{
 				reg = <ADC_AMUX_THM3_PU2>;
 				label = "pa_therm0";
-				qcom, ratiometric;
-				qcom, hw - settle - time = <200>;
-				qcom, pre - scaling = <1 1>;
+				qcom,ratiometric;
+				qcom,hw-settle-time = <200>;
+				qcom,pre-scaling = <1 1>;
 			};
 
 			drax_temp{
 				reg = <ANA_IN>;
 				label = "drax_temp";
-				qcom, pre - scaling = <1 1>;
+				qcom,pre-scaling = <1 1>;
 			};
 		};
 
 	pm660_charger:
-		qcom, qpnp - smb2 {
+		qcom,qpnp-smb2 {
 			compatible = "qcom,qpnp-smb2";
 #address-cells = <1>;
 #size-cells = <1>;
 
-			qcom, pmic - revid = <&pm660_revid>;
+			qcom,pmic-revid = <&pm660_revid>;
 
-			io - channels = <&pm660_rradc 8>,
+			io-channels = <&pm660_rradc 8>,
 			<&pm660_rradc 10>,
 			<&pm660_rradc 3>,
 			<&pm660_rradc 4>;
-			io - channel - names = "charger_temp",
+			io-channel-names = "charger_temp",
 			"charger_temp_max",
 			"usbin_i",
 			"usbin_v";
 
-			qcom, wipower - max - uw = <5000000>;
-			dpdm - supply = <&qusb_phy0>;
+			qcom,wipower-max-uw = <5000000>;
+			dpdm-supply = <&qusb_phy0>;
 
-			qcom, thermal - mitigation
+			qcom,thermal-mitigation
 			= <3000000 2500000 2000000 1500000
 			1000000 500000>;
 
-			qcom, chgr@1000 {
+			qcom,chgr@1000 {
 				reg = <0x1000 0x100>;
 				interrupts =
 				<0x0 0x10 0x0 IRQ_TYPE_EDGE_RISING>,
@@ -224,27 +224,27 @@
 				<0x0 0x10 0x3 IRQ_TYPE_EDGE_RISING>,
 				<0x0 0x10 0x4 IRQ_TYPE_EDGE_RISING>;
 
-				interrupt - names = "chg-error",
+				interrupt-names = "chg-error",
 				"chg-state-change",
 				"step-chg-state-change",
 				"step-chg-soc-update-fail",
 				"step-chg-soc-update-request";
 			};
 
-			qcom, otg@1100 {
+			qcom,otg@1100 {
 				reg = <0x1100 0x100>;
 				interrupts = <0x0 0x11 0x0 IRQ_TYPE_EDGE_BOTH>,
 				<0x0 0x11 0x1 IRQ_TYPE_EDGE_BOTH>,
 				<0x0 0x11 0x2 IRQ_TYPE_EDGE_BOTH>,
 				<0x0 0x11 0x3 IRQ_TYPE_EDGE_BOTH>;
 
-				interrupt - names = "otg-fail",
+				interrupt-names = "otg-fail",
 				"otg-overcurrent",
 				"otg-oc-dis-sw-sts",
 				"testmode-change-detect";
 			};
 
-			qcom, bat - if @1200 {
+			qcom,bat-if @1200 {
 			reg = <0x1200 0x100>;
 			interrupts =
 			<0x0 0x12 0x0 IRQ_TYPE_EDGE_RISING>,
@@ -254,7 +254,7 @@
 			<0x0 0x12 0x4 IRQ_TYPE_EDGE_BOTH>,
 			<0x0 0x12 0x5 IRQ_TYPE_EDGE_BOTH>;
 
-			interrupt - names = "bat-temp",
+			interrupt-names = "bat-temp",
 			"bat-ocp",
 			"bat-ov",
 			"bat-low",
@@ -262,7 +262,7 @@
 			"bat-terminal-missing";
 		};
 
-		qcom, usb - chgpth@1300 {
+		qcom,usb-chgpth@1300 {
 			reg = <0x1300 0x100>;
 			interrupts =
 			<0x0 0x13 0x0 IRQ_TYPE_EDGE_BOTH>,
@@ -274,7 +274,7 @@
 			<0x0 0x13 0x6 IRQ_TYPE_EDGE_RISING>,
 			<0x0 0x13 0x7 IRQ_TYPE_EDGE_RISING>;
 
-			interrupt - names = "usbin-collapse",
+			interrupt-names = "usbin-collapse",
 			"usbin-lt-3p6v",
 			"usbin-uv",
 			"usbin-ov",
@@ -284,7 +284,7 @@
 			"type-c-change";
 		};
 
-		qcom, dc - chgpth@1400 {
+		qcom,dc-chgpth@1400 {
 			reg = <0x1400 0x100>;
 			interrupts =
 			<0x0 0x14 0x0 IRQ_TYPE_EDGE_BOTH>,
@@ -295,7 +295,7 @@
 			<0x0 0x14 0x5 IRQ_TYPE_EDGE_BOTH>,
 			<0x0 0x14 0x6 IRQ_TYPE_EDGE_RISING>;
 
-			interrupt - names = "dcin-collapse",
+			interrupt-names = "dcin-collapse",
 			"dcin-lt-3p6v",
 			"dcin-uv",
 			"dcin-ov",
@@ -304,7 +304,7 @@
 			"dcin-icl-change";
 		};
 
-		qcom, chgr - misc@1600 {
+		qcom,chgr-misc@1600 {
 			reg = <0x1600 0x100>;
 			interrupts =
 			<0x0 0x16 0x0 IRQ_TYPE_EDGE_RISING>,
@@ -316,7 +316,7 @@
 			<0x0 0x16 0x6 IRQ_TYPE_EDGE_FALLING>,
 			<0x0 0x16 0x7 IRQ_TYPE_EDGE_BOTH>;
 
-			interrupt - names = "wdog-snarl",
+			interrupt-names = "wdog-snarl",
 			"wdog-bark",
 			"aicl-fail",
 			"aicl-done",
@@ -328,12 +328,12 @@
 	};
 
 pm660_pdphy:
-	qcom, usb - pdphy@1700 {
+	qcom,usb-pdphy@1700 {
 		compatible = "qcom,qpnp-pdphy";
 		reg = <0x1700 0x100>;
-		vdd - pdphy - supply = <&pm660l_l7>;
-		vbus - supply = <&smb2_vbus>;
-		vconn - supply = <&smb2_vconn>;
+		vdd-pdphy-supply = <&pm660l_l7>;
+		vbus-supply = <&smb2_vbus>;
+		vconn-supply = <&smb2_vconn>;
 		interrupts = <0x0 0x17 0x0 IRQ_TYPE_EDGE_RISING>,
 		<0x0 0x17 0x1 IRQ_TYPE_EDGE_RISING>,
 		<0x0 0x17 0x2 IRQ_TYPE_EDGE_RISING>,
@@ -342,7 +342,7 @@ pm660_pdphy:
 		<0x0 0x17 0x5 IRQ_TYPE_EDGE_RISING>,
 		<0x0 0x17 0x6 IRQ_TYPE_EDGE_RISING>;
 
-		interrupt - names = "sig-tx",
+		interrupt-names = "sig-tx",
 		"sig-rx",
 		"msg-tx",
 		"msg-rx",
@@ -350,10 +350,10 @@ pm660_pdphy:
 		"msg-tx-discarded",
 		"msg-rx-discarded";
 
-	qcom, default-sink-caps = <5000 3000>, /* 5V @ 3A */
+	qcom,default-sink-caps = <5000 3000>, /* 5V @ 3A */
 			<9000 3000>; /* 9V @ 3A */
-		qcom, no - usb3 - dp - concurrency;
-		qcom, pd - 20 - source - only;
+		qcom,no-usb3-dp-concurrency;
+		qcom,pd-20-source-only;
 	};
 
 	pm660_adc_tm:
@@ -361,11 +361,11 @@ pm660_pdphy:
 		compatible = "qcom,adc-tm-rev2";
 		reg = <0x3400 0x100>;
 		interrupts = <0x0 0x34 0x0 IRQ_TYPE_EDGE_RISING>;
-		interrupt - names = "thr-int-en";
+		interrupt-names = "thr-int-en";
 #address-cells = <1>;
 #size-cells = <0>;
 #thermal-sensor-cells = <1>;
-		qcom, pmic - revid = <&pm660_revid>;
+		qcom,pmic-revid = <&pm660_revid>;
 	};
 
 pm660_rradc:
@@ -375,27 +375,27 @@ pm660_rradc:
 #address-cells = <1>;
 #size-cells = <0>;
 #io-channel-cells = <1>;
-		qcom, pmic - revid = <&pm660_revid>;
+		qcom,pmic-revid = <&pm660_revid>;
 	};
 
 pm660_fg:
-	qpnp, fg {
+	qpnp,fg {
 		compatible = "qcom,fg-gen3";
 #address-cells = <1>;
 #size-cells = <1>;
-		qcom, pmic - revid = <&pm660_revid>;
-		io - channels = <&pm660_rradc 0>,
+		qcom,pmic-revid = <&pm660_revid>;
+		io-channels = <&pm660_rradc 0>,
 		<&pm660_rradc 7>;
-		io - channel - names = "rradc_batt_id",
+		io-channel-names = "rradc_batt_id",
 		"rradc_die_temp";
-		qcom, rradc - base = <0x4500>;
-		qcom, fg - esr - timer - awake = <96 96>;
-		qcom, fg - esr - timer - asleep = <256 256>;
-		qcom, fg - esr - timer - charging = <0 96>;
-		qcom, cycle - counter - en;
+		qcom,rradc-base = <0x4500>;
+		qcom,fg-esr-timer-awake = <96 96>;
+		qcom,fg-esr-timer-asleep = <256 256>;
+		qcom,fg-esr-timer-charging = <0 96>;
+		qcom,cycle-counter-en;
 		status = "okay";
 
-		qcom, fg - batt - soc@4000 {
+		qcom,fg-batt-soc@4000 {
 			status = "okay";
 			reg = <0x4000 0x100>;
 			interrupts = <0x0 0x40 0x0 IRQ_TYPE_EDGE_BOTH>,
@@ -409,7 +409,7 @@ pm660_fg:
 			IRQ_TYPE_EDGE_RISING>,
 			<0x0 0x40 0x6 IRQ_TYPE_EDGE_BOTH>,
 			<0x0 0x40 0x7 IRQ_TYPE_EDGE_BOTH>;
-			interrupt - names = "soc-update",
+			interrupt-names = "soc-update",
 			"soc-ready",
 			"bsoc-delta",
 			"msoc-delta",
@@ -419,7 +419,7 @@ pm660_fg:
 			"msoc-full";
 		};
 
-		qcom, fg - batt - info@4100 {
+		qcom,fg-batt-info@4100 {
 			status = "okay";
 			reg = <0x4100 0x100>;
 			interrupts = <0x0 0x41 0x0 IRQ_TYPE_EDGE_BOTH>,
@@ -427,20 +427,20 @@ pm660_fg:
 			<0x0 0x41 0x2 IRQ_TYPE_EDGE_BOTH>,
 			<0x0 0x41 0x3 IRQ_TYPE_EDGE_BOTH>,
 			<0x0 0x41 0x6 IRQ_TYPE_EDGE_BOTH>;
-			interrupt - names = "vbatt-pred-delta",
+			interrupt-names = "vbatt-pred-delta",
 			"vbatt-low",
 			"esr-delta",
 			"batt-missing",
 			"batt-temp-delta";
 		};
 
-		qcom, fg - memif@4400 {
+		qcom,fg-memif@4400 {
 			status = "okay";
 			reg = <0x4400 0x100>;
 			interrupts = <0x0 0x44 0x0 IRQ_TYPE_EDGE_BOTH>,
 			<0x0 0x44 0x1 IRQ_TYPE_EDGE_BOTH>,
 			<0x0 0x44 0x2 IRQ_TYPE_EDGE_BOTH>;
-			interrupt - names = "ima-rdy",
+			interrupt-names = "ima-rdy",
 			"mem-xcp",
 			"dma-grant";
 		};
@@ -451,14 +451,14 @@ bcl_sensor:
 		compatible = "qcom,msm-bcl-lmh";
 		reg = <0x4200 0xff>,
 		<0x4300 0xff>;
-		reg - names = "fg_user_adc",
+		reg-names = "fg_user_adc",
 		"fg_lmh";
 		interrupts = <0x0 0x42 0x0 IRQ_TYPE_NONE>,
 		<0x0 0x42 0x1 IRQ_TYPE_NONE>,
 		<0x0 0x42 0x2 IRQ_TYPE_NONE>,
 		<0x0 0x42 0x3 IRQ_TYPE_NONE>,
 		<0x0 0x42 0x4 IRQ_TYPE_NONE>;
-		interrupt - names = "bcl-high-ibat",
+		interrupt-names = "bcl-high-ibat",
 		"bcl-very-high-ibat",
 		"bcl-low-vbat",
 		"bcl-very-low-vbat",
@@ -467,77 +467,77 @@ bcl_sensor:
 	};
 };
 
-qcom, pm660@1 {
+qcom,pm660@1 {
 	compatible = "qcom,spmi-pmic";
 	reg = <0x1 SPMI_USID>;
 #address-cells = <2>;
 #size-cells = <0>;
 
 pm660_haptics:
-	qcom, haptic@c000 {
+	qcom,haptic@c000 {
 		compatible = "qcom,pm660-haptics";
 		reg = <0xc000 0x100>;
 		interrupts = <0x1 0xc0 0x0 IRQ_TYPE_EDGE_BOTH>,
 		<0x1 0xc0 0x1 IRQ_TYPE_EDGE_BOTH>;
-		interrupt - names = "hap-sc-irq", "hap-play-irq";
-		qcom, actuator - type = "lra";
-		qcom, vmax - mv = <3200>;
-		qcom, play - rate - us = <6667>;
-		qcom, lra - resonance - sig - shape = "sine";
-		qcom, lra - auto - resonance - mode = "qwd";
-		qcom, lra - allow - variable - play - rate;
+		interrupt-names = "hap-sc-irq", "hap-play-irq";
+		qcom,actuator-type = "lra";
+		qcom,vmax-mv = <3200>;
+		qcom,play-rate-us = <6667>;
+		qcom,lra-resonance-sig-shape = "sine";
+		qcom,lra-auto-resonance-mode = "qwd";
+		qcom,lra-allow-variable-play-rate;
 
 		wf_0 {
 			/* CLICK */
-			qcom, effect - id = <0>;
-			qcom, wf - vmax - mv = <3600>;
-			qcom, wf - pattern = [3e 3e 3e];
-				qcom, wf - play - rate - us = <6667>;
-				qcom, wf - brake - pattern = [01 00 00 00];
-				qcom, lra - auto - resonance - disable;
+			qcom,effect-id = <0>;
+			qcom,wf-vmax-mv = <3600>;
+			qcom,wf-pattern = [3e 3e 3e];
+				qcom,wf-play-rate-us = <6667>;
+				qcom,wf-brake-pattern = [01 00 00 00];
+				qcom,lra-auto-resonance-disable;
 			};
 			wf_1 {
 				/* DOUBLE CLICK */
-				qcom, effect - id = <1>;
-				qcom, wf - vmax - mv = <3600>;
-				qcom, wf - pattern = [7e 7e 02 02 02 02 02 02];
-				qcom, wf - play - rate - us = <7143>;
-				qcom, wf - repeat - count = <2>;
-				qcom, wf - s - repeat - count = <1>;
-				qcom, lra - auto - resonance - disable;
+				qcom,effect-id = <1>;
+				qcom,wf-vmax-mv = <3600>;
+				qcom,wf-pattern = [7e 7e 02 02 02 02 02 02];
+				qcom,wf-play-rate-us = <7143>;
+				qcom,wf-repeat-count = <2>;
+				qcom,wf-s-repeat-count = <1>;
+				qcom,lra-auto-resonance-disable;
 			};
 			wf_2 {
 				/* TICK */
-				qcom, effect - id = <2>;
-				qcom, wf - vmax - mv = <3600>;
-				qcom, wf - pattern = [7e 7e];
-				qcom, wf - play - rate - us = <4000>;
-				qcom, lra - auto - resonance - disable;
+				qcom,effect-id = <2>;
+				qcom,wf-vmax-mv = <3600>;
+				qcom,wf-pattern = [7e 7e];
+				qcom,wf-play-rate-us = <4000>;
+				qcom,lra-auto-resonance-disable;
 			};
 			wf_3 {
 				/* THUD */
-				qcom, effect - id = <3>;
-				qcom, wf - vmax - mv = <3600>;
-				qcom, wf - pattern = [7e 7e 7e];
-				qcom, wf - play - rate - us = <6667>;
-				qcom, lra - auto - resonance - disable;
+				qcom,effect-id = <3>;
+				qcom,wf-vmax-mv = <3600>;
+				qcom,wf-pattern = [7e 7e 7e];
+				qcom,wf-play-rate-us = <6667>;
+				qcom,lra-auto-resonance-disable;
 			};
 			wf_4 {
 				/* POP */
-				qcom, effect - id = <4>;
-				qcom, wf - vmax - mv = <3600>;
-				qcom, wf - pattern = [7e 7e];
-				qcom, wf - play - rate - us = <5000>;
-				qcom, lra - auto - resonance - disable;
+				qcom,effect-id = <4>;
+				qcom,wf-vmax-mv = <3600>;
+				qcom,wf-pattern = [7e 7e];
+				qcom,wf-play-rate-us = <5000>;
+				qcom,lra-auto-resonance-disable;
 			};
 			wf_5 {
 				/* HEAVY CLICK */
-				qcom, effect - id = <5>;
-				qcom, wf - vmax - mv = <3600>;
-				qcom, wf - pattern = [7e 7e 7e];
-				qcom, wf - play - rate - us = <6667>;
-				qcom, wf - brake - pattern = [03 00 00 00];
-				qcom, lra - auto - resonance - disable;
+				qcom,effect-id = <5>;
+				qcom,wf-vmax-mv = <3600>;
+				qcom,wf-pattern = [7e 7e 7e];
+				qcom,wf-play-rate-us = <6667>;
+				qcom,wf-brake-pattern = [03 00 00 00];
+				qcom,lra-auto-resonance-disable;
 			};
 		};
 	};
@@ -545,12 +545,12 @@ pm660_haptics:
 
 &thermal_zones {
 pm660_temp_alarm:
-	pm660 - tz {
-		polling - delay - passive = <0>;
-		polling - delay = <0>;
-		thermal - governor = "step_wise";
-		thermal - sensors = <&pm660_tz>;
-		wake - capable - sensor;
+	pm660-tz {
+		polling-delay-passive = <0>;
+		polling-delay = <0>;
+		thermal-governor = "step_wise";
+		thermal-sensors = <&pm660_tz>;
+		wake-capable-sensor;
 
 		trips {
 		pm660_trip0:

@@ -3,6 +3,6 @@
 / {
 	model = "Qualcomm Technologies, Inc. SDA429";
 	compatible = "qcom,sda429";
-	qcom, msm - id = <364 0x0>;
-	qcom, msm - name = "SDA429";
+	qcom,msm-id = <364 0x0>;
+	qcom,msm-name = "SDA429";
 };

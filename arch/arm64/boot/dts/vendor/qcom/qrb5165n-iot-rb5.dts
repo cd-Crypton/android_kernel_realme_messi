@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "qrb5165n.dtsi"
 #include "qrb5165n-iot-rb5.dtsi"
@@ -6,5 +6,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. QRB5165N IOT RB5";
 	compatible = "qcom,kona-iot", "qcom,kona", "qcom,iot";
-	qcom, board - id = <11 3>;
+	qcom,board-id = <11 3>;
 };

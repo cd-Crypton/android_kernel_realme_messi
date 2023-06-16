@@ -6,6 +6,6 @@
 / {
 	model = "Qualcomm Technologies, Inc. QCM2150";
 	compatible = "qcom,qcm2150";
-	qcom, msm - id = <436 0x0>;
-	qcom, msm - name = "QCM2150";
+	qcom,msm-id = <436 0x0>;
+	qcom,msm-name = "QCM2150";
 };

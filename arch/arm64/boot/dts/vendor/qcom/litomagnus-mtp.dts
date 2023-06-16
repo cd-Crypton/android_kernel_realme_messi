@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "litomagnus.dtsi"
 #include "litomagnus-mtp.dtsi"
@@ -7,9 +7,9 @@
 / {
 	model = "Qualcomm Technologies, Inc. Litomagnus MTP";
 	compatible = "qcom,lito-mtp", "qcom,lito", "qcom,mtp";
-	qcom, board - id = <8 1>;
+	qcom,board-id = <8 1>;
 };
 
 &ufsphy_mem {
-	/ delete - property / vdda - phy - always - on;
+	/ delete-property / vdda-phy-always-on;
 };

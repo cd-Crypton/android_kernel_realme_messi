@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / memreserve / 0xc0000000 0x00000100;
 
 #include "lagoon.dtsi"
@@ -7,5 +7,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. Lagoon RUMI";
 	compatible = "qcom,lagoon-rumi", "qcom,lagoon", "qcom,rumi";
-	qcom, board - id = <15 0>;
+	qcom,board-id = <15 0>;
 };

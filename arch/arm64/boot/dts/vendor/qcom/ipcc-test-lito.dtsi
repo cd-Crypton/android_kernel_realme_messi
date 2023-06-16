@@ -1,7 +1,7 @@
 #include "ipcc-test.dtsi"
 
 &soc {
-	/ delete - node / ipcc - self - ping - slpi;
+	/delete-node/ ipcc-self-ping-slpi;
 };
 
 &ipcc_self_ping_npu {

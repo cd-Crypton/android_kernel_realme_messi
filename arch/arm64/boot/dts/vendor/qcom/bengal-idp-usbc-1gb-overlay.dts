@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -7,6 +7,6 @@
 / {
 	model = "Qualcomm Technologies, Inc. BENGAL IDP AATC 1Gb DDR";
 	compatible = "qcom,bengal-idp", "qcom,bengal", "qcom,idp";
-	qcom, msm - id = <417 0x10000>, <444 0x10000>;
-	qcom, board - id = <34 0x301>;
+	qcom,msm-id = <417 0x10000>, <444 0x10000>;
+	qcom,board-id = <34 0x301>;
 };

@@ -1,9 +1,9 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include "sdm429-qrd.dtsi"
 
 / {
 	model = "QRD";
-	qcom, board - id = <0xb 3>;
+	qcom,board-id = <0xb 3>;
 };

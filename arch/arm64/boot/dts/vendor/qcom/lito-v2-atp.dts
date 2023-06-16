@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "lito-v2.dtsi"
 #include "lito-atp.dtsi"
@@ -7,9 +7,9 @@
 / {
 	model = "Qualcomm Technologies, Inc. Lito v2 ATP";
 	compatible = "qcom,lito-atp", "qcom,lito", "qcom,atp";
-	qcom, board - id = <33 0>;
+	qcom,board-id = <33 0>;
 };
 
 &ufsphy_mem {
-	/ delete - property / vdda - phy - always - on;
+	/ delete-property / vdda-phy-always-on;
 };

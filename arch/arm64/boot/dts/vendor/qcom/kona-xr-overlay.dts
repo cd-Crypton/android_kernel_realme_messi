@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include <dt-bindings/clock/qcom,gcc-kona.h>
@@ -11,6 +11,6 @@
 / {
 	model = "Qualcomm Technologies, Inc. XR kona Standalone";
 	compatible = "qcom,kona-mtp", "qcom,kona", "qcom,mtp";
-	qcom, board - id = <0x1010008 0>;
+	qcom,board-id = <0x1010008 0>;
 };
 

@@ -3,5 +3,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. QRB5165N";
 	compatible = "qcom,kona";
-	qcom, msm - id = <496 0x20001>;
+	qcom,msm-id = <496 0x20001>;
 };

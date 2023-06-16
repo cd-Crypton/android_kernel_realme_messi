@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -7,6 +7,6 @@
 / {
 	model = "Qualcomm Technologies, Inc. Scuba QRD NON ELDO";
 	compatible = "qcom,scuba-qrd", "qcom,scuba", "qcom,qrd";
-	qcom, msm - id = <441 0x10000>, <471 0x10000>;
-	qcom, board - id = <0x1000B 0>;
+	qcom,msm-id = <441 0x10000>, <471 0x10000>;
+	qcom,board-id = <0x1000B 0>;
 };

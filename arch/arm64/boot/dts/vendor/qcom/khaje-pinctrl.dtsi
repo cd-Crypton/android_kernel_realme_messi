@@ -13,8 +13,8 @@ cam_flash_torch_active:
 
 		config {
 			pins = "gpio85";
-			bias - disable; /* No PULL */
-			drive - strength = <2>; /* 2 MA */
+			bias-disable; /* No PULL */
+			drive-strength = <2>; /* 2 MA */
 		};
 	};
 
@@ -28,9 +28,9 @@ cam_flash_torch_suspend:
 
 		config {
 			pins = "gpio85";
-			bias - pull - down; /* PULL DOWN */
-			drive - strength = <2>; /* 2 MA */
-			output - low;
+			bias-pull-down; /* PULL DOWN */
+			drive-strength = <2>; /* 2 MA */
+			output-low;
 		};
 	};
 
@@ -44,8 +44,8 @@ cam_flash_tx_active:
 
 		config {
 			pins = "gpio93";
-			bias - disable; /* No PULL */
-			drive - strength = <2>; /* 2 MA */
+			bias-disable; /* No PULL */
+			drive-strength = <2>; /* 2 MA */
 		};
 	};
 
@@ -59,9 +59,9 @@ cam_flash_tx_suspend:
 
 		config {
 			pins = "gpio93";
-			bias - pull - down; /* PULL DOWN */
-			drive - strength = <2>; /* 2 MA */
-			output - low;
+			bias-pull-down; /* PULL DOWN */
+			drive-strength = <2>; /* 2 MA */
+			output-low;
 		};
 	};
 
@@ -76,8 +76,8 @@ cam_flash_tx_suspend:
 
 			config {
 				pins = "gpio71";
-				drive - strength = <2>; /* 2 MA */
-				bias - pull - up;
+				drive-strength = <2>; /* 2 MA */
+				bias-pull-up;
 			};
 		};
 
@@ -91,8 +91,8 @@ cam_flash_tx_suspend:
 
 			config {
 				pins = "gpio71";
-				drive - strength = <2>; /* 2 MA */
-				bias - disable;
+				drive-strength = <2>; /* 2 MA */
+				bias-disable;
 			};
 		};
 	};
@@ -107,8 +107,8 @@ cam_flash_tx_suspend:
 
 			config {
 				pins = "gpio86";
-				drive - strength = <8>;
-				bias - pull - up;
+				drive-strength = <8>;
+				bias-pull-up;
 			};
 		};
 	};
@@ -123,8 +123,8 @@ cam_flash_tx_suspend:
 
 			config {
 				pins = "gpio86";
-				drive - strength = <2>;
-				bias - pull - down;
+				drive-strength = <2>;
+				bias-pull-down;
 			};
 		};
 	};
@@ -139,8 +139,8 @@ cam_flash_tx_suspend:
 
 			config {
 				pins = "gpio80", "gpio86";
-				drive - strength = <2>;
-				bias - pull - down;
+				drive-strength = <2>;
+				bias-pull-down;
 			};
 		};
 	};

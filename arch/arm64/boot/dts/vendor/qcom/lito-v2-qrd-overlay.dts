@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include "lito-qrd.dtsi"
@@ -7,6 +7,6 @@
 / {
 	model = "Qualcomm Technologies, Inc. Lito v2 QRD";
 	compatible = "qcom,lito-qrd", "qcom,lito", "qcom,qrd";
-	qcom, msm - id = <400 0x20000>, <440 0x20000>;
-	qcom, board - id = <11 0>;
+	qcom,msm-id = <400 0x20000>, <440 0x20000>;
+	qcom,board-id = <11 0>;
 };

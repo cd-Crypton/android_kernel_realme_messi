@@ -3,23 +3,23 @@
 / {
 	model = "Qualcomm Technologies, Inc. kona v2";
 	compatible = "qcom,kona";
-	qcom, msm - id = <356 0x20000>;
+	qcom,msm-id = <356 0x20000>;
 };
 
 &CPU4 {
-	dynamic - power - coefficient = <533>;
+	dynamic-power-coefficient = <533>;
 };
 
 &CPU5 {
-	dynamic - power - coefficient = <533>;
+	dynamic-power-coefficient = <533>;
 };
 
 &CPU6 {
-	dynamic - power - coefficient = <533>;
+	dynamic-power-coefficient = <533>;
 };
 
 &CPU7 {
-	dynamic - power - coefficient = <642>;
+	dynamic-power-coefficient = <642>;
 };
 
 &clock_camcc {
@@ -35,15 +35,15 @@
 };
 
 &spss_utils {
-	qcom, spss - dev - firmware - name  = "spss2d";	/* 8 chars max */
-	qcom, spss - test - firmware - name = "spss2t";	/* 8 chars max */
-	qcom, spss - prod - firmware - name = "spss2p";	/* 8 chars max */
+	qcom,spss-dev-firmware-name  = "spss2d";	/* 8 chars max */
+	qcom,spss-test-firmware-name = "spss2t";	/* 8 chars max */
+	qcom,spss-prod-firmware-name = "spss2p";	/* 8 chars max */
 };
 
 #include "kona-v2-gpu.dtsi"
 
 &cpu0_cpu_l3_latmon {
-	qcom, core - dev - table =
+	qcom,core-dev-table =
 	<  300000  300000000 >,
 	<  403200  403200000 >,
 	<  518400  518400000 >,
@@ -59,7 +59,7 @@
 };
 
 &cpu4_cpu_l3_latmon {
-	qcom, core - dev - table =
+	qcom,core-dev-table =
 	<  300000  300000000 >,
 	<  825600  614400000 >,
 	< 1171200  825600000 >,
@@ -71,7 +71,7 @@
 };
 
 &cpu7_cpu_l3_latmon {
-	qcom, core - dev - table =
+	qcom,core-dev-table =
 	<  300000  300000000 >,
 	<  825600  614400000 >,
 	< 1171200  825600000 >,
@@ -83,7 +83,7 @@
 };
 
 &cpu0_cpu_llcc_latmon {
-	qcom, core - dev - table =
+	qcom,core-dev-table =
 	<  300000 MHZ_TO_MBPS(150, 16) >,
 	<  787200 MHZ_TO_MBPS(300, 16) >,
 	< 1516800 MHZ_TO_MBPS(466, 16) >,
@@ -91,7 +91,7 @@
 };
 
 &cpu4_cpu_llcc_latmon {
-	qcom, core - dev - table =
+	qcom,core-dev-table =
 	<  300000 MHZ_TO_MBPS(150, 16) >,
 	<  710400 MHZ_TO_MBPS(300, 16) >,
 	< 1056000 MHZ_TO_MBPS(466, 16) >,
@@ -102,10 +102,10 @@
 };
 
 &cpu0_llcc_ddr_latmon {
-	qcom, cachemiss - ev = <0x1000>;
-	ddr4 - map {
-		qcom, ddr - type = <DDR_TYPE_LPDDR4X>;
-		qcom, core - dev - table =
+	qcom,cachemiss-ev = <0x1000>;
+	ddr4-map {
+		qcom,ddr-type = <DDR_TYPE_LPDDR4X>;
+		qcom,core-dev-table =
 		<  300000 MHZ_TO_MBPS(200, 4) >,
 		<  787200 MHZ_TO_MBPS(451, 4) >,
 		< 1171200 MHZ_TO_MBPS(547, 4) >,
@@ -113,9 +113,9 @@
 		< 1804800 MHZ_TO_MBPS(1017, 4) >;
 	};
 
-	ddr5 - map {
-		qcom, ddr - type = <DDR_TYPE_LPDDR5>;
-		qcom, core - dev - table =
+	ddr5-map {
+		qcom,ddr-type = <DDR_TYPE_LPDDR5>;
+		qcom,core-dev-table =
 		<  300000 MHZ_TO_MBPS(200, 4) >,
 		<  787200 MHZ_TO_MBPS(451, 4) >,
 		< 1171200 MHZ_TO_MBPS(547, 4) >,
@@ -125,10 +125,10 @@
 };
 
 &cpu4_llcc_ddr_latmon {
-	qcom, cachemiss - ev = <0x1000>;
-	ddr4 - map {
-		qcom, ddr - type = <DDR_TYPE_LPDDR4X>;
-		qcom, core - dev - table =
+	qcom,cachemiss-ev = <0x1000>;
+	ddr4-map {
+		qcom,ddr-type = <DDR_TYPE_LPDDR4X>;
+		qcom,core-dev-table =
 		<  300000 MHZ_TO_MBPS(200, 4) >,
 		<  710400 MHZ_TO_MBPS(451, 4) >,
 		<  825600 MHZ_TO_MBPS(547, 4) >,
@@ -141,9 +141,9 @@
 		< 2841600 MHZ_TO_MBPS(2736, 4) >;
 	};
 
-	ddr5 - map {
-		qcom, ddr - type = <DDR_TYPE_LPDDR5>;
-		qcom, core - dev - table =
+	ddr5-map {
+		qcom,ddr-type = <DDR_TYPE_LPDDR5>;
+		qcom,core-dev-table =
 		<  300000 MHZ_TO_MBPS(200, 4) >,
 		<  710400 MHZ_TO_MBPS(451, 4) >,
 		<  825600 MHZ_TO_MBPS(547, 4) >,
@@ -157,17 +157,17 @@
 };
 
 &cpu4_computemon {
-	ddr4 - map {
-		qcom, ddr - type = <DDR_TYPE_LPDDR4X>;
-		qcom, core - dev - table =
+	ddr4-map {
+		qcom,ddr-type = <DDR_TYPE_LPDDR4X>;
+		qcom,core-dev-table =
 		< 1862400 MHZ_TO_MBPS(200, 4) >,
 		< 2745600 MHZ_TO_MBPS(1017, 4) >,
 		< 2841600 MHZ_TO_MBPS(2092, 4) >;
 	};
 
-	ddr5 - map {
-		qcom, ddr - type = <DDR_TYPE_LPDDR5>;
-		qcom, core - dev - table =
+	ddr5-map {
+		qcom,ddr-type = <DDR_TYPE_LPDDR5>;
+		qcom,core-dev-table =
 		< 1862400 MHZ_TO_MBPS(200, 4) >,
 		< 2745600 MHZ_TO_MBPS(1017, 4) >,
 		< 2841600 MHZ_TO_MBPS(2736, 4) >;
@@ -175,20 +175,20 @@
 };
 
 &cpu4_qoslatmon {
-	qcom, cachemiss - ev = <0x1000>;
+	qcom,cachemiss-ev = <0x1000>;
 };
 
 /* NPU overrides */
 &msm_npu {
-	qcom, npu - pwrlevels {
+	qcom,npu-pwrlevels {
 #address-cells = <1>;
 #size-cells = <0>;
 		compatible = "qcom,npu-pwrlevels";
-		initial - pwrlevel = <5>;
-		qcom, npu - pwrlevel@0 {
+		initial-pwrlevel = <5>;
+		qcom,npu-pwrlevel@0 {
 			reg = <0>;
 			vreg = <1>;
-			clk - freq = <19200000
+			clk-freq = <19200000
 			100000000
 			300000000
 			300000000
@@ -218,10 +218,10 @@
 			300000000>;
 		};
 
-		qcom, npu - pwrlevel@1 {
+		qcom,npu-pwrlevel@1 {
 			reg = <1>;
 			vreg = <2>;
-			clk - freq = <19200000
+			clk-freq = <19200000
 			200000000
 			406000000
 			406000000
@@ -251,10 +251,10 @@
 			400000000>;
 		};
 
-		qcom, npu - pwrlevel@2 {
+		qcom,npu-pwrlevel@2 {
 			reg = <2>;
 			vreg = <3>;
-			clk - freq = <19200000
+			clk-freq = <19200000
 			333000000
 			533000000
 			533000000
@@ -284,10 +284,10 @@
 			500000000>;
 		};
 
-		qcom, npu - pwrlevel@3 {
+		qcom,npu-pwrlevel@3 {
 			reg = <3>;
 			vreg = <4>;
-			clk - freq = <19200000
+			clk-freq = <19200000
 			428000000
 			730000000
 			730000000
@@ -317,10 +317,10 @@
 			660000000>;
 		};
 
-		qcom, npu - pwrlevel@4 {
+		qcom,npu-pwrlevel@4 {
 			reg = <4>;
 			vreg = <6>;
-			clk - freq = <19200000
+			clk-freq = <19200000
 			500000000
 			920000000
 			920000000
@@ -350,10 +350,10 @@
 			800000000>;
 		};
 
-		qcom, npu - pwrlevel@5 {
+		qcom,npu-pwrlevel@5 {
 			reg = <5>;
 			vreg = <7>;
-			clk - freq = <19200000
+			clk-freq = <19200000
 			500000000
 			1000000000
 			1000000000
@@ -389,5 +389,5 @@
 	interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>,
 	<GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>,
 	<GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
-	interrupt - names = "dcvsh0_int", "dcvsh1_int", "dcvsh2_int";
+	interrupt-names = "dcvsh0_int", "dcvsh1_int", "dcvsh2_int";
 };

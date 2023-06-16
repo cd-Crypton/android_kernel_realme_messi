@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -8,6 +8,6 @@
 / {
 	model = "Qualcomm Technologies, Inc. Lito v2 LCD ATP";
 	compatible = "qcom,lito-atp", "qcom,lito", "qcom,atp";
-	qcom, msm - id = <440 0x20000>;
-	qcom, board - id = <33 1>;
+	qcom,msm-id = <440 0x20000>;
+	qcom,board-id = <33 1>;
 };

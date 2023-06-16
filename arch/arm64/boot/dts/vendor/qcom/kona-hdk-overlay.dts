@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include <dt-bindings/clock/qcom,gcc-kona.h>
@@ -11,5 +11,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. kona HDK";
 	compatible = "qcom,kona-hdk", "qcom,kona", "qcom,hdk";
-	qcom, board - id = <0x01001F 0x01>;
+	qcom,board-id = <0x01001F 0x01>;
 };

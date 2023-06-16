@@ -3,11 +3,11 @@
 / {
 	model = "Qualcomm Technologies, Inc. SDA 660";
 	compatible = "qcom,sda660";
-	qcom, msm - id = <324 0x0>;
+	qcom,msm-id = <324 0x0>;
 };
 
 &soc {
-	qcom, rmnet - ipa {
+	qcom,rmnet-ipa {
 		status = "disabled";
 	};
 };

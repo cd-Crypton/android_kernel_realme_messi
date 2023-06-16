@@ -7,8 +7,8 @@
 
 	config {
 		pins = "gpio94";
-		bias - disable; /* No PULL */
-		drive - strength = <16>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -21,8 +21,8 @@
 
 	config {
 		pins = "gpio94";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <16>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -35,8 +35,8 @@
 
 	config {
 		pins = "gpio95";
-		bias - disable; /* No PULL */
-		drive - strength = <16>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -49,8 +49,8 @@
 
 	config {
 		pins = "gpio95";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <16>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -63,8 +63,8 @@
 
 	config {
 		pins = "gpio96";
-		bias - disable; /* No PULL */
-		drive - strength = <16>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -77,8 +77,8 @@
 
 	config {
 		pins = "gpio96";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <16>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -91,8 +91,8 @@
 
 	config {
 		pins = "gpio97";
-		bias - disable; /* No PULL */
-		drive - strength = <16>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -105,8 +105,8 @@
 
 	config {
 		pins = "gpio97";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <16>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -119,8 +119,8 @@
 
 	config {
 		pins = "gpio98";
-		bias - disable; /* No PULL */
-		drive - strength = <16>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -133,8 +133,8 @@
 
 	config {
 		pins = "gpio98";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <16>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -147,8 +147,8 @@
 
 	config {
 		pins = "gpio99";
-		bias - disable; /* No PULL */
-		drive - strength = <16>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -161,8 +161,8 @@
 
 	config {
 		pins = "gpio99";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <16>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -175,8 +175,8 @@
 
 	config {
 		pins = "gpio100";
-		bias - disable; /* No PULL */
-		drive - strength = <16>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <16>; /* 2 MA */
 	};
 };
 
@@ -189,7 +189,7 @@
 
 	config {
 		pins = "gpio100";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <16>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <16>; /* 2 MA */
 	};
 };

@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "scuba.dtsi"
 #include "scuba-qrd.dtsi"
@@ -6,11 +6,11 @@
 / {
 	model = "Qualcomm Technologies, Inc. Scuba QRD NON ELDO";
 	compatible = "qcom,scuba-qrd", "qcom,scuba", "qcom,qrd";
-	qcom, board - id = <0x1000B 0>;
+	qcom,board-id = <0x1000B 0>;
 };
 
 &qusb_phy0 {
 	notifier = <&tlmm 88 GPIO_ACTIVE_HIGH>;
-	interrupts - extended = <&tlmm 88 GPIO_ACTIVE_HIGH>;
-	interrupt - names = "notifier_irq";
+	interrupts-extended = <&tlmm 88 GPIO_ACTIVE_HIGH>;
+	interrupt-names = "notifier_irq";
 };

@@ -1,35 +1,35 @@
 
-qcom, atl466274_3650mah_averaged_masterslave_may14th2019 {
+qcom,atl466274_3650mah_averaged_masterslave_may14th2019 {
 	/* #ATL466274_3650mAh_averaged_MasterSlave_May14th2019*/
-	qcom, max - voltage - uv = <4400000>;
-	qcom, fg - cc - cv - threshold - mv = <4390>;
-	qcom, fastchg - current - ma = <5325>;
-	qcom, batt - id - kohm = <31>;
+	qcom,max-voltage-uv = <4400000>;
+	qcom,fg-cc-cv-threshold-mv = <4390>;
+	qcom,fastchg-current-ma = <5325>;
+	qcom,batt-id-kohm = <31>;
 	/* COLD = 0 DegC, HOT = 55 DegC */
-	qcom, jeita - hard - thresholds = <0x58cd 0x181d>;
+	qcom,jeita-hard-thresholds = <0x58cd 0x181d>;
 	/* COOL = 10 DegC, WARM = 45 DegC */
-	qcom, jeita - soft - thresholds = <0x4ccc 0x20b8>;
+	qcom,jeita-soft-thresholds = <0x4ccc 0x20b8>;
 	/* COOL hys = 13 DegC, WARM hys = 42 DegC */
-	qcom, jeita - soft - hys - thresholds = <0x48d4 0x23c0>;
-	qcom, jeita - fcc - ranges = <0  100  1065000
+	qcom,jeita-soft-hys-thresholds = <0x48d4 0x23c0>;
+	qcom,jeita-fcc-ranges = <0  100  1065000
 	101 200  1775000
 	201 450  5325000
 	451 550  1775000>;
-	qcom, jeita - fv - ranges = <0   100  4400000
+	qcom,jeita-fv-ranges = <0   100  4400000
 	101 200  4400000
 	201 450  4400000
 	451 550  4050000>;
-	qcom, jeita - soft - fcc - ua = <1065000 1775000>;
-	qcom, jeita - soft - fv - uv = <4400000 4050000>;
-	qcom, battery - beta = <4250>;
-	qcom, battery - type = "ATL466274_3650mah_masterslave_may14th2019";
-	qcom, therm - coefficients = <0x2318 0xd0c 0xdaf7 0xc556 0x848d>;
-	qcom, therm - center - offset = <0x70>;
-	qcom, rslow - normal - coeffs = <0xb1 0xfa 0x99 0x13>;
-	qcom, rslow - low - coeffs = <0x79 0x15 0x21 0xfa>;
-	qcom, checksum = <0xCC95>;
-	qcom, gui - version = "PM855GUI - 1.0.0.13";
-	qcom, fg - profile - data = [
+	qcom,jeita-soft-fcc-ua = <1065000 1775000>;
+	qcom,jeita-soft-fv-uv = <4400000 4050000>;
+	qcom,battery-beta = <4250>;
+	qcom,battery-type = "ATL466274_3650mah_masterslave_may14th2019";
+	qcom,therm-coefficients = <0x2318 0xd0c 0xdaf7 0xc556 0x848d>;
+	qcom,therm-center-offset = <0x70>;
+	qcom,rslow-normal-coeffs = <0xb1 0xfa 0x99 0x13>;
+	qcom,rslow-low-coeffs = <0x79 0x15 0x21 0xfa>;
+	qcom,checksum = <0xCC95>;
+	qcom,gui-version = "PM855GUI-1.0.0.13";
+	qcom,fg-profile-data = [
 		09 00 CB E3
 		B1 DD D0 DB
 		31 D4 00 00

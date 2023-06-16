@@ -10,8 +10,8 @@ cci0_active:
 
 		config {
 			pins = "gpio29", "gpio30";
-			drive - strength = <2>; /* 2 MA */
-			bias - disable; /* No PULL */
+			drive-strength = <2>; /* 2 MA */
+			bias-disable; /* No PULL */
 		};
 	};
 
@@ -26,8 +26,8 @@ cci0_suspend:
 
 		config {
 			pins = "gpio29", "gpio30";
-			drive - strength = <2>; /* 2 MA */
-			bias - disable; /* No PULL */
+			drive-strength = <2>; /* 2 MA */
+			bias-disable; /* No PULL */
 		};
 	};
 
@@ -42,8 +42,8 @@ cci1_active:
 
 		config {
 			pins = "gpio31", "gpio32";
-			drive - strength = <2>; /* 2 MA */
-			bias - disable; /* No PULL */
+			drive-strength = <2>; /* 2 MA */
+			bias-disable; /* No PULL */
 		};
 	};
 
@@ -58,8 +58,8 @@ cci1_suspend:
 
 		config {
 			pins = "gpio31", "gpio32";
-			drive - strength = <2>; /* 2 MA */
-			bias - disable; /* No PULL */
+			drive-strength = <2>; /* 2 MA */
+			bias-disable; /* No PULL */
 		};
 	};
 };
@@ -76,8 +76,8 @@ cam_sensor_mclk0_default {
 
 	config {
 		pins = "gpio26";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -92,8 +92,8 @@ cam_sensor_mclk0_sleep {
 
 	config {
 		pins = "gpio26";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <2>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -107,8 +107,8 @@ cam_sensor_rear_default {
 
 	config {
 		pins = "gpio36", "gpio35";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -122,8 +122,8 @@ cam_sensor_rear_sleep {
 
 	config {
 		pins = "gpio36", "gpio35";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -137,8 +137,8 @@ cam_sensor_rear_vdig {
 
 	config {
 		pins = "gpio62";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -152,8 +152,8 @@ cam_sensor_rear_vdig_sleep {
 
 	config {
 		pins = "gpio62";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -167,8 +167,8 @@ cam_sensor_rear_vdig_qm215 {
 
 	config {
 		pins = "gpio25";
-		output - high;
-		drive - strength = <2>; /* 2 MA */
+		output-high;
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -182,8 +182,8 @@ cam_sensor_rear_vdig_sleep_qm215 {
 
 	config {
 		pins = "gpio25";
-		output - low;
-		drive - strength = <2>; /* 2 MA */
+		output-low;
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -198,8 +198,8 @@ cam_sensor_mclk1_default {
 
 	config {
 		pins = "gpio27";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -214,8 +214,8 @@ cam_sensor_mclk1_sleep {
 
 	config {
 		pins = "gpio27";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <2>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -229,8 +229,8 @@ cam_sensor_front_default {
 
 	config {
 		pins = "gpio38", "gpio50";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -244,8 +244,8 @@ cam_sensor_front_sleep {
 
 	config {
 		pins = "gpio38", "gpio50";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -260,8 +260,8 @@ cam_sensor_mclk2_default {
 
 	config {
 		pins = "gpio28";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -276,8 +276,8 @@ cam_sensor_mclk2_sleep {
 
 	config {
 		pins = "gpio28";
-		bias - pull - down; /* PULL DOWN */
-		drive - strength = <2>; /* 2 MA */
+		bias-pull-down; /* PULL DOWN */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -291,8 +291,8 @@ cam_sensor_front1_default {
 
 	config {
 		pins = "gpio40", "gpio39";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };
 
@@ -306,7 +306,7 @@ cam_sensor_front1_sleep {
 
 	config {
 		pins = "gpio40", "gpio39";
-		bias - disable; /* No PULL */
-		drive - strength = <2>; /* 2 MA */
+		bias-disable; /* No PULL */
+		drive-strength = <2>; /* 2 MA */
 	};
 };

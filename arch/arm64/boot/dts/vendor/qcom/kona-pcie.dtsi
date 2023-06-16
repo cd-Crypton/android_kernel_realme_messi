@@ -2,7 +2,7 @@
 
 &soc {
 pcie0:
-	qcom, pcie@1c00000 {
+	qcom,pcie@1c00000 {
 		compatible = "qcom,pci-msm";
 
 		reg = <0x01c00000 0x3000>,
@@ -11,55 +11,55 @@ pcie0:
 		<0x60000f20 0xa8>,
 		<0x60001000 0x1000>,
 		<0x60100000 0x100000>;
-		reg - names = "parf", "phy", "dm_core", "elbi", "iatu", "conf";
+		reg-names = "parf", "phy", "dm_core", "elbi", "iatu", "conf";
 
-		cell - index = <0>;
-		linux, pci - domain = <0>;
+		cell-index = <0>;
+		linux,pci-domain = <0>;
 
 #address-cells = <3>;
 #size-cells = <2>;
 		ranges = <0x01000000 0x0 0x60200000 0x60200000 0x0 0x100000>,
 		<0x02000000 0x0 0x60300000 0x60300000 0x0 0x3d00000>;
 
-		interrupt - parent = <&pcie0>;
+		interrupt-parent = <&pcie0>;
 		interrupts = <0 1 2 3 4>;
-		interrupt - names = "int_global_int", "int_a", "int_b", "int_c",
+		interrupt-names = "int_global_int", "int_a", "int_b", "int_c",
 		"int_d";
 #interrupt-cells = <1>;
-		interrupt - map - mask = <0 0 0 0xffffffff>;
-		interrupt - map = <0 0 0 0 & intc GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH
+		interrupt-map-mask = <0 0 0 0xffffffff>;
+		interrupt-map = <0 0 0 0 & intc GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 1 & intc GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 2 & intc GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 3 & intc GIC_SPI 151 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 4 & intc GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>;
-		msi - parent = <&pcie0_msi>;
+		msi-parent = <&pcie0_msi>;
 
-		perst - gpio = <&tlmm 79 0>;
-		wake - gpio = <&tlmm 81 0>;
-		pinctrl - names = "default", "sleep";
-		pinctrl - 0 = <&pcie0_clkreq_default
+		perst-gpio = <&tlmm 79 0>;
+		wake-gpio = <&tlmm 81 0>;
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&pcie0_clkreq_default
 		&pcie0_perst_default
 		&pcie0_wake_default>;
-		pinctrl - 1 = <&pcie0_clkreq_sleep
+		pinctrl-1 = <&pcie0_clkreq_sleep
 		&pcie0_perst_default
 		&pcie0_wake_default>;
 
-		gdsc - vdd - supply = <&pcie_0_gdsc>;
-		vreg - 1p8 - supply = <&pm8150_l9>;
-		vreg - 0p9 - supply = <&pm8150_l5>;
-		vreg - cx - supply = <&VDD_CX_LEVEL>;
-		qcom, vreg - 1p8 - voltage - level = <1200000 1200000 16000>;
-		qcom, vreg - 0p9 - voltage - level = <880000 880000 73500>;
-		qcom, vreg - cx - voltage - level = <RPMH_REGULATOR_LEVEL_MAX
+		gdsc-vdd-supply = <&pcie_0_gdsc>;
+		vreg-1p8-supply = <&pm8150_l9>;
+		vreg-0p9-supply = <&pm8150_l5>;
+		vreg-cx-supply = <&VDD_CX_LEVEL>;
+		qcom,vreg-1p8-voltage-level = <1200000 1200000 16000>;
+		qcom,vreg-0p9-voltage-level = <880000 880000 73500>;
+		qcom,vreg-cx-voltage-level = <RPMH_REGULATOR_LEVEL_MAX
 		RPMH_REGULATOR_LEVEL_NOM 0>;
-		qcom, bw - scale = <RPMH_REGULATOR_LEVEL_LOW_SVS 19200000
+		qcom,bw-scale = <RPMH_REGULATOR_LEVEL_LOW_SVS 19200000
 		RPMH_REGULATOR_LEVEL_LOW_SVS 19200000
 		RPMH_REGULATOR_LEVEL_NOM 100000000>;
 
-		qcom, msm - bus, name = "pcie0";
-		qcom, msm - bus, num - cases = <2>;
-		qcom, msm - bus, num - paths = <1>;
-		qcom, msm - bus, vectors - KBps =
+		qcom,msm-bus,name = "pcie0";
+		qcom,msm-bus,num-cases = <2>;
+		qcom,msm-bus,num-paths = <1>;
+		qcom,msm-bus,vectors-KBps =
 		<45 512 0 0>,
 		<45 512 500 800>;
 
@@ -74,42 +74,42 @@ pcie0:
 		<&clock_gcc GCC_AGGRE_NOC_PCIE_TBU_CLK>,
 		<&clock_gcc GCC_PCIE0_PHY_REFGEN_CLK>,
 		<&clock_gcc GCC_DDRSS_PCIE_SF_TBU_CLK>;
-		clock - names = "pcie_0_pipe_clk", "pcie_0_ref_clk_src",
+		clock-names = "pcie_0_pipe_clk", "pcie_0_ref_clk_src",
 		"pcie_0_aux_clk", "pcie_0_cfg_ahb_clk",
 		"pcie_0_mstr_axi_clk", "pcie_0_slv_axi_clk",
 		"pcie_0_ldo", "pcie_0_slv_q2a_axi_clk",
 		"pcie_tbu_clk", "pcie_phy_refgen_clk",
 		"pcie_ddrss_sf_tbu_clk";
-		max - clock - frequency - hz = <0>, <0>, <19200000>, <0>, <0>, <0>,
+		max-clock-frequency-hz = <0>, <0>, <19200000>, <0>, <0>, <0>,
 		<0>, <0>, <0>, <0>, <100000000>, <0>;
 
 		resets = <&clock_gcc GCC_PCIE_0_BCR>,
 		<&clock_gcc GCC_PCIE_0_PHY_BCR>;
-		reset - names = "pcie_0_core_reset",
+		reset-names = "pcie_0_core_reset",
 		"pcie_0_phy_reset";
 
-		dma - coherent;
-		qcom, smmu - sid - base = <0x1c00>;
-		iommu - map = <0x0 & apps_smmu 0x1c00 0x1>,
+		dma-coherent;
+		qcom,smmu-sid-base = <0x1c00>;
+		iommu-map = <0x0 & apps_smmu 0x1c00 0x1>,
 		<0x100 & apps_smmu 0x1c01 0x1>;
 
-		qcom, boot - option = <0x1>;
-		qcom, drv - supported;
-		qcom, drv - l1ss - timeout - us = <10000>; /* 10ms */
-		qcom, use - 19p2mhz - aux - clk;
-		qcom, no - l0s - supported;
-		qcom, l1 - 2 - th - scale = <2>; /* 1us */
-		qcom, l1 - 2 - th - value = <70>;
-		qcom, slv - addr - space - size = <0x4000000>;
-		qcom, ep - latency = <10>;
+		qcom,boot-option = <0x1>;
+		qcom,drv-supported;
+		qcom,drv-l1ss-timeout-us = <10000>; /* 10ms */
+		qcom,use-19p2mhz-aux-clk;
+		qcom,no-l0s-supported;
+		qcom,l1-2-th-scale = <2>; /* 1us */
+		qcom,l1-2-th-value = <70>;
+		qcom,slv-addr-space-size = <0x4000000>;
+		qcom,ep-latency = <10>;
 
-		qcom, config - recovery;
+		qcom,config-recovery;
 
-		qcom, pcie - phy - ver = <1102>;
-		qcom, phy - status - offset = <0x814>;
-		qcom, phy - status - bit = <6>;
-		qcom, phy - power - down - offset = <0x840>;
-		qcom, phy - sequence = <0x0840 0x03 0x0
+		qcom,pcie-phy-ver = <1102>;
+		qcom,phy-status-offset = <0x814>;
+		qcom,phy-status-bit = <6>;
+		qcom,phy-power-down-offset = <0x840>;
+		qcom,phy-sequence = <0x0840 0x03 0x0
 		0x0094 0x08 0x0
 		0x0154 0x34 0x0
 		0x016c 0x08 0x0
@@ -216,11 +216,11 @@ pcie0:
 	};
 
 pcie0_msi:
-	qcom, pcie0_msi@17a10040 {
+	qcom,pcie0_msi@17a10040 {
 		compatible = "qcom,pci-msi";
-		msi - controller;
+		msi-controller;
 		reg = <0x17a10040 0x0>;
-		interrupt - parent = <&intc>;
+		interrupt-parent = <&intc>;
 		interrupts = <GIC_SPI 768 IRQ_TYPE_EDGE_RISING>,
 		<GIC_SPI 769 IRQ_TYPE_EDGE_RISING>,
 		<GIC_SPI 770 IRQ_TYPE_EDGE_RISING>,
@@ -256,7 +256,7 @@ pcie0_msi:
 	};
 
 pcie1:
-	qcom, pcie@1c08000 {
+	qcom,pcie@1c08000 {
 		compatible = "qcom,pci-msm";
 
 		reg = <0x01c08000 0x3000>,
@@ -265,52 +265,52 @@ pcie1:
 		<0x40000f20 0xa8>,
 		<0x40001000 0x1000>,
 		<0x40100000 0x100000>;
-		reg - names = "parf", "phy", "dm_core", "elbi", "iatu", "conf";
+		reg-names = "parf", "phy", "dm_core", "elbi", "iatu", "conf";
 
-		cell - index = <1>;
-		linux, pci - domain = <1>;
+		cell-index = <1>;
+		linux,pci-domain = <1>;
 
 #address-cells = <3>;
 #size-cells = <2>;
 		ranges = <0x01000000 0x0 0x40200000 0x40200000 0x0 0x100000>,
 		<0x02000000 0x0 0x40300000 0x40300000 0x0 0x1fd00000>;
 
-		interrupt - parent = <&pcie1>;
+		interrupt-parent = <&pcie1>;
 		interrupts = <0 1 2 3 4>;
-		interrupt - names = "int_global_int", "int_a", "int_b", "int_c",
+		interrupt-names = "int_global_int", "int_a", "int_b", "int_c",
 		"int_d";
 #interrupt-cells = <1>;
-		interrupt - map - mask = <0 0 0 0xffffffff>;
-		interrupt - map = <0 0 0 0 & intc GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH
+		interrupt-map-mask = <0 0 0 0xffffffff>;
+		interrupt-map = <0 0 0 0 & intc GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 1 & intc GIC_SPI 434 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 2 & intc GIC_SPI 435 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 3 & intc GIC_SPI 438 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 4 & intc GIC_SPI 439 IRQ_TYPE_LEVEL_HIGH>;
-		msi - parent = <&pcie1_msi>;
+		msi-parent = <&pcie1_msi>;
 
-		perst - gpio = <&tlmm 82 0>;
-		wake - gpio = <&tlmm 84 0>;
-		pinctrl - names = "default";
-		pinctrl - 0 = <&pcie1_clkreq_default
+		perst-gpio = <&tlmm 82 0>;
+		wake-gpio = <&tlmm 84 0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pcie1_clkreq_default
 		&pcie1_perst_default
 		&pcie1_wake_default>;
 
-		gdsc - vdd - supply = <&pcie_1_gdsc>;
-		vreg - 1p8 - supply = <&pm8150_l9>;
-		vreg - 0p9 - supply = <&pm8150_l5>;
-		vreg - cx - supply = <&VDD_CX_LEVEL>;
-		qcom, vreg - 1p8 - voltage - level = <1200000 1200000 25000>;
-		qcom, vreg - 0p9 - voltage - level = <880000 880000 98800>;
-		qcom, vreg - cx - voltage - level = <RPMH_REGULATOR_LEVEL_MAX
+		gdsc-vdd-supply = <&pcie_1_gdsc>;
+		vreg-1p8-supply = <&pm8150_l9>;
+		vreg-0p9-supply = <&pm8150_l5>;
+		vreg-cx-supply = <&VDD_CX_LEVEL>;
+		qcom,vreg-1p8-voltage-level = <1200000 1200000 25000>;
+		qcom,vreg-0p9-voltage-level = <880000 880000 98800>;
+		qcom,vreg-cx-voltage-level = <RPMH_REGULATOR_LEVEL_MAX
 		RPMH_REGULATOR_LEVEL_NOM 0>;
-		qcom, bw - scale = <RPMH_REGULATOR_LEVEL_LOW_SVS 19200000
+		qcom,bw-scale = <RPMH_REGULATOR_LEVEL_LOW_SVS 19200000
 		RPMH_REGULATOR_LEVEL_LOW_SVS 19200000
 		RPMH_REGULATOR_LEVEL_NOM 100000000>;
 
-		qcom, msm - bus, name = "pcie1";
-		qcom, msm - bus, num - cases = <2>;
-		qcom, msm - bus, num - paths = <1>;
-		qcom, msm - bus, vectors - KBps =
+		qcom,msm-bus,name = "pcie1";
+		qcom,msm-bus,num-cases = <2>;
+		qcom,msm-bus,num-paths = <1>;
+		qcom,msm-bus,vectors-KBps =
 		<100 512 0 0>,
 		<100 512 500 800>;
 
@@ -325,37 +325,37 @@ pcie1:
 		<&clock_gcc GCC_AGGRE_NOC_PCIE_TBU_CLK>,
 		<&clock_gcc GCC_PCIE1_PHY_REFGEN_CLK>,
 		<&clock_gcc GCC_DDRSS_PCIE_SF_TBU_CLK>;
-		clock - names = "pcie_1_pipe_clk", "pcie_1_ref_clk_src",
+		clock-names = "pcie_1_pipe_clk", "pcie_1_ref_clk_src",
 		"pcie_1_aux_clk", "pcie_1_cfg_ahb_clk",
 		"pcie_1_mstr_axi_clk", "pcie_1_slv_axi_clk",
 		"pcie_1_ldo", "pcie_1_slv_q2a_axi_clk",
 		"pcie_tbu_clk", "pcie_phy_refgen_clk",
 		"pcie_ddrss_sf_tbu_clk";
-		max - clock - frequency - hz = <0>, <0>, <19200000>, <0>, <0>, <0>,
+		max-clock-frequency-hz = <0>, <0>, <19200000>, <0>, <0>, <0>,
 		<0>, <0>, <0>, <0>, <100000000>, <0>;
 
 		resets = <&clock_gcc GCC_PCIE_1_BCR>,
 		<&clock_gcc GCC_PCIE_1_PHY_BCR>;
-		reset - names = "pcie_1_core_reset",
+		reset-names = "pcie_1_core_reset",
 		"pcie_1_phy_reset";
 
-		dma - coherent;
-		qcom, smmu - sid - base = <0x1c80>;
-		iommu - map = <0x0 & apps_smmu 0x1c80 0x1>,
+		dma-coherent;
+		qcom,smmu-sid-base = <0x1c80>;
+		iommu-map = <0x0 & apps_smmu 0x1c80 0x1>,
 		<0x100 & apps_smmu 0x1c81 0x1>;
 
-		qcom, boot - option = <0x1>;
-		qcom, drv - supported;
-		qcom, use - 19p2mhz - aux - clk;
-		qcom, no - l0s - supported;
-		qcom, slv - addr - space - size = <0x20000000>;
-		qcom, ep - latency = <10>;
+		qcom,boot-option = <0x1>;
+		qcom,drv-supported;
+		qcom,use-19p2mhz-aux-clk;
+		qcom,no-l0s-supported;
+		qcom,slv-addr-space-size = <0x20000000>;
+		qcom,ep-latency = <10>;
 
-		qcom, pcie - phy - ver = <1102>;
-		qcom, phy - status - offset = <0xa14>;
-		qcom, phy - status - bit = <6>;
-		qcom, phy - power - down - offset = <0xa40>;
-		qcom, phy - sequence = <0x0a40 0x03 0x0
+		qcom,pcie-phy-ver = <1102>;
+		qcom,phy-status-offset = <0xa14>;
+		qcom,phy-status-bit = <6>;
+		qcom,phy-power-down-offset = <0xa40>;
+		qcom,phy-sequence = <0x0a40 0x03 0x0
 		0x0010 0x01 0x0
 		0x001c 0x31 0x0
 		0x0020 0x01 0x0
@@ -499,11 +499,11 @@ pcie1:
 	};
 
 pcie1_msi:
-	qcom, pcie1_msi@17a10040 {
+	qcom,pcie1_msi@17a10040 {
 		compatible = "qcom,pci-msi";
-		msi - controller;
+		msi-controller;
 		reg = <0x17a10040 0x0>;
-		interrupt - parent = <&intc>;
+		interrupt-parent = <&intc>;
 		interrupts = <GIC_SPI 800 IRQ_TYPE_EDGE_RISING>,
 		<GIC_SPI 801 IRQ_TYPE_EDGE_RISING>,
 		<GIC_SPI 802 IRQ_TYPE_EDGE_RISING>,
@@ -539,7 +539,7 @@ pcie1_msi:
 	};
 
 pcie2:
-	qcom, pcie@1c10000 {
+	qcom,pcie@1c10000 {
 		compatible = "qcom,pci-msm";
 
 		reg = <0x01c10000 0x3000>,
@@ -548,52 +548,52 @@ pcie2:
 		<0x64000f20 0xa8>,
 		<0x64001000 0x1000>,
 		<0x64100000 0x100000>;
-		reg - names = "parf", "phy", "dm_core", "elbi", "iatu", "conf";
+		reg-names = "parf", "phy", "dm_core", "elbi", "iatu", "conf";
 
-		cell - index = <2>;
-		linux, pci - domain = <2>;
+		cell-index = <2>;
+		linux,pci-domain = <2>;
 
 #address-cells = <3>;
 #size-cells = <2>;
 		ranges = <0x01000000 0x0 0x64200000 0x64200000 0x0 0x100000>,
 		<0x02000000 0x0 0x64300000 0x64300000 0x0 0x3d00000>;
 
-		interrupt - parent = <&pcie2>;
+		interrupt-parent = <&pcie2>;
 		interrupts = <0 1 2 3 4>;
-		interrupt - names = "int_global_int", "int_a", "int_b", "int_c",
+		interrupt-names = "int_global_int", "int_a", "int_b", "int_c",
 		"int_d";
 #interrupt-cells = <1>;
-		interrupt - map - mask = <0 0 0 0xffffffff>;
-		interrupt - map = <0 0 0 0 & intc GIC_SPI 236 IRQ_TYPE_LEVEL_HIGH
+		interrupt-map-mask = <0 0 0 0xffffffff>;
+		interrupt-map = <0 0 0 0 & intc GIC_SPI 236 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 1 & intc GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 2 & intc GIC_SPI 415 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 3 & intc GIC_SPI 416 IRQ_TYPE_LEVEL_HIGH
 		0 0 0 4 & intc GIC_SPI 417 IRQ_TYPE_LEVEL_HIGH>;
-		msi - parent = <&pcie2_msi>;
+		msi-parent = <&pcie2_msi>;
 
-		perst - gpio = <&tlmm 85 0>;
-		wake - gpio = <&tlmm 87 0>;
-		pinctrl - names = "default";
-		pinctrl - 0 = <&pcie2_clkreq_default
+		perst-gpio = <&tlmm 85 0>;
+		wake-gpio = <&tlmm 87 0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pcie2_clkreq_default
 		&pcie2_perst_default
 		&pcie2_wake_default>;
 
-		gdsc - vdd - supply = <&pcie_2_gdsc>;
-		vreg - 1p8 - supply = <&pm8150_l9>;
-		vreg - 0p9 - supply = <&pm8150_l5>;
-		vreg - cx - supply = <&VDD_CX_LEVEL>;
-		qcom, vreg - 1p8 - voltage - level = <1200000 1200000 25500>;
-		qcom, vreg - 0p9 - voltage - level = <880000 880000 98800>;
-		qcom, vreg - cx - voltage - level = <RPMH_REGULATOR_LEVEL_MAX
+		gdsc-vdd-supply = <&pcie_2_gdsc>;
+		vreg-1p8-supply = <&pm8150_l9>;
+		vreg-0p9-supply = <&pm8150_l5>;
+		vreg-cx-supply = <&VDD_CX_LEVEL>;
+		qcom,vreg-1p8-voltage-level = <1200000 1200000 25500>;
+		qcom,vreg-0p9-voltage-level = <880000 880000 98800>;
+		qcom,vreg-cx-voltage-level = <RPMH_REGULATOR_LEVEL_MAX
 		RPMH_REGULATOR_LEVEL_NOM 0>;
-		qcom, bw - scale = <RPMH_REGULATOR_LEVEL_LOW_SVS 19200000
+		qcom,bw-scale = <RPMH_REGULATOR_LEVEL_LOW_SVS 19200000
 		RPMH_REGULATOR_LEVEL_LOW_SVS 19200000
 		RPMH_REGULATOR_LEVEL_NOM 100000000>;
 
-		qcom, msm - bus, name = "pcie2";
-		qcom, msm - bus, num - cases = <2>;
-		qcom, msm - bus, num - paths = <1>;
-		qcom, msm - bus, vectors - KBps =
+		qcom,msm-bus,name = "pcie2";
+		qcom,msm-bus,num-cases = <2>;
+		qcom,msm-bus,num-paths = <1>;
+		qcom,msm-bus,vectors-KBps =
 		<108 512 0 0>,
 		<108 512 500 800>;
 
@@ -608,37 +608,37 @@ pcie2:
 		<&clock_gcc GCC_AGGRE_NOC_PCIE_TBU_CLK>,
 		<&clock_gcc GCC_PCIE2_PHY_REFGEN_CLK>,
 		<&clock_gcc GCC_DDRSS_PCIE_SF_TBU_CLK>;
-		clock - names = "pcie_2_pipe_clk", "pcie_2_ref_clk_src",
+		clock-names = "pcie_2_pipe_clk", "pcie_2_ref_clk_src",
 		"pcie_2_aux_clk", "pcie_2_cfg_ahb_clk",
 		"pcie_2_mstr_axi_clk", "pcie_2_slv_axi_clk",
 		"pcie_2_ldo", "pcie_2_slv_q2a_axi_clk",
 		"pcie_tbu_clk", "pcie_phy_refgen_clk",
 		"pcie_ddrss_sf_tbu_clk";
-		max - clock - frequency - hz = <0>, <0>, <19200000>, <0>, <0>, <0>,
+		max-clock-frequency-hz = <0>, <0>, <19200000>, <0>, <0>, <0>,
 		<0>, <0>, <0>, <0>, <100000000>, <0>;
 
 		resets = <&clock_gcc GCC_PCIE_2_BCR>,
 		<&clock_gcc GCC_PCIE_2_PHY_BCR>;
-		reset - names = "pcie_2_core_reset",
+		reset-names = "pcie_2_core_reset",
 		"pcie_2_phy_reset";
 
-		dma - coherent;
-		qcom, smmu - sid - base = <0x1d00>;
-		iommu - map = <0x0 & apps_smmu 0x1d00 0x1>,
+		dma-coherent;
+		qcom,smmu-sid-base = <0x1d00>;
+		iommu-map = <0x0 & apps_smmu 0x1d00 0x1>,
 		<0x100 & apps_smmu 0x1d01 0x1>;
 
-		qcom, boot - option = <0x1>;
-		qcom, drv - supported;
-		qcom, use - 19p2mhz - aux - clk;
-		qcom, no - l0s - supported;
-		qcom, slv - addr - space - size = <0x4000000>;
-		qcom, ep - latency = <10>;
+		qcom,boot-option = <0x1>;
+		qcom,drv-supported;
+		qcom,use-19p2mhz-aux-clk;
+		qcom,no-l0s-supported;
+		qcom,slv-addr-space-size = <0x4000000>;
+		qcom,ep-latency = <10>;
 
-		qcom, pcie - phy - ver = <1102>;
-		qcom, phy - status - offset = <0xa14>;
-		qcom, phy - status - bit = <6>;
-		qcom, phy - power - down - offset = <0xa40>;
-		qcom, phy - sequence = <0x0a40 0x03 0x0
+		qcom,pcie-phy-ver = <1102>;
+		qcom,phy-status-offset = <0xa14>;
+		qcom,phy-status-bit = <6>;
+		qcom,phy-power-down-offset = <0xa40>;
+		qcom,phy-sequence = <0x0a40 0x03 0x0
 		0x0010 0x01 0x0
 		0x001c 0x31 0x0
 		0x0020 0x01 0x0
@@ -782,11 +782,11 @@ pcie2:
 	};
 
 pcie2_msi:
-	qcom, pcie2_msi@17a10040 {
+	qcom,pcie2_msi@17a10040 {
 		compatible = "qcom,pci-msi";
-		msi - controller;
+		msi-controller;
 		reg = <0x17a10040 0x0>;
-		interrupt - parent = <&intc>;
+		interrupt-parent = <&intc>;
 		interrupts = <GIC_SPI 832 IRQ_TYPE_EDGE_RISING>,
 		<GIC_SPI 833 IRQ_TYPE_EDGE_RISING>,
 		<GIC_SPI 834 IRQ_TYPE_EDGE_RISING>,

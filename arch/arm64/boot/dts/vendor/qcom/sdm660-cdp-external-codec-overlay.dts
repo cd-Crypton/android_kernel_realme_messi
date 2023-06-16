@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include <dt-bindings/clock/qcom,cpu-osm.h>
@@ -13,15 +13,15 @@
 / {
 	model = "Qualcomm Technologies, Inc. SDM 660 Ext. Audio Codec CDP";
 	compatible = "qcom,sdm660-cdp", "qcom,sdm660", "qcom,cdp";
-	qcom, board - id = <1 0>;
+	qcom,board-id = <1 0>;
 };
 
 &tavil_snd {
-	qcom, msm - mbhc - hphl - swh = <0>;
-	qcom, msm - mbhc - gnd - swh = <0>;
+	qcom,msm-mbhc-hphl-swh = <0>;
+	qcom,msm-mbhc-gnd-swh = <0>;
 };
 
 &tasha_snd {
-	qcom, msm - mbhc - hphl - swh = <0>;
-	qcom, msm - mbhc - gnd - swh = <0>;
+	qcom,msm-mbhc-hphl-swh = <0>;
+	qcom,msm-mbhc-gnd-swh = <0>;
 };

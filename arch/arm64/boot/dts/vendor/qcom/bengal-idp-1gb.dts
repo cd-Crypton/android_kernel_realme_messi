@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "bengal-low-ram.dtsi"
 #include "bengal-idp-low-ram.dtsi"
@@ -6,5 +6,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. BENGAL IDP 1Gb DDR HD+";
 	compatible = "qcom,bengal-idp", "qcom,bengal", "qcom,idp";
-	qcom, board - id = <34 0x303>;
+	qcom,board-id = <34 0x303>;
 };

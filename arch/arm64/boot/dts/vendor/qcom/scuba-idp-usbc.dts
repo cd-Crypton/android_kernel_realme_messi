@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "scuba.dtsi"
 #include "scuba-idp.dtsi"
@@ -7,5 +7,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. Scuba IDP USBC Audio";
 	compatible = "qcom,scuba-idp", "qcom,scuba", "qcom,idp";
-	qcom, board - id = <34 1>;
+	qcom,board-id = <34 1>;
 };

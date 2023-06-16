@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "khaje.dtsi"
 #include "khaje-idp.dtsi"
@@ -8,8 +8,8 @@
 / {
 	model = "Qualcomm Technologies, Inc. KHAJE IDP USBC Audio";
 	compatible = "qcom,khaje-idp", "qcom,khaje", "qcom,idp";
-	qcom, msm - id = <518 0x10000>;
-	qcom, board - id = <0x1010022 0>;
-	qcom, pmic - id = <0x2D 0x2E 0x0 0x0>;
+	qcom,msm-id = <518 0x10000>;
+	qcom,board-id = <0x1010022 0>;
+	qcom,pmic-id = <0x2D 0x2E 0x0 0x0>;
 };
 

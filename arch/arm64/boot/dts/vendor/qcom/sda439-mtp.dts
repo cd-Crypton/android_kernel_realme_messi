@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "sda439.dtsi"
 #include "sdm439-mtp.dtsi"
@@ -6,6 +6,6 @@
 / {
 	model = "Qualcomm Technologies, Inc. SDA439 MTP";
 	compatible = "qcom,sda439-mtp", "qcom,sda439", "qcom,mtp";
-	qcom, board - id = <8 1>;
-	qcom, pmic - id = <0x010016 0x25 0x0 0x0>;
+	qcom,board-id = <8 1>;
+	qcom,pmic-id = <0x010016 0x25 0x0 0x0>;
 };

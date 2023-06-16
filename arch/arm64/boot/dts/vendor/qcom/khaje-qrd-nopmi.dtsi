@@ -1,12 +1,12 @@
 #include "khaje-qrd.dtsi"
 
 &sde_dsi {
-	/ delete - property / lab - supply;
-	/ delete - property / ibb - supply;
+	/ delete-property / lab-supply;
+	/ delete-property / ibb-supply;
 };
 
 &dsi_td4330_truly_v2_video {
-	/ delete - property / qcom, esd - check - enabled;
+	/ delete-property / qcom,esd-check-enabled;
 };
 
 &qupv3_se2_i2c {

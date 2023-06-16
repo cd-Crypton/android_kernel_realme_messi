@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "scuba.dtsi"
 #include "scuba-idp.dtsi"
@@ -6,5 +6,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. Scuba IDP";
 	compatible = "qcom,scuba-idp", "qcom,scuba", "qcom,idp";
-	qcom, board - id = <34 0>;
+	qcom,board-id = <34 0>;
 };

@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "orchid.dtsi"
 #include "orchid-mtp.dtsi"
@@ -7,9 +7,9 @@
 / {
 	model = "Qualcomm Technologies, Inc. Orchid MTP";
 	compatible = "qcom,orchid-mtp", "qcom,orchid", "qcom,mtp";
-	qcom, board - id = <8 0>;
+	qcom,board-id = <8 0>;
 };
 
 &ufsphy_mem {
-	/ delete - property / vdda - phy - always - on;
+	/ delete-property / vdda-phy-always-on;
 };

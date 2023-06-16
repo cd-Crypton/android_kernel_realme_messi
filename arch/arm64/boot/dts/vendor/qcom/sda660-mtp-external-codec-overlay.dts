@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include <dt-bindings/clock/qcom,cpu-osm.h>
@@ -13,10 +13,10 @@
 / {
 	model = "Qualcomm Technologies, Inc. SDA 660 Ext. Audio Codec MTP";
 	compatible = "qcom,sda660-mtp", "qcom,sda660", "qcom,mtp";
-	qcom, msm - id = <324 0x0>;
-	qcom, board - id = <8 0>;
+	qcom,msm-id = <324 0x0>;
+	qcom,board-id = <8 0>;
 };
 
 &tavil_snd {
-	qcom, msm - mbhc - moist - cfg = <0>, <0>, <3>;
+	qcom,msm-mbhc-moist-cfg = <0>, <0>, <3>;
 };

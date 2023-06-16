@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "scuba.dtsi"
 #include "scuba-qrd-eldo.dtsi"
@@ -6,5 +6,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. Scuba QRD ELDO";
 	compatible = "qcom,scuba-qrd", "qcom,scuba", "qcom,qrd";
-	qcom, board - id = <0x2000B 0>;
+	qcom,board-id = <0x2000B 0>;
 };

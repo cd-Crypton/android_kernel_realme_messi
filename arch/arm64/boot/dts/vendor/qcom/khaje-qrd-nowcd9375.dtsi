@@ -13,5 +13,5 @@
 };
 
 &bengal_snd {
-	qcom, codec - max - aux - devs = <0>;
+	qcom,codec-max-aux-devs = <0>;
 };

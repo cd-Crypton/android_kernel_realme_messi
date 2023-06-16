@@ -6,13 +6,13 @@
 
 &soc {
 anoc2_smmu:
-	arm, smmu - anoc2@16c0000 {
+	arm,smmu-anoc2@16c0000 {
 		compatible = "qcom,smmu-v2";
 		reg = <0x16c0000 0x40000>;
 #iommu-cells = <1>;
-		qcom, skip - init;
-		qcom, use - 3 - lvl - tables;
-		qcom, regulator - names = "vdd";
+		qcom,skip-init;
+		qcom,use-3-lvl-tables;
+		qcom,regulator-names = "vdd";
 #global-interrupts = <2>;
 		interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
@@ -46,18 +46,18 @@ anoc2_smmu:
 		<GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&clock_rpmcc AGGR2_NOC_SMMU_CLK>;
-		clock - names = "smmu_aggr2_noc_clk";
+		clock-names = "smmu_aggr2_noc_clk";
 #clock-cells = <1>;
 	};
 
 lpass_q6_smmu:
-	arm, smmu - lpass_q6@5100000 {
+	arm,smmu-lpass_q6@5100000 {
 		compatible = "qcom,smmu-v2";
 		reg = <0x5100000 0x40000>;
 #iommu-cells = <1>;
-		qcom, skip - init;
-		qcom, use - 3 - lvl - tables;
-		qcom, regulator - names = "vdd";
+		qcom,skip-init;
+		qcom,use-3-lvl-tables;
+		qcom,regulator-names = "vdd";
 #global-interrupts = <2>;
 		interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
@@ -78,20 +78,20 @@ lpass_q6_smmu:
 		<GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 404 IRQ_TYPE_LEVEL_HIGH>;
-		vdd - supply = <&gdsc_hlos1_vote_lpass_adsp>;
+		vdd-supply = <&gdsc_hlos1_vote_lpass_adsp>;
 		clocks = <&clock_gcc HLOS1_VOTE_LPASS_ADSP_SMMU_CLK>;
-		clock - names = "lpass_q6_smmu_clk";
+		clock-names = "lpass_q6_smmu_clk";
 #clock-cells = <1>;
 	};
 
 mmss_bimc_smmu:
-	arm, smmu - mmss@cd00000 {
+	arm,smmu-mmss@cd00000 {
 		compatible = "qcom,smmu-v2";
 		reg = <0xcd00000 0x40000>;
 #iommu-cells = <1>;
-		qcom, skip - init;
-		qcom, use - 3 - lvl - tables;
-		qcom, regulator - names = "vdd";
+		qcom,skip-init;
+		qcom,use-3-lvl-tables;
+		qcom,regulator-names = "vdd";
 #global-interrupts = <2>;
 		interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
@@ -119,28 +119,28 @@ mmss_bimc_smmu:
 		<GIC_SPI 274 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 275 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 276 IRQ_TYPE_LEVEL_HIGH>;
-		vdd - supply = <&gdsc_bimc_smmu>;
+		vdd-supply = <&gdsc_bimc_smmu>;
 		clocks = <&clock_mmss MMSS_MNOC_AHB_CLK>,
 		<&clock_rpmcc  RPM_SMD_MMSSNOC_AXI_CLK>,
 		<&clock_mmss MMSS_BIMC_SMMU_AHB_CLK>,
 		<&clock_mmss MMSS_BIMC_SMMU_AXI_CLK>;
-		clock - names = "mmss_mnoc_ahb_clk",
+		clock-names = "mmss_mnoc_ahb_clk",
 		"mmssnoc_axi_clk",
 		"mmss_bimc_smmu_ahb_clk",
 		"mmss_bimc_smmu_axi_clk";
 #clock-cells = <1>;
-		qcom, bus - master - id = <MSM_BUS_MNOC_BIMC_MAS>;
+		qcom,bus-master-id = <MSM_BUS_MNOC_BIMC_MAS>;
 	};
 
 kgsl_smmu:
-	arm, smmu - kgsl@5040000 {
+	arm,smmu-kgsl@5040000 {
 		compatible = "qcom,smmu-v2";
 		reg = <0x5040000 0x10000>;
 #iommu-cells = <1>;
-		qcom, dynamic;
-		qcom, use - 3 - lvl - tables;
-		qcom, disable - atos;
-		qcom, regulator - names = "vdd";
+		qcom,dynamic;
+		qcom,use-3-lvl-tables;
+		qcom,disable-atos;
+		qcom,regulator-names = "vdd";
 #global-interrupts = <2>;
 		interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
@@ -152,25 +152,25 @@ kgsl_smmu:
 		<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 349 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 350 IRQ_TYPE_LEVEL_HIGH>;
-		qcom, deferred - regulator - disable - delay = <80>;
-		vdd - supply = <&gdsc_gpu_cx>;
+		qcom,deferred-regulator-disable-delay = <80>;
+		vdd-supply = <&gdsc_gpu_cx>;
 		clocks = <&clock_gcc GCC_GPU_CFG_AHB_CLK>,
 		<&clock_gcc GCC_BIMC_GFX_CLK>,
 		<&clock_gcc GCC_GPU_BIMC_GFX_CLK>;
-		clock - names = "gcc_gpu_cfg_ahb_clk",
+		clock-names = "gcc_gpu_cfg_ahb_clk",
 		"gcc_bimc_gfx_clk",
 		"gcc_gpu_bimc_gfx_clk";
 #clock-cells = <1>;
 	};
 
 turing_q6_smmu:
-	arm, smmu - turing_q6@5180000 {
+	arm,smmu-turing_q6@5180000 {
 		compatible = "qcom,smmu-v2";
 		reg = <0x5180000 0x40000>;
 #iommu-cells = <1>;
-		qcom, register - save;
-		qcom, skip - init;
-		qcom, regulator - names = "vdd";
+		qcom,register-save;
+		qcom,skip-init;
+		qcom,regulator-names = "vdd";
 #global-interrupts = <2>;
 		interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
@@ -191,9 +191,9 @@ turing_q6_smmu:
 		<GIC_SPI 547 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 548 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 549 IRQ_TYPE_LEVEL_HIGH>;
-		vdd - supply = <&gdsc_hlos1_vote_turing_adsp>;
+		vdd-supply = <&gdsc_hlos1_vote_turing_adsp>;
 		clocks = <&clock_gcc HLOS1_VOTE_TURING_ADSP_SMMU_CLK>;
-		clock - names = "turing_q6_smmu_clk";
+		clock-names = "turing_q6_smmu_clk";
 #clock-cells = <1>;
 	};
 

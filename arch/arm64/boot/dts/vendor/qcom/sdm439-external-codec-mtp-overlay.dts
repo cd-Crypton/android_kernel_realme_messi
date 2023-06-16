@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / plugin /;
 
 #include "sdm439-mtp.dtsi"
@@ -6,6 +6,6 @@
 
 / {
 	model = "MTP";
-	qcom, board - id = <8 3>;
-	qcom, msm - id = <353 0x0>;
+	qcom,board-id = <8 3>;
+	qcom,msm-id = <353 0x0>;
 };

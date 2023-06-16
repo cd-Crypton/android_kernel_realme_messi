@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "bengalp-iot-low-ram.dtsi"
 #include "bengalp-iot-idp-low-ram.dtsi"
@@ -6,5 +6,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. BENGALP-IOT IDP AATC 2Gb DDR";
 	compatible = "qcom,bengalp-iot-idp", "qcom,bengalp-iot", "qcom,idp";
-	qcom, board - id = <34 0x401>;
+	qcom,board-id = <34 0x401>;
 };

@@ -7,11 +7,11 @@ usb0:
 	ssusb@4e00000 {
 		compatible = "qcom,dwc-usb3-msm";
 		reg = <0x4e00000 0x100000>;
-		reg - names = "core_base";
+		reg-names = "core_base";
 
 		iommus = <&apps_smmu 0x120 0x0>;
-		qcom, iommu - dma = "atomic";
-		qcom, iommu - dma - addr - pool = <0x50000000 0x60000000>;
+		qcom,iommu-dma = "atomic";
+		qcom,iommu-dma-addr-pool = <0x50000000 0x60000000>;
 #address-cells = <1>;
 #size-cells = <1>;
 		ranges;
@@ -20,7 +20,7 @@ usb0:
 		<GIC_SPI 422 IRQ_TYPE_LEVEL_HIGH>,
 		<GIC_SPI 184 IRQ_TYPE_EDGE_RISING>,
 		<GIC_SPI 188 IRQ_TYPE_EDGE_RISING>;
-		interrupt - names = "pwr_event_irq", "ss_phy_irq",
+		interrupt-names = "pwr_event_irq", "ss_phy_irq",
 		"dp_hs_phy_irq", "dm_hs_phy_irq";
 
 		clocks = <&gcc GCC_USB30_PRIM_MASTER_CLK>,
@@ -29,32 +29,32 @@ usb0:
 		<&gcc GCC_USB3_PRIM_CLKREF_CLK>,
 		<&gcc GCC_USB30_PRIM_SLEEP_CLK>,
 		<&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>;
-		clock - names = "core_clk", "iface_clk", "bus_aggr_clk",
+		clock-names = "core_clk", "iface_clk", "bus_aggr_clk",
 		"xo", "sleep_clk", "utmi_clk";
 
 		resets = <&gcc GCC_USB30_PRIM_BCR>;
-		reset - names = "core_reset";
+		reset-names = "core_reset";
 
-		USB3_GDSC - supply = <&gcc_usb30_prim_gdsc>;
-		dpdm - supply = <&usb2_phy0>;
+		USB3_GDSC-supply = <&gcc_usb30_prim_gdsc>;
+		dpdm-supply = <&usb2_phy0>;
 
-		qcom, core - clk - rate = <133333333>;
-		qcom, core - clk - rate - hs = <66666667>;
-		qcom, num - gsi - evt - buffs = <0x3>;
-		qcom, gsi - reg - offset =
+		qcom,core-clk-rate = <133333333>;
+		qcom,core-clk-rate-hs = <66666667>;
+		qcom,num-gsi-evt-buffs = <0x3>;
+		qcom,gsi-reg-offset =
 		<0x0fc /* GSI_GENERAL_CFG */
 		0x110 /* GSI_DBL_ADDR_L */
 		0x120 /* GSI_DBL_ADDR_H */
 		0x130 /* GSI_RING_BASE_ADDR_L */
 		0x144 /* GSI_RING_BASE_ADDR_H */
 		0x1a4>; /* GSI_IF_STS */
-		qcom, dwc - usb3 - msm - tx - fifo - size = <21288>;
-		qcom, gsi - disable - io - coherency;
+		qcom,dwc-usb3-msm-tx-fifo-size = <21288>;
+		qcom,gsi-disable-io-coherency;
 
-		qcom, msm - bus, name = "usb0";
-		qcom, msm - bus, num - cases = <4>;
-		qcom, msm - bus, num - paths = <3>;
-		qcom, msm - bus, vectors - KBps =
+		qcom,msm-bus,name = "usb0";
+		qcom,msm-bus,num-cases = <4>;
+		qcom,msm-bus,num-paths = <3>;
+		qcom,msm-bus,vectors-KBps =
 		/*  suspend vote */
 		<MSM_BUS_MASTER_USB3 MSM_BUS_SLAVE_EBI_CH0 0 0>,
 		<MSM_BUS_MASTER_USB3 MSM_BUS_SLAVE_IPA_CFG 0 0>,
@@ -80,47 +80,47 @@ usb0:
 		dwc3@4e00000 {
 			compatible = "snps,dwc3";
 			reg = <0x4e00000 0xe000>;
-			interrupt - parent = <&intc>;
+			interrupt-parent = <&intc>;
 			interrupts = <GIC_SPI 255 IRQ_TYPE_LEVEL_HIGH>;
-			usb - phy = <&usb2_phy0>, <&usb_qmp_dp_phy>;
-			tx - fifo - resize;
-			linux, sysdev_is_parent;
-			snps, disable - clk - gating;
-			snps, has - lpm - erratum;
-			snps, hird - threshold = / bits / 8 <0x10>;
-			snps, usb3 - u1u2 - disable;
-			snps, usb3_lpm_capable;
-			usb - core - id = <0>;
-			maximum - speed = "super-speed";
+			usb-phy = <&usb2_phy0>, <&usb_qmp_dp_phy>;
+			tx-fifo-resize;
+			linux,sysdev_is_parent;
+			snps,disable-clk-gating;
+			snps,has-lpm-erratum;
+			snps,hird-threshold = /bits/ 8 <0x10>;
+			snps,usb3-u1u2-disable;
+			snps,usb3_lpm_capable;
+			usb-core-id = <0>;
+			maximum-speed = "super-speed";
 			dr_mode = "otg";
 		};
 
-		qcom, usbbam@0x04f04000 {
+		qcom,usbbam@0x04f04000 {
 			compatible = "qcom,usb-bam-msm";
 			reg = <0x04f04000 0x17000>;
 			interrupts = <GIC_SPI 253 IRQ_TYPE_LEVEL_HIGH>;
 
-			qcom, usb - bam - fifo - baseaddr = <0xc121000>;
-			qcom, usb - bam - num - pipes = <4>;
-			qcom, disable - clk - gating;
-			qcom, usb - bam - override - threshold = <0x4001>;
-			qcom, usb - bam - max - mbps - highspeed = <400>;
-			qcom, usb - bam - max - mbps - superspeed = <3600>;
-			qcom, reset - bam - on - connect;
+			qcom,usb-bam-fifo-baseaddr = <0xc121000>;
+			qcom,usb-bam-num-pipes = <4>;
+			qcom,disable-clk-gating;
+			qcom,usb-bam-override-threshold = <0x4001>;
+			qcom,usb-bam-max-mbps-highspeed = <400>;
+			qcom,usb-bam-max-mbps-superspeed = <3600>;
+			qcom,reset-bam-on-connect;
 
-			qcom, pipe0 {
+			qcom,pipe0 {
 				label = "ssusb-qdss-in-0";
-				qcom, usb - bam - mem - type = <2>;
-				qcom, dir = <1>;
-				qcom, pipe - num = <0>;
-				qcom, peer - bam = <0>;
-				qcom, peer - bam - physical - address = <0x08064000>;
-				qcom, src - bam - pipe - index = <0>;
-				qcom, dst - bam - pipe - index = <0>;
-				qcom, data - fifo - offset = <0x0>;
-				qcom, data - fifo - size = <0x1800>;
-				qcom, descriptor - fifo - offset = <0x1800>;
-				qcom, descriptor - fifo - size = <0x800>;
+				qcom,usb-bam-mem-type = <2>;
+				qcom,dir = <1>;
+				qcom,pipe-num = <0>;
+				qcom,peer-bam = <0>;
+				qcom,peer-bam-physical-address = <0x08064000>;
+				qcom,src-bam-pipe-index = <0>;
+				qcom,dst-bam-pipe-index = <0>;
+				qcom,data-fifo-offset = <0x0>;
+				qcom,data-fifo-size = <0x1800>;
+				qcom,descriptor-fifo-offset = <0x1800>;
+				qcom,descriptor-fifo-size = <0x800>;
 			};
 		};
 	};
@@ -131,21 +131,21 @@ usb2_phy0:
 		compatible = "qcom,usb-hsphy-snps-femto";
 		reg = <0x1613000 0x110>,
 		<0x1612000 0x4>;
-		reg - names = "hsusb_phy_base",
+		reg-names = "hsusb_phy_base",
 		"eud_enable_reg";
 
-		vdd - supply = <&L4A>;
-		vdda18 - supply = <&L12A>;
-		vdda33 - supply = <&L15A>;
-		qcom, vdd - voltage - level = <0 880000 880000>;
+		vdd-supply = <&L4A>;
+		vdda18-supply = <&L12A>;
+		vdda33-supply = <&L15A>;
+		qcom,vdd-voltage-level = <0 880000 880000>;
 
 		clocks = <&rpmcc CXO_SMD_OTG_CLK>,
 		<&gcc GCC_AHB2PHY_USB_CLK>;
-		clock - names =  "ref_clk_src", "cfg_ahb_clk";
+		clock-names =  "ref_clk_src", "cfg_ahb_clk";
 
 		resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
-		reset - names = "phy_reset";
-		qcom, param - override - seq =
+		reset-names = "phy_reset";
+		qcom,param-override-seq =
 		<0xa6 0x6c>,  /* override_x0 */
 		<0x85 0x70>,  /* override_x1 */
 		<0x16 0x74>;  /* override_x2 */
@@ -156,11 +156,11 @@ usb_qmp_dp_phy:
 	ssphy@1615000 {
 		compatible = "qcom,usb-ssphy-qmp-dp-combo";
 		reg = <0x01615000 0x3000>;
-		reg - names = "qmp_phy_base";
+		reg-names = "qmp_phy_base";
 
-		core - supply = <&L18A>;
-		qcom, vdd - voltage - level = <0 880000 880000>;
-		qcom, core - voltage - level = <0 1232000 1260000>;
+		core-supply = <&L18A>;
+		qcom,vdd-voltage-level = <0 880000 880000>;
+		qcom,core-voltage-level = <0 1232000 1260000>;
 
 		clocks = <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>,
 		<&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>,
@@ -170,15 +170,15 @@ usb_qmp_dp_phy:
 		<&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>,
 		<&gcc GCC_AHB2PHY_USB_CLK>;
 
-		clock - names = "aux_clk", "pipe_clk", "pipe_clk_mux",
+		clock-names = "aux_clk", "pipe_clk", "pipe_clk_mux",
 		"pipe_clk_ext_src", "ref_clk_src",
 		"com_aux_clk", "cfg_ahb_clk";
 
 		resets = <&gcc GCC_USB3_DP_PHY_PRIM_BCR>,
 		<&gcc GCC_USB3_PHY_PRIM_SP0_BCR>;
-		reset - names = "global_phy_reset", "phy_reset";
+		reset-names = "global_phy_reset", "phy_reset";
 
-		qcom, qmp - phy - reg - offset =
+		qcom,qmp-phy-reg-offset =
 		<USB3_DP_PCS_PCS_STATUS1
 		USB3_DP_PCS_USB3_AUTONOMOUS_MODE_CTRL
 		USB3_DP_PCS_USB3_LFPS_RXTERM_IRQ_CLEAR
@@ -195,7 +195,7 @@ usb_qmp_dp_phy:
 		USB3_DP_COM_SWI_CTRL
 		USB3_DP_PCS_CLAMP_ENABLE>;
 
-		qcom, qmp - phy - init - seq =
+		qcom,qmp-phy-init-seq =
 		/* <reg_offset, value, delay> */
 		<USB3_DP_QSERDES_COM_SSC_EN_CENTER 0x01 0
 		USB3_DP_QSERDES_COM_SSC_PER1 0x31 0
@@ -352,8 +352,8 @@ usb_nop_phy:
 	usb_audio_qmi_dev {
 		compatible = "qcom,usb-audio-qmi-dev";
 		iommus = <&apps_smmu 0x1cf 0x0>;
-		qcom, iommu - dma = "disabled";
-		qcom, usb - audio - stream - id = <0xf>;
-		qcom, usb - audio - intr - num = <2>;
+		qcom,iommu-dma = "disabled";
+		qcom,usb-audio-stream-id = <0xf>;
+		qcom,usb-audio-intr-num = <2>;
 	};
 };

@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "qm215.dtsi"
 #include "qm215-pm8916.dtsi"
@@ -7,6 +7,6 @@
 / {
 	model = "Qualcomm Technologies, Inc. qm215 QRD";
 	compatible = "qcom,qm215-qrd", "qcom,qm215", "qcom,qrd";
-	qcom, board - id = <0x01000b 4>;
-	qcom, pmic - id = <0x010016 0x25 0x0 0x0>;
+	qcom,board-id = <0x01000b 4>;
+	qcom,pmic-id = <0x010016 0x25 0x0 0x0>;
 };

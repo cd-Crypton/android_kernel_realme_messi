@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 
 #include "kona-v2.dtsi"
 #include "kona-mtp.dtsi"
@@ -6,7 +6,7 @@
 / {
 	model = "Qualcomm Technologies, Inc. kona standalone MTP";
 	compatible = "qcom,kona-mtp", "qcom,kona", "qcom,mtp";
-	qcom, board - id = <0x02010008 0>;
+	qcom,board-id = <0x02010008 0>;
 };
 
 &mdm0 {

@@ -1,4 +1,4 @@
-/ dts - v1 /;
+/dts-v1/;
 / memreserve / 0x90000000 0x00000100;
 
 #include "scuba.dtsi"
@@ -7,5 +7,5 @@
 / {
 	model = "Qualcomm Technologies, Inc. Scuba RUMI";
 	compatible = "qcom,scuba-rumi", "qcom,scuba", "qcom,rumi";
-	qcom, board - id = <15 0>;
+	qcom,board-id = <15 0>;
 };

@@ -4,55 +4,55 @@ tlmm:
 		compatible = "qcom,scuba-pinctrl";
 		reg = <0x500000 0x300000>;
 		interrupts = <GIC_SPI 227 IRQ_TYPE_LEVEL_HIGH>;
-		gpio - controller;
+		gpio-controller;
 #gpio-cells = <2>;
-		interrupt - controller;
+		interrupt-controller;
 #interrupt-cells = <2>;
-		wakeup - parent = <&wakegpio>;
-		irqdomain - map = <0 0 & wakegpio 84 0>,
-		<3 0 & wakegpio 75 0>,
-		<4 0 & wakegpio 16 0>,
-		<6 0 & wakegpio 59 0>,
-		<8 0 & wakegpio 63 0>,
-		<11 0 & wakegpio 17 0>,
-		<13 0 & wakegpio 18 0>,
-		<14 0 & wakegpio 51 0>,
-		<17 0 & wakegpio 20 0>,
-		<18 0 & wakegpio 52 0>,
-		<19 0 & wakegpio 53 0>,
-		<24 0 & wakegpio 6 0>,
-		<25 0 & wakegpio 71 0>,
-		<27 0 & wakegpio 73 0>,
-		<28 0 & wakegpio 41 0>,
-		<31 0 & wakegpio 27 0>,
-		<32 0 & wakegpio 54 0>,
-		<33 0 & wakegpio 55 0>,
-		<34 0 & wakegpio 56 0>,
-		<35 0 & wakegpio 57 0>,
-		<36 0 & wakegpio 58 0>,
-		<39 0 & wakegpio 28 0>,
-		<46 0 & wakegpio 29 0>,
-		<62 0 & wakegpio 60 0>,
-		<63 0 & wakegpio 61 0>,
-		<64 0 & wakegpio 62 0>,
-		<69 0 & wakegpio 33 0>,
-		<70 0 & wakegpio 34 0>,
-		<72 0 & wakegpio 72 0>,
-		<75 0 & wakegpio 35 0>,
-		<79 0 & wakegpio 36 0>,
-		<80 0 & wakegpio 21 0>,
-		<81 0 & wakegpio 38 0>,
-		<86 0 & wakegpio 19 0>,
-		<87 0 & wakegpio 42 0>,
-		<88 0 & wakegpio 43 0>,
-		<89 0 & wakegpio 45 0>,
-		<91 0 & wakegpio 74 0>,
-		<94 0 & wakegpio 47 0>,
-		<95 0 & wakegpio 48 0>,
-		<96 0 & wakegpio 49 0>,
-		<97 0 & wakegpio 50 0>;
-		irqdomain - map - pass - thru = <0 0xff>;
-		irqdomain - map - mask = <0xff 0>;
+		wakeup-parent = <&wakegpio>;
+		irqdomain-map = <0 0 &wakegpio 84 0>,
+		<3 0 &wakegpio 75 0>,
+		<4 0 &wakegpio 16 0>,
+		<6 0 &wakegpio 59 0>,
+		<8 0 &wakegpio 63 0>,
+		<11 0 &wakegpio 17 0>,
+		<13 0 &wakegpio 18 0>,
+		<14 0 &wakegpio 51 0>,
+		<17 0 &wakegpio 20 0>,
+		<18 0 &wakegpio 52 0>,
+		<19 0 &wakegpio 53 0>,
+		<24 0 &wakegpio 6 0>,
+		<25 0 &wakegpio 71 0>,
+		<27 0 &wakegpio 73 0>,
+		<28 0 &wakegpio 41 0>,
+		<31 0 &wakegpio 27 0>,
+		<32 0 &wakegpio 54 0>,
+		<33 0 &wakegpio 55 0>,
+		<34 0 &wakegpio 56 0>,
+		<35 0 &wakegpio 57 0>,
+		<36 0 &wakegpio 58 0>,
+		<39 0 &wakegpio 28 0>,
+		<46 0 &wakegpio 29 0>,
+		<62 0 &wakegpio 60 0>,
+		<63 0 &wakegpio 61 0>,
+		<64 0 &wakegpio 62 0>,
+		<69 0 &wakegpio 33 0>,
+		<70 0 &wakegpio 34 0>,
+		<72 0 &wakegpio 72 0>,
+		<75 0 &wakegpio 35 0>,
+		<79 0 &wakegpio 36 0>,
+		<80 0 &wakegpio 21 0>,
+		<81 0 &wakegpio 38 0>,
+		<86 0 &wakegpio 19 0>,
+		<87 0 &wakegpio 42 0>,
+		<88 0 &wakegpio 43 0>,
+		<89 0 &wakegpio 45 0>,
+		<91 0 &wakegpio 74 0>,
+		<94 0 &wakegpio 47 0>,
+		<95 0 &wakegpio 48 0>,
+		<96 0 &wakegpio 49 0>,
+		<97 0 &wakegpio 50 0>;
+		irqdomain-map-pass-thru = <0 0xff>;
+		irqdomain-map-mask = <0xff 0>;
 
 	qupv3_se4_2uart_pins:
 		qupv3_se4_2uart_pins {
@@ -65,8 +65,8 @@ tlmm:
 
 				config {
 					pins = "gpio12", "gpio13";
-					drive - strength = <2>;
-					bias - disable;
+					drive-strength = <2>;
+					bias-disable;
 				};
 			};
 
@@ -79,8 +79,8 @@ tlmm:
 
 				config {
 					pins = "gpio12", "gpio13";
-					drive - strength = <2>;
-					bias - pull - down;
+					drive-strength = <2>;
+					bias-pull-down;
 				};
 			};
 		};
@@ -89,8 +89,8 @@ tlmm:
 		sdc1_clk_on {
 			config {
 				pins = "sdc1_clk";
-				bias - disable;		/* NO pull */
-				drive - strength = <16>;	/* 16 MA */
+				bias-disable;		/* NO pull */
+				drive-strength = <16>;	/* 16 MA */
 			};
 		};
 
@@ -98,8 +98,8 @@ tlmm:
 		sdc1_clk_off {
 			config {
 				pins = "sdc1_clk";
-				bias - disable;		/* NO pull */
-				drive - strength = <2>;	/* 2 MA */
+				bias-disable;		/* NO pull */
+				drive-strength = <2>;	/* 2 MA */
 			};
 		};
 
@@ -107,8 +107,8 @@ tlmm:
 		sdc1_cmd_on {
 			config {
 				pins = "sdc1_cmd";
-				bias - pull - up;		/* pull up */
-				drive - strength = <10>;	/* 10 MA */
+				bias-pull-up;		/* pull up */
+				drive-strength = <10>;	/* 10 MA */
 			};
 		};
 
@@ -116,8 +116,8 @@ tlmm:
 		sdc1_cmd_off {
 			config {
 				pins = "sdc1_cmd";
-				bias - pull - up;		/* pull up */
-				drive - strength = <2>;	/* 2 MA */
+				bias-pull-up;		/* pull up */
+				drive-strength = <2>;	/* 2 MA */
 			};
 		};
 
@@ -125,8 +125,8 @@ tlmm:
 		sdc1_data_on {
 			config {
 				pins = "sdc1_data";
-				bias - pull - up;		/* pull up */
-				drive - strength = <10>;	/* 10 MA */
+				bias-pull-up;		/* pull up */
+				drive-strength = <10>;	/* 10 MA */
 			};
 		};
 
@@ -134,8 +134,8 @@ tlmm:
 		sdc1_data_off {
 			config {
 				pins = "sdc1_data";
-				bias - pull - up;		/* pull up */
-				drive - strength = <2>;	/* 2 MA */
+				bias-pull-up;		/* pull up */
+				drive-strength = <2>;	/* 2 MA */
 			};
 		};
 
@@ -143,7 +143,7 @@ tlmm:
 		sdc1_rclk_on {
 			config {
 				pins = "sdc1_rclk";
-				bias - pull - down; /* pull down */
+				bias-pull-down; /* pull down */
 			};
 		};
 
@@ -151,7 +151,7 @@ tlmm:
 		sdc1_rclk_off {
 			config {
 				pins = "sdc1_rclk";
-				bias - pull - down; /* pull down */
+				bias-pull-down; /* pull down */
 			};
 		};
 
@@ -159,8 +159,8 @@ tlmm:
 		sdc2_clk_on {
 			config {
 				pins = "sdc2_clk";
-				bias - disable;		/* NO pull */
-				drive - strength = <16>;	/* 16 MA */
+				bias-disable;		/* NO pull */
+				drive-strength = <16>;	/* 16 MA */
 			};
 		};
 
@@ -168,8 +168,8 @@ tlmm:
 		sdc2_clk_off {
 			config {
 				pins = "sdc2_clk";
-				bias - disable;		/* NO pull */
-				drive - strength = <2>;	/* 2 MA */
+				bias-disable;		/* NO pull */
+				drive-strength = <2>;	/* 2 MA */
 			};
 		};
 
@@ -177,8 +177,8 @@ tlmm:
 		sdc2_cmd_on {
 			config {
 				pins = "sdc2_cmd";
-				bias - pull - up;		/* pull up */
-				drive - strength = <10>;	/* 10 MA */
+				bias-pull-up;		/* pull up */
+				drive-strength = <10>;	/* 10 MA */
 			};
 		};
 
@@ -186,8 +186,8 @@ tlmm:
 		sdc2_cmd_off {
 			config {
 				pins = "sdc2_cmd";
-				bias - pull - up;		/* pull up */
-				drive - strength = <2>;	/* 2 MA */
+				bias-pull-up;		/* pull up */
+				drive-strength = <2>;	/* 2 MA */
 			};
 		};
 
@@ -195,8 +195,8 @@ tlmm:
 		sdc2_data_on {
 			config {
 				pins = "sdc2_data";
-				bias - pull - up;		/* pull up */
-				drive - strength = <10>;	/* 10 MA */
+				bias-pull-up;		/* pull up */
+				drive-strength = <10>;	/* 10 MA */
 			};
 		};
 
@@ -204,8 +204,8 @@ tlmm:
 		sdc2_data_off {
 			config {
 				pins = "sdc2_data";
-				bias - pull - up;		/* pull up */
-				drive - strength = <2>;	/* 2 MA */
+				bias-pull-up;		/* pull up */
+				drive-strength = <2>;	/* 2 MA */
 			};
 		};
 
@@ -218,8 +218,8 @@ tlmm:
 
 			config {
 				pins = "gpio88";
-				drive - strength = <2>;
-				bias - pull - up;
+				drive-strength = <2>;
+				bias-pull-up;
 			};
 		};
 
@@ -232,8 +232,8 @@ tlmm:
 
 			config {
 				pins = "gpio88";
-				drive - strength = <2>;
-				bias - disable;
+				drive-strength = <2>;
+				bias-disable;
 			};
 		};
 
@@ -248,9 +248,9 @@ tlmm:
 
 				config {
 					pins = "gpio106";
-					drive - strength = <2>; /* 2 mA */
-					bias - pull - down;
-					input - enable;
+					drive-strength = <2>; /* 2 mA */
+					bias-pull-down;
+					input-enable;
 				};
 			};
 
@@ -263,9 +263,9 @@ tlmm:
 
 				config {
 					pins = "gpio106";
-					drive - strength = <16>; /* 16 mA */
-					bias - disable;
-					output - high;
+					drive-strength = <16>; /* 16 mA */
+					bias-disable;
+					output-high;
 				};
 			};
 		};
@@ -280,9 +280,9 @@ tlmm:
 
 				config {
 					pins = "gpio102";
-					drive - strength = <2>;
-					bias - disable;
-					output - low;
+					drive-strength = <2>;
+					bias-disable;
+					output-low;
 				};
 			};
 		};
@@ -298,8 +298,8 @@ tlmm:
 
 				config {
 					pins = "gpio0", "gpio1";
-					drive - strength = <2>;
-					bias - pull - up;
+					drive-strength = <2>;
+					bias-pull-up;
 				};
 			};
 
@@ -312,8 +312,8 @@ tlmm:
 
 				config {
 					pins = "gpio0", "gpio1";
-					drive - strength = <2>;
-					bias - disable;
+					drive-strength = <2>;
+					bias-disable;
 				};
 			};
 		};
@@ -331,8 +331,8 @@ tlmm:
 				config {
 					pins = "gpio0", "gpio1",
 					"gpio2", "gpio3";
-					drive - strength = <6>;
-					bias - disable;
+					drive-strength = <6>;
+					bias-disable;
 				};
 			};
 
@@ -347,8 +347,8 @@ tlmm:
 				config {
 					pins = "gpio0", "gpio1",
 					"gpio2", "gpio3";
-					drive - strength = <6>;
-					bias - disable;
+					drive-strength = <6>;
+					bias-disable;
 				};
 			};
 		};
@@ -364,8 +364,8 @@ tlmm:
 
 				config {
 					pins = "gpio4", "gpio5";
-					drive - strength = <2>;
-					bias - pull - up;
+					drive-strength = <2>;
+					bias-pull-up;
 				};
 			};
 
@@ -378,8 +378,8 @@ tlmm:
 
 				config {
 					pins = "gpio4", "gpio5";
-					drive - strength = <2>;
-					bias - disable;
+					drive-strength = <2>;
+					bias-disable;
 				};
 			};
 		};
@@ -396,8 +396,8 @@ tlmm:
 
 				config {
 					pins = "gpio70";
-					drive - strength = <2>; /* 2 MA */
-					bias - pull - up;
+					drive-strength = <2>; /* 2 MA */
+					bias-pull-up;
 				};
 			};
 
@@ -412,8 +412,8 @@ tlmm:
 
 				config {
 					pins = "gpio70";
-					drive - strength = <2>; /* 2 MA */
-					bias - pull - up;
+					drive-strength = <2>; /* 2 MA */
+					bias-pull-up;
 				};
 			};
 
@@ -428,8 +428,8 @@ tlmm:
 
 				config {
 					pins = "gpio69", "gpio31";
-					drive - strength = <2>; /* 2 MA */
-					bias - pull - up;
+					drive-strength = <2>; /* 2 MA */
+					bias-pull-up;
 				};
 			};
 
@@ -444,8 +444,8 @@ tlmm:
 
 				config {
 					pins = "gpio69", "gpio31";
-					drive - strength = <2>; /* 2 MA */
-					bias - disable;
+					drive-strength = <2>; /* 2 MA */
+					bias-disable;
 				};
 			};
 
@@ -460,8 +460,8 @@ tlmm:
 
 				config {
 					pins = "gpio86";
-					drive - strength = <2>; /* 2 MA */
-					bias - pull - up;
+					drive-strength = <2>; /* 2 MA */
+					bias-pull-up;
 				};
 			};
 
@@ -476,8 +476,8 @@ tlmm:
 
 				config {
 					pins = "gpio86";
-					drive - strength = <2>; /* 2 MA */
-					bias - disable;
+					drive-strength = <2>; /* 2 MA */
+					bias-disable;
 				};
 			};
 		};
@@ -495,8 +495,8 @@ tlmm:
 				config {
 					pins = "gpio4", "gpio5",
 					"gpio69", "gpio70";
-					drive - strength = <6>;
-					bias - disable;
+					drive-strength = <6>;
+					bias-disable;
 				};
 			};
 
@@ -511,8 +511,8 @@ tlmm:
 				config {
 					pins = "gpio4", "gpio5",
 					"gpio69", "gpio70";
-					drive - strength = <6>;
-					bias - disable;
+					drive-strength = <6>;
+					bias-disable;
 				};
 			};
 		};
@@ -528,8 +528,8 @@ tlmm:
 
 				config {
 					pins = "gpio6", "gpio7";
-					drive - strength = <2>;
-					bias - pull - up;
+					drive-strength = <2>;
+					bias-pull-up;
 				};
 			};
 
@@ -542,8 +542,8 @@ tlmm:
 
 				config {
 					pins = "gpio6", "gpio7";
-					drive - strength = <2>;
-					bias - disable;
+					drive-strength = <2>;
+					bias-disable;
 				};
 			};
 		};
@@ -561,8 +561,8 @@ tlmm:
 				config {
 					pins = "gpio6", "gpio7",
 					"gpio71", "gpio80";
-					drive - strength = <6>;
-					bias - disable;
+					drive-strength = <6>;
+					bias-disable;
 				};
 			};
 
@@ -577,8 +577,8 @@ tlmm:
 				config {
 					pins = "gpio6", "gpio7",
 					"gpio71", "gpio80";
-					drive - strength = <6>;
-					bias - disable;
+					drive-strength = <6>;
+					bias-disable;
 				};
 			};
 		};
@@ -594,8 +594,8 @@ tlmm:
 
 				config {
 					pins = "gpio8", "gpio9", "gpio11";
-					drive - strength = <2>;
-					bias - pull - down;
+					drive-strength = <2>;
+					bias-pull-down;
 				};
 			};
 
@@ -608,8 +608,8 @@ tlmm:
 
 				config {
 					pins = "gpio10";
-					drive - strength = <2>;
-					bias - pull - up;
+					drive-strength = <2>;
+					bias-pull-up;
 				};
 			};
 
@@ -622,8 +622,8 @@ tlmm:
 
 				config {
 					pins = "gpio8", "gpio11";
-					drive - strength = <2>;
-					bias - disable;
+					drive-strength = <2>;
+					bias-disable;
 				};
 			};
 
@@ -636,8 +636,8 @@ tlmm:
 
 				config {
 					pins = "gpio9";
-					drive - strength = <2>;
-					bias - pull - down;
+					drive-strength = <2>;
+					bias-pull-down;
 				};
 			};
 
@@ -650,8 +650,8 @@ tlmm:
 
 				config {
 					pins = "gpio10";
-					drive - strength = <2>;
-					bias - pull - up;
+					drive-strength = <2>;
+					bias-pull-up;
 				};
 			};
 		};
@@ -667,8 +667,8 @@ tlmm:
 
 				config {
 					pins = "gpio14", "gpio15";
-					drive - strength = <2>;
-					bias - pull - up;
+					drive-strength = <2>;
+					bias-pull-up;
 				};
 			};
 
@@ -681,8 +681,8 @@ tlmm:
 
 				config {
 					pins = "gpio14", "gpio15";
-					drive - strength = <2>;
-					bias - disable;
+					drive-strength = <2>;
+					bias-disable;
 				};
 			};
 		};
@@ -700,8 +700,8 @@ tlmm:
 				config {
 					pins = "gpio14", "gpio15",
 					"gpio16", "gpio17";
-					drive - strength = <6>;
-					bias - disable;
+					drive-strength = <6>;
+					bias-disable;
 				};
 			};
 
@@ -716,8 +716,8 @@ tlmm:
 				config {
 					pins = "gpio14", "gpio15",
 					"gpio16", "gpio17";
-					drive - strength = <6>;
-					bias - disable;
+					drive-strength = <6>;
+					bias-disable;
 				};
 			};
 		};
@@ -732,8 +732,8 @@ tlmm:
 
 				config {
 					pins = "gpio82", "gpio105";
-					drive - strength = <8>;
-					bias - disable = <0>;
+					drive-strength = <8>;
+					bias-disable = <0>;
 				};
 			};
 
@@ -746,8 +746,8 @@ tlmm:
 
 				config {
 					pins = "gpio82", "gpio105";
-					drive - strength = <2>;
-					bias - pull - down;
+					drive-strength = <2>;
+					bias-pull-down;
 				};
 			};
 		};
@@ -762,8 +762,8 @@ tlmm:
 
 				config {
 					pins = "gpio81";
-					drive - strength = <2>;
-					bias - pull - down;
+					drive-strength = <2>;
+					bias-pull-down;
 				};
 			};
 
@@ -776,8 +776,8 @@ tlmm:
 
 				config {
 					pins = "gpio81";
-					drive - strength = <2>;
-					bias - pull - down;
+					drive-strength = <2>;
+					bias-pull-down;
 				};
 			};
 		};
@@ -792,8 +792,8 @@ tlmm:
 
 				config {
 					pins = "gpio80";
-					drive - strength = <8>;
-					bias - pull - up;
+					drive-strength = <8>;
+					bias-pull-up;
 				};
 			};
 		};
@@ -808,8 +808,8 @@ tlmm:
 
 				config {
 					pins = "gpio80";
-					drive - strength = <2>;
-					bias - pull - down;
+					drive-strength = <2>;
+					bias-pull-down;
 				};
 			};
 		};
@@ -824,8 +824,8 @@ tlmm:
 
 				config {
 					pins = "gpio71";
-					drive - strength = <8>;
-					bias - pull - up;
+					drive-strength = <8>;
+					bias-pull-up;
 				};
 			};
 		};
@@ -840,8 +840,8 @@ tlmm:
 
 				config {
 					pins = "gpio71";
-					drive - strength = <2>;
-					bias - pull - down;
+					drive-strength = <2>;
+					bias-pull-down;
 				};
 			};
 		};
@@ -856,8 +856,8 @@ tlmm:
 
 				config {
 					pins = "gpio80", "gpio71";
-					drive - strength = <2>;
-					bias - pull - down;
+					drive-strength = <2>;
+					bias-pull-down;
 				};
 			};
 		};
@@ -871,8 +871,8 @@ tlmm:
 
 			config {
 				pins = "gpio25";
-				bias - disable;
-				input - enable;
+				bias-disable;
+				input-enable;
 			};
 		};
 
@@ -885,9 +885,9 @@ tlmm:
 
 			config {
 				pins = "gpio26";
-				bias - pull - up;
-				output - high;
-				drive - strength = <2>;
+				bias-pull-up;
+				output-high;
+				drive-strength = <2>;
 			};
 		};
 
@@ -901,8 +901,8 @@ tlmm:
 
 			config {
 				pins = "gpio23", "gpio22";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -916,8 +916,8 @@ tlmm:
 
 			config {
 				pins = "gpio23", "gpio22";
-				bias - pull - up; /* PULL UP*/
-				drive - strength = <2>; /* 2 MA */
+				bias-pull-up; /* PULL UP*/
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -931,8 +931,8 @@ tlmm:
 
 			config {
 				pins = "gpio30", "gpio29";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -946,8 +946,8 @@ tlmm:
 
 			config {
 				pins = "gpio30", "gpio29";
-				bias - pull - up; /* PULL UP*/
-				drive - strength = <2>; /* 2 MA */
+				bias-pull-up; /* PULL UP*/
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -961,8 +961,8 @@ tlmm:
 
 			config {
 				pins = "gpio20";
-				bias - disable; /* No PULL */
-				drive - strength = <2>; /* 2 MA */
+				bias-disable; /* No PULL */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -976,8 +976,8 @@ tlmm:
 
 			config {
 				pins = "gpio20";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -991,8 +991,8 @@ tlmm:
 
 			config {
 				pins = "gpio21";
-				bias - disable; /* No PULL */
-				drive - strength = <2>; /* 2 MA */
+				bias-disable; /* No PULL */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -1006,8 +1006,8 @@ tlmm:
 
 			config {
 				pins = "gpio21";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -1021,8 +1021,8 @@ tlmm:
 
 			config {
 				pins = "gpio27";
-				bias - disable; /* No PULL */
-				drive - strength = <2>; /* 2 MA */
+				bias-disable; /* No PULL */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -1036,8 +1036,8 @@ tlmm:
 
 			config {
 				pins = "gpio27";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -1051,8 +1051,8 @@ tlmm:
 
 			config {
 				pins = "gpio18";
-				bias - disable; /* No PULL */
-				drive - strength = <2>; /* 2 MA */
+				bias-disable; /* No PULL */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -1066,9 +1066,9 @@ tlmm:
 
 			config {
 				pins = "gpio18";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
-				output - low;
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
+				output-low;
 			};
 		};
 
@@ -1082,8 +1082,8 @@ tlmm:
 
 			config {
 				pins = "gpio19";
-				bias - disable; /* No PULL */
-				drive - strength = <2>; /* 2 MA */
+				bias-disable; /* No PULL */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -1097,9 +1097,9 @@ tlmm:
 
 			config {
 				pins = "gpio19";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
-				output - low;
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
+				output-low;
 			};
 		};
 
@@ -1114,8 +1114,8 @@ tlmm:
 
 			config {
 				pins = "gpio24";
-				bias - disable; /* No PULL */
-				drive - strength = <2>; /* 2 MA */
+				bias-disable; /* No PULL */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -1129,9 +1129,9 @@ tlmm:
 
 			config {
 				pins = "gpio24";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
-				output - low;
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
+				output-low;
 			};
 		};
 
@@ -1145,8 +1145,8 @@ tlmm:
 
 			config {
 				pins = "gpio113";
-				bias - disable; /* No PULL */
-				drive - strength = <2>; /* 2 MA */
+				bias-disable; /* No PULL */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -1160,9 +1160,9 @@ tlmm:
 
 			config {
 				pins = "gpio113";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
-				output - low;
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
+				output-low;
 			};
 		};
 
@@ -1176,8 +1176,8 @@ tlmm:
 
 			config {
 				pins = "gpio114";
-				bias - disable; /* No PULL */
-				drive - strength = <2>; /* 2 MA */
+				bias-disable; /* No PULL */
+				drive-strength = <2>; /* 2 MA */
 			};
 		};
 
@@ -1191,9 +1191,9 @@ tlmm:
 
 			config {
 				pins = "gpio114";
-				bias - pull - down; /* PULL DOWN */
-				drive - strength = <2>; /* 2 MA */
-				output - low;
+				bias-pull-down; /* PULL DOWN */
+				drive-strength = <2>; /* 2 MA */
+				output-low;
 			};
 		};
 
@@ -1206,9 +1206,9 @@ tlmm:
 
 			config {
 				pins = "gpio96";
-				drive - strength = <2>;
-				bias - pull - up;
-				input - enable;
+				drive-strength = <2>;
+				bias-pull-up;
+				input-enable;
 			};
 		};
 
@@ -1221,8 +1221,8 @@ tlmm:
 
 			config {
 				pins = "gpio89";
-				bias - pull - up;
-				input - enable;
+				bias-pull-up;
+				input-enable;
 			};
 		};
 	};
